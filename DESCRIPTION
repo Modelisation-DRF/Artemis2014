@@ -25,6 +25,7 @@ Depends:
     sp, 
     TarifQC,
     ExtractMap,
+    Billonage,
     R (>= 4.2)  
 LazyData: true
 RoxygenNote: 7.3.1

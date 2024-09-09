@@ -21,26 +21,27 @@
 
 valide_data <- function(data) {
   data <- renommer_les_colonnes(data)
+
   validations <- list(
-    valide_espece = "Code d'essence non valide",
-    valide_Etat = "Code d'état non valide",
-    valide_DHPcm = "Valeur de DHP non permise",
-    valide_Vigueur = "Code de vigueur non permis",
-    valide_Sup_PE = "Superficie de la placette en ha non valide",
-    valide_Nombre = "valeur de nombre null",
-    valide_Annee_Coupe = "Année de coupe non valide",
-    valide_Latitude = "Latitude non valide",
-    valide_Longitude = "Longitude non valide",
-    valide_Altitude = "Altitude non valide",
-    verifier_arbre_uniques_par_placette = "plusieurs noarbre identiques pour la même placette ",
+    valide_espece = " Code d'essence à l'extérieur de la plage de valeurs possibles",
+    valide_Etat = "Code d'état à l'extérieur de la plage de valeurs possibles",
+    valide_DHPcm = "Valeurs de DHP non permise (>9.0 et <160)",
+    valide_Nombre = "valeur de nombre non numèrique",
+    valide_Latitude = "Latitude à l'extérieur de la plage de valeurs possibles (>45 et <52,5)",
+    valide_Longitude = " Longitude à l'extérieur de la plage de valeurs possibles (>-79.75 et <-57.0)",
+    valide_Altitude = " Altitude à l'extérieur de la plage de valeurs possibles (<1500)",
+   # verifier_arbre_uniques_par_placette = "plusieurs noarbre identiques pour la même placette ",
     # valide_Ptot = "Ptot non valide",
     # valide_Tmoy = "Tmoy non valide",
-    valide_Type_Eco = "valeur Type_Eco null",
-    valide_MSCR = "MSCR non valide",
-    valide_Reg_Eco = "Valeur non permise pour Reg_Eco",
-    valide_ABCD = "ABCD non valide",
-    valide_Pente = "Pente non valide",
-    valide_ntrt = "Entrer le nombre de traitements"
+    valide_Type_Eco = "Type écologique requis",
+    valide_Reg_Eco = "Valeure non permise pour Reg_Eco",
+    valide_Pente = "Pente à l'extérieur de la plage de valeurs permises (0>= et <=100)",
+    valide_sand = "sand_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<100)",
+    valide_cec = "cec_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<20)",
+    valide_Dom_Bio = " Valeure non permise pour Sdom_Bio",
+    valide_Sdom_Bio = "Valeure non permise pour Sdom_Bio",
+    valide_Cl_Drai = "Valeure non permise pour classe de rainage",
+    valide_Veg_Pot = "Valeure non permise pour Veg_Pot"
     # valide_GrwDays = "GrwDays non valide"
   )
 
@@ -57,56 +58,6 @@ valide_data <- function(data) {
       erreurs <- c(erreurs, validations[[nom_validation]])
     }
   }
-
-  return(erreurs)
-}
-
-#' Répertoire des erreurs dans le fichier des gaules
-#'
-#' La fonction \code{valide_data_gaules} vérifie la validité des données dans un dataframe représentant
-#' le fichier des gaules et retourne une liste des erreurs trouvées.
-#'
-#' @param data Un dataframe représentant le fichier des gaules.
-#'
-#' @return Une liste des erreurs trouvées dans le fichier des gaules.
-#'
-#' @examples
-#' \dontrun{
-#' # Supposons que nous ayons un dataframe `data` représentant le fichier des gaules
-#'
-#' # Appel de la fonction
-#' erreurs <- valide_data_gaules(data)
-#'
-#' # La fonction retournera une liste des erreurs trouvées dans le dataframe `data`
-#' }
-#'
-#' @export
-
-valide_data_gaules <- function(data ) {
-
-  data<- renommer_les_colonnes_gaules(data)
-
-  validations <- list(
-    valide_espece = "Code d'essence non valide",
-    valide_DHPcm_gaules = "Valeur de DHP non permise",
-    valide_Sup_PE_gaules = "Superficie de la placette en ha non valide",
-    valide_Nombre_gaules = "valeur de nombre null"
-  )
-
-  # Initialiser la liste des erreurs
-  erreurs <-list()
-
-  # Itérer sur chaque validation
-  for (nom_validation in names(validations)) {
-    # Appeler dynamiquement la fonction de validation en utilisant do.call
-    valide <- do.call(nom_validation, list(data = data))
-
-    # Si la validation échoue, ajouter le message d'erreur correspondant à la liste
-    if (!valide) {
-      erreurs <- c(erreurs, validations[[nom_validation]])
-    }
-  }
-
 
   return(erreurs)
 }
@@ -141,56 +92,10 @@ valide_Nombre <- function(data){
   }
 
 
-  return(all(data$Nombre>0))
+  return(is.numeric(data$Nombre))
 
 }
 
-
-#' Cette fonction vérifie si la colonne 'Nombre' dans le fichier de données contient des valeurs valides pour chaque 'Placette'.
-#' Elle s'assure que la colonne existe, qu'elle n'est pas vide, qu'elle ne contient pas de valeurs manquantes (NA), et que la somme des valeurs pour chaque 'Placette' est supérieure à zéro.
-#'
-#' @param data Un dataframe contenant les données des arbres avec les colonnes 'Nombre' et 'Placette'.
-#' @return Retourne TRUE si les valeurs dans la colonne 'Nombre' sont valides pour chaque 'Placette', FALSE sinon.
-#' @examples
-#'
-#' # Exemple avec un dataframe valide
-#' valide_Nombre_gaules(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Nombre' manquante)
-#' valide_Nombre_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs négatives)
-#' valide_Nombre_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Nombre_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (somme de 'Nombre' par 'Placette' égale à zéro)
-#' valide_Nombre_gaules(data) # Devrait retourner FALSE
-
-valide_Nombre_gaules <- function(data){
-
-  if(!"Nombre" %in% names(data)){
-    return (FALSE)
-  }
-  if(length(data$Nombre) == 0){
-    return(FALSE)
-  }
-  if(any(is.na(data$Nombre))){
-    return (FALSE)
-  }
-
-
-
-  resultats <- data %>%
-    group_by(Placette) %>%
-    reframe(
-      somme = sum(Nombre) > 0
-    )
-
-  return(all(resultats$somme))
-
-}
 
 
 
@@ -304,214 +209,11 @@ valide_DHPcm <- function(data){
   if(any(is.na(data$DHPcm)) ){
     return (FALSE)
   }
-  return(all(data$DHPcm <= 160 ))
-
-}
-
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'DHPcm' sont correctes.
-#' @param data fichier des gaules
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_DHPcm_gaules(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'DHPcm' manquante)
-#' valide_DHPcm_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs hors de l'intervalle)
-#' valide_DHPcm_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_DHPcm_gaules(data) # Devrait retourner FALSE
-
-valide_DHPcm_gaules <- function(data){
-
-  if(!"DHPcm" %in% names(data)){
-    return (FALSE)
-  }
-
-  if(length(data$DHPcm) == 0){
-    return(FALSE)
-  }
-  if(any(is.na(data$DHPcm)) ){
-    return (FALSE)
-  }
-  return(all(between(data$DHPcm, 1.0, 9.0) ))
-
-}
-
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Vigueur' sont correctes.
-#' @param data fichier des arbres
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_Vigueur(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées dans 'Vigueur')
-#' valide_Vigueur(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA sans MSCR correct)
-#' valide_Vigueur(data) # Devrait retourner FALSE
-
-valide_Vigueur <- function(data) {
-
-  if (!all(c("Vigueur", "MSCR", "DHPcm", "Espece") %in% names(data))) {
-    return(FALSE)
-  }
-
-
-  valeurs_autorisees <- c(1, 2, 3, 4, 5, 6, NA)
-  Espece_specifiques_1_4 <- c("BOG","BOJ","BOP", "CAC", "CAF", "CAR", "CEO", "CET", "CHB", "CHE","CHG",
-                              "CHR","ERA" , "ERG","ERN", "ERP","ERR","ERS",
-                              "FRA","FRN","FRP", "HEG", "JUV","MAS" ,"NOC","ORA",
-                              "ORR","ORT","OSV","PEB","PED","PEG","PEH","PET",
-                              "PRP","SAL","SOA","SOD","TIL" ,"AME"  ,"AUR","ERE",
-                              "TIA" ,"CEP")
-  Espece_specifiques_5_6 <- c("EPB", "EPN", "EPO","EPR",
-                              "MEJ" , "MEL", "MEU",
-                              "PIB","PID","PIG","PIR",
-                              "PIS","PRU","SAB","THO")
-
-
-  resultats <- data %>%
-    mutate(
-      condition_1 = Vigueur %in% valeurs_autorisees,
-      condition_2 = if_else(is.na(Vigueur), MSCR %in% c('M', 'S', 'C', 'R', 'MS', 'CR'), TRUE),
-      condition_3 = if_else(Vigueur %in% c(1,2,3,4), Espece %in% Espece_specifiques_1_4, TRUE),
-      condition_4 = if_else(Vigueur %in% c(5,6), Espece %in% Espece_specifiques_5_6, TRUE),
-      condition_5 = if_else(Vigueur == 3, DHPcm >= 23.1, TRUE)
-    ) %>%
-    reframe(all_conditions = all(condition_1 & condition_2 & condition_3 & condition_4 & condition_5))
-
-  return(resultats$all_conditions)
-}
-
-
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Sup_PE' sont correctes.
-#' @param data fichier des arbres
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#' # Exemple avec un dataframe valide
-#' valide_Sup_PE(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Sup_PE' manquante)
-#' valide_Sup_PE(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Sup_PE(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Sup_PE(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Sup_PE' par 'Placette')
-#' valide_Sup_PE(data) # Devrait retourner FALSE
-
-valide_Sup_PE <- function(data){
-  if(!all(c("Placette", "Sup_PE") %in% names(data))){
-    return (FALSE)
-  }
-
-  if(length(data$Sup_PE) == 0){
-    return(FALSE)
-  }
-
-  if(any(is.na(data$Sup_PE)) ){
-    return (FALSE)
-  }
-  resultats <- data %>%
-    group_by(Placette) %>%
-    reframe(
-      valeur_unique = n_distinct(Sup_PE) == 1 && all(Sup_PE >= 0.04 & Sup_PE <= 1)
-    )
-  return(all(resultats$valeur_unique))
-
-
-}
-
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Sup_PE' sont correctes.
-#' @param data fichier des gaules
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_Sup_PE_gaules(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Sup_PE' manquante)
-#' valide_Sup_PE_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Sup_PE_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Sup_PE_gaules(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Sup_PE' par 'Placette')
-#' valide_Sup_PE_gaules(data) # Devrait retourner FALSE
-
-valide_Sup_PE_gaules <- function(data){
-  if(!all(c("Placette", "Sup_PE") %in% names(data))){
-    return (FALSE)
-  }
-  if(length(data$Sup_PE) == 0){
-    return(FALSE)
-  }
-
-  if(any(is.na(data$Sup_PE)) ){
-    return (FALSE)
-  }
-
-  resultats <- data %>%
-    group_by(Placette) %>%
-    reframe(
-      valeur_unique = n_distinct(Sup_PE) == 1 && all(Sup_PE >= 0.004 & Sup_PE <= 1)
-    )
-  return(all(resultats$valeur_unique))
+  return(all(between(data$DHPcm, 9.0, 160.0) ))
 
 }
 
 
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Annee_Coupe' sont correctes.
-#' @param data fichier des arbres
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_Annee_Coupe(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Annee_Coupe' manquante)
-#' valide_Annee_Coupe(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Annee_Coupe(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe valide (toutes les valeurs de 'Annee_Coupe' sont NA pour une 'Placette')
-#' valide_Annee_Coupe(data) # Devrait retourner TRUE
-
-valide_Annee_Coupe <- function(data){
-
-  if(!all(c("Placette", "Annee_Coupe") %in% names(data))){
-    return (FALSE)
-  }
-
-
-  if(length(data$Placette) == 0){
-    return(FALSE)
-  }
-
-  resultats <- data %>%
-    group_by(Placette) %>%
-    reframe(
-      valeur_unique = if (all(is.na(Annee_Coupe))) {
-        ntrt == 0
-      } else {
-        n_distinct(Annee_Coupe) == 1 && all(Annee_Coupe >= 1900 & Annee_Coupe <= 2100)
-      }
-    )
-  return(all(resultats$valeur_unique))
-}
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Latitude' sont correctes.
 #' @param data fichier des arbres
@@ -535,7 +237,7 @@ valide_Annee_Coupe <- function(data){
 
 valide_Latitude <- function(data){
 
-  if(!all(c("Placette", "Latitude") %in% names(data))){
+  if(!all(c("PlacetteID", "Latitude") %in% names(data))){
     return (FALSE)
   }
 
@@ -548,9 +250,9 @@ valide_Latitude <- function(data){
   }
 
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
-      valeur_unique =  n_distinct(Latitude) == 1 && all(Latitude > 45 & Latitude < 48.5)
+      valeur_unique =  n_distinct(Latitude) == 1 && all(Latitude > 45 & Latitude < 52.5)
 
     )
   return(all(resultats$valeur_unique))
@@ -579,7 +281,7 @@ valide_Latitude <- function(data){
 
 valide_Longitude <- function(data){
 
-  if(!all(c("Placette", "Longitude") %in% names(data))){
+  if(!all(c("PlacetteID", "Longitude") %in% names(data))){
     return (FALSE)
   }
 
@@ -591,10 +293,10 @@ valide_Longitude <- function(data){
     return (FALSE)
   }
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
 
-      valeur_unique = n_distinct(Longitude) == 1 && all(Longitude > -79.5 & Longitude < -64.0)
+      valeur_unique = n_distinct(Longitude) == 1 && all(Longitude > -79.75 & Longitude < -57.0)
 
     )
   return(all(resultats$valeur_unique))
@@ -623,7 +325,7 @@ valide_Longitude <- function(data){
 
 valide_Altitude <- function(data){
 
-  if(!all(c("Placette", "Altitude") %in% names(data))){
+  if(!all(c("PlacetteID", "Altitude") %in% names(data))){
     return (FALSE)
   }
   if(length(data$Altitude) == 0){
@@ -635,9 +337,9 @@ valide_Altitude <- function(data){
   }
 
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
-      valeur_unique = n_distinct(Altitude) == 1 && all(Altitude < 1000)
+      valeur_unique = n_distinct(Altitude) == 1 && all(Altitude < 1500)
     )
   return(all(resultats$valeur_unique))
 
@@ -664,13 +366,13 @@ valide_Altitude <- function(data){
 #' valide_Ptot(data) # Devrait retourner FALSE
 #'
 valide_Ptot <- function(data){
-  if(!all(c("Placette", "Ptot") %in% names(data))|| any(is.na(data$Ptot))){
+  if(!all(c("PlacetteID", "Ptot") %in% names(data))|| any(is.na(data$Ptot))){
     return (FALSE)
   }
 
 
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
       valeur_unique = n_distinct(Ptot) == 1 && all(Ptot < 2000)
     )
@@ -733,7 +435,7 @@ valide_sand <- function(data) {
 #' valide_Tmoy(data) # Devrait retourner FALSE
 #'
 valide_Tmoy <- function(data){
-  if(!all(c("Placette", "Tmoy") %in% names(data))|| any(is.na(data$Tmoy))){
+  if(!all(c("PlacetteID", "Tmoy") %in% names(data))|| any(is.na(data$Tmoy))){
     return (FALSE)
   }
 
@@ -741,11 +443,12 @@ valide_Tmoy <- function(data){
     return (FALSE)
   }
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
-      valeur_unique = n_distinct(Tmoy) == 1 && all(Tmoy > 0 & Tmoy < 10 )
+      valeur_unique = n_distinct(Tmoy) == 1 && all(Tmoy > -10 & Tmoy < 10 )
 
     )
+
   return(all(resultats$valeur_unique))
 
 }
@@ -771,7 +474,7 @@ valide_Tmoy <- function(data){
 #'
 valide_Type_Eco <- function(data){
 
-  if (!all(c("Placette", "Type_Eco") %in% names(data))) {
+  if (!all(c("PlacetteID", "Type_Eco") %in% names(data))) {
     return(FALSE)
   }
   if(length(data$Type_Eco) == 0){
@@ -806,7 +509,7 @@ valide_Type_Eco <- function(data){
   }
 
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
       valeur_unique = n_distinct(Type_Eco) == 1
 
@@ -835,7 +538,7 @@ valide_Type_Eco <- function(data){
 #' valide_Reg_Eco(data) # Devrait retourner FALSE
 #'
 valide_Reg_Eco <- function(data){
-  if (!all(c("Placette", "Reg_Eco") %in% names(data))) {
+  if (!all(c("PlacetteID", "Reg_Eco") %in% names(data))) {
     return(FALSE)
   }
   if(length(data$Reg_Eco) == 0){
@@ -846,113 +549,25 @@ valide_Reg_Eco <- function(data){
     return (FALSE)
   }
 
-  valeurs_autorisees<-c("1a", "2a", "2b", "2c", "3a", "3b", "3c", "3d", "4a", "4b", "4c", "4d", "4e", "4f", "4g",
-                        "4h", "DU", "SV")
+  valeurs_autorisees<-c("1a", "2a", "2b", "2c", "3a", "3b", "3c", "3d", "4a",
+                        "4b", "4c", "4d", "4e", "4f", "4g", "4h", "5a", "5b",
+                        "5c", "5d", "5e", "5f", "5g", "5h", "5i", "5j", "5k",
+                        "6a", "6b", "6c", "6d", "6e", "6f", "6g", "6h", "6i",
+                        "6j", "6k", "6l", "6m", "6n", "6o", "6p", "6q", "6r",
+                        "7a", "7b", "7c")
 
   if(!all(data$Reg_Eco %in% valeurs_autorisees)){
     return (FALSE)
   }
 
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
       valeur_unique = n_distinct(Reg_Eco) == 1
 
     )
   return(all(resultats$valeur_unique))
 }
-
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'MSCR' sont correctes.
-#' @param data fichier des arbres
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#' # Exemple avec un dataframe valide
-#' valide_MSCR(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'MSCR' manquante)
-#' valide_MSCR(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées dans 'MSCR')
-#' valide_MSCR(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA dans 'MSCR' sans 'Vigueur' appropriée)
-#' valide_MSCR(data) # Devrait retourner FALSE
-#'
-valide_MSCR <- function(data){
-
-  if (!all(c("Vigueur", "MSCR") %in% names(data))) {
-    return(FALSE)
-  }
-  if(length(data$Vigueur) == 0){
-    return(FALSE)
-  }
-  if(length(data$MSCR) == 0){
-    return(FALSE)
-  }
-  valeurs_autorisees<-c('M', 'S', 'C', 'R','MS','CR')
-
-
-  resultats <- data %>%
-    mutate(
-      condition_respectee = (MSCR %in% valeurs_autorisees | (is.na(MSCR) & Vigueur %in% c(1,2,3,4,5,6)))
-    )
-
-  return(all(resultats$condition_respectee))
-}
-
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'ABCD' sont correctes.
-#' @param data fichier des arbres
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_ABCD(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'ABCD' manquante)
-#' valide_ABCD(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées dans 'ABCD')
-#' valide_ABCD(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA dans 'DHPcm' ou 'Espece')
-#' valide_ABCD(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (conditions spécifiques non respectées)
-#' valide_ABCD(data) # Devrait retourner FALSE
-#'
-valide_ABCD <- function(data) {
-
-  if (!all(c("ABCD", "Espece", "DHPcm") %in% names(data))) {
-    return(FALSE)
-  }
-
-  if(any(is.na(data$DHPcm)) ){
-    return (FALSE)
-  }
-  if(any(is.na(data$Espece)) ){
-    return (FALSE)
-  }
-
-  Espece_specifiques <- c("BOG", "BOJ", "BOP", "CAC", "CAF", "CAR", "CEO", "CET", "CHB", "CHE", "CHG",
-                          "CHR", "ERA", "ERG", "ERN", "ERP", "ERR", "ERS", "FRA", "FRN", "FRP", "HEG",
-                          "JUV", "MAS", "NOC", "ORA", "ORR", "ORT", "OSV", "PEB", "PED", "PEG", "PEH",
-                          "PET", "PRP", "SAL", "SOA", "SOD", "TIL", "AME", "AUR", "ERE", "TIA", "CEP")
-  valeurs_autorisees <- c("A", "B", "C", "D", NA,"")
-
-
-  resultats <- data %>%
-    mutate(
-      condition0 = ABCD %in% valeurs_autorisees,
-      condition1 = ifelse(!Espece %in% Espece_specifiques, is.na(ABCD) | ABCD == "", TRUE),
-      condition2 = ifelse(DHPcm < 23.1, is.na(ABCD) | ABCD == "", TRUE),
-      condition3 = ifelse(DHPcm >= 23.1 & DHPcm <= 33.0, ABCD %in% c("C", "D", NA, ""), TRUE),
-      condition4 = ifelse(DHPcm > 33.0 & DHPcm <= 39.0, ABCD %in% c("B", "C", "D", NA, ""), TRUE)
-    ) %>%
-    reframe(all_conditions = all(condition0 & condition1 & condition2 & condition3 & condition4))
-
-  return(resultats$all_conditions)
-}
-
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Pente' sont correctes.
 #' @param data fichier des arbres
@@ -974,18 +589,18 @@ valide_ABCD <- function(data) {
 #' valide_Pente(data) # Devrait retourner FALSE
 #'
 valide_Pente <- function(data){
-  if (!all(c("Placette", "Pente") %in% names(data))) {
-    return(FALSE)
+  if (!all(c("PlacetteID", "Pente") %in% names(data))) {
+    return(TRUE)
   }
   if(length(data$Pente) == 0){
     return(FALSE)
   }
 
   if(any(is.na(data$Pente)) ){
-    return (FALSE)
+    return (TRUE)
   }
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
 
       valeur_unique = n_distinct(Pente) == 1 && (all(Pente >= 0 & Pente <= 100)|| is.na(Pente))
@@ -1014,14 +629,14 @@ valide_Pente <- function(data){
 #' valide_GrwDays(data) # Devrait retourner FALSE
 #'
 valide_GrwDays <- function(data){
-  if(!all(c("GrwDays","Placette") %in% names(data))|| any(is.na(data$GrwDays))){
+  if(!all(c("GrwDays","PlacetteID") %in% names(data))|| any(is.na(data$GrwDays))){
     return (FALSE)
   }
   if(any(is.na(data$GrwDays)) ){
     return (FALSE)
   }
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
       valeur_unique = n_distinct(GrwDays) == 1 && all(GrwDays >=1 & GrwDays <365 )
 
@@ -1031,38 +646,147 @@ valide_GrwDays <- function(data){
 }
 
 
-#' Fonction pour vérifier que les valeurs saisies dans la colonne 'ntrt' sont correctes.
-#' @param data fichier des arbres
-#' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#' # Exemple avec un dataframe valide
-#' valide_ntrt(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'ntrt' manquante)
-#' valide_ntrt(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées dans 'ntrt')
-#' valide_ntrt(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'ntrt' par 'Placette')
-#' valide_ntrt(data) # Devrait retourner FALSE
-#'
-valide_ntrt <- function(data){
-  if (!all(c("Placette", "ntrt") %in% names(data))) {
+
+
+valide_Dom_Bio <- function(data){
+  if (!all(c("PlacetteID", "Dom_Bio") %in% names(data))) {
     return(FALSE)
   }
-  if(length(data$ntrt) == 0){
+  if(length(data$Dom_Bio) == 0){
     return(FALSE)
   }
 
+  if(any(is.na(data$Dom_Bio)) ){
+    return (FALSE)
+  }
+
+  valeurs_autorisees <- c('1', '2', '3', '4', '5', '6', '7',NA)
+
   resultats <- data %>%
-    group_by(Placette) %>%
+    group_by(PlacetteID) %>%
     reframe(
-      valeur_unique = n_distinct(ntrt) == 1 && all(ntrt %in% c(0,1,2))
+
+      valeur_unique = n_distinct(Dom_Bio) == 1 && all(Dom_Bio %in% valeurs_autorisees)
+    )
+  return(all(resultats$valeur_unique))
+}
+
+
+
+valide_Sdom_Bio <- function(data) {
+  # Check for required columns
+  if (!all(c("PlacetteID", "Sdom_Bio") %in% names(data))) {
+    return(FALSE)
+  }
+
+  # Check for empty data or NA values in Sdom_Bio
+  if (nrow(data) == 0 || any(is.na(data$Sdom_Bio))) {
+    return(FALSE)
+  }
+
+  # Define allowed values
+  valeurs_autorisees <- c('1', '2E', '2O', '3E', '3O', '4E', '4O', '5E', '5O', '6E', '6O', '7E', NA)
+
+  # Group by PlacetteID and summarize
+  resultats <- data %>%
+    group_by(PlacetteID) %>%
+    summarize(
+      valeur_unique = n_distinct(Sdom_Bio) == 1 & all(Sdom_Bio %in% valeurs_autorisees),
+      .groups = 'drop'
+    )
+
+  # Return TRUE if all values are unique and authorized, otherwise FALSE
+  return(all(resultats$valeur_unique))
+}
+
+valide_Cl_Drai <- function(data){
+  if (!all(c("PlacetteID", "Cl_Drai") %in% names(data))) {
+    return(FALSE)
+  }
+  if(length(data$Cl_Drai) == 0){
+    return(FALSE)
+  }
+
+  if(any(is.na(data$Cl_Drai)) ){
+    return (FALSE)
+  }
+
+  valeurs_autorisees <- c("0", "10", "11", "12", "13", "14", "16"
+                          , "20", "21", "22", "23", "24", "30", "31",
+                          "32", "33", "34", "40", "41", "42", "43",
+                          "44", "50", "51", "52", "53", "54", "60",
+                          "61", "62", "63", "64" )
+
+  resultats <- data %>%
+    group_by(PlacetteID) %>%
+    reframe(
+
+      valeur_unique = n_distinct(Cl_Drai) == 1 && all(Cl_Drai %in% valeurs_autorisees)
+    )
+  return(all(resultats$valeur_unique))
+}
+
+
+
+valide_Veg_Pot <- function(data){
+  if (!all(c("PlacetteID", "Veg_Pot") %in% names(data))) {
+    return(FALSE)
+  }
+  if(length(data$Veg_Pot) == 0){
+    return(FALSE)
+  }
+
+  if(any(is.na(data$Veg_Pot)) ){
+    return (FALSE)
+  }
+
+  valeurs_autorisees <- c('FC1', 'FE1', 'FE2', 'FE3', 'FE4', 'FE5', 'FE6', 'FEX', 'FEY',
+                          'FO1', 'MF1', 'MJ1', 'MJ2', 'MS1', 'MS2', 'MS6', 'RB1', 'RC3',
+                          'RE1', 'RE2', 'RE3', 'RP1', 'RS1', 'RS2', 'RS3', 'RS5', 'RT1')
+
+  resultats <- data %>%
+    group_by(PlacetteID) %>%
+    reframe(
+
+      valeur_unique = n_distinct(Veg_Pot) == 1 && all(Veg_Pot %in% valeurs_autorisees)
+    )
+  return(all(resultats$valeur_unique))
+}
+
+
+
+valide_Age_moy <- function(data){
+  if(!all(c("Age_moy","PlacetteID") %in% names(data))|| any(is.na(data$Age_moy))){
+    return (FALSE)
+  }
+  if(any(is.na(data$Age_moy)) ){
+    return (FALSE)
+  }
+  resultats <- data %>%
+    group_by(PlacetteID) %>%
+    reframe(
+      valeur_unique = n_distinct(Age_moy) == 1 && all(Age_moy >=0 & Age_moy <999 )
 
     )
   return(all(resultats$valeur_unique))
 
+}
+
+
+valide_Exposition <- function(data){
+  if(!all(c("Exposition","PlacetteID") %in% names(data))|| any(is.na(data$Exposition))){
+    return (TRUE)
+  }
+  if(any(is.na(data$Exposition)) ){
+    return (TRUE)
+  }
+  resultats <- data %>%
+    group_by(PlacetteID) %>%
+    reframe(
+      valeur_unique = n_distinct(Exposition) == 1 && all(Exposition >=0 & Exposition <360 )
+
+    )
+  return(all(resultats$valeur_unique))
 
 }
 
@@ -1114,48 +838,4 @@ if(any(is.na(data$Placette))){
 }
 
 
-#' Valide la correspondance des placettes entre les arbres et les gaules
-#'
-#' Cette fonction vérifie que toutes les placettes présentes dans le fichier des arbres sont également présentes dans le fichier des gaules.
-#'
-#' @param data_arbre Un data.frame contenant les données des arbres.
-#' @param data_gaules Un data.frame contenant les données des gaules.
-#' @return Une liste de messages d'erreurs. Si aucune erreur n'est trouvée, une liste vide est retournée.
-#' @examples
-#' data_arbre <- data.frame(Placette = c("TEM23APC5001", "TEM23APC5002", "TEM23APC5003"))
-#' data_gaules <- data.frame(Placette = c("TEM23APC5001", "TEM23APC5002"))
-#' valide_placette_gaules(data_arbre, data_gaules)
-#' # Les erreurs seront retournées comme ceci
-#' # 'Les placette suivantes n'ont pas de gaules : TEM23APC5003'
-valide_placette_gaules <-function (data_arbre , data_gaules){
 
-  data_arbre <- renommer_les_colonnes(data_arbre)
-  data_gaules<- renommer_les_colonnes_gaules(data_gaules)
-
-  erreurs <-list()
-
-  if(!"Placette" %in% names(data_arbre) ||!"Placette" %in% names(data_gaules) ){
-    erreurs<-paste("La colonne 'Placette' est manquante dans le fichier des gaules ou dans le fichier des arbres.")
-
-    return(erreurs)
-  }else  if(length(data_arbre$Placette) == 0|| length(data_gaules$Placette) == 0){
-    erreurs<-paste("La colonne 'Placette' est vide dans le fichier des gaules ou dans le fichier des arbres.")
-    return(erreurs)
-  }
-
-
-  pacette_arbre <- unique(data_arbre$Placette)
-  placette_gaules <- unique(data_gaules$Placette)
-
-  diff_placette <- setdiff(pacette_arbre, placette_gaules)
-
-  erreurs <-list()
-
-  if (!length(diff_placette) == 0) {
-
-    erreurs<-paste("Les placettes suivantes n'ont pas de gaules : ", paste(diff_placette, collapse = ", "))
-  }
-
-
-  return(erreurs)
-}

@@ -2,12 +2,13 @@
 #'Fonction qui sert à appeler le simulateur Artemis et qui fournit les données
 #'initiales ainsi qu'un choix de paramètres pour la simulation.
 #'
-#' @param Tendance
+#' @param Tendance # Tendance si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
+#'               FE2 et FE3 afin de n'utiliser que les intevalles de croissance se terminant après 1998
 #'
 #' @param Horizon Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 #'                le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).
 #'
-#' @param Residuel
+#' @param Residuel # Residuel si =1 placette avec coupe partielle deuis moins de 10 ans
 #'
 #' @param Data_ori Un dataframe contenant les valeurs de départ pour une liste
 #'             d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
@@ -17,17 +18,20 @@
 #'             sur certains champs n'est pas disponible, on peut le laisser vide.
 #'
 #'
-#' @param FacHa
+#' @param FacHa # FacHa facteur d'espantion de la placette à l'hectare valeur par defaut à 25
+#                 Clim sorties mensuelles de climat si abscente laisser vide
+#                 ClimAn sorties annuelles de climat si abscente Laisser vide
+#'
 #' @param Clim
 #' @param ClimAn
 #'
-#' @param EvolClim
+#' @param EvolClim  # EvolClim valeur de 0 pour climat constant et de 1 pour évolution du climat
 #'
-#' @param AccModif
+#' @param AccModif # AccModif "BRT" pour les équations Boosted regression tree de JieJie Wang 2022, "GAM" pour les GAM de D'Orangeville 2019, "ORI' pour les équations originale d'Artemis
 #'
-#' @param MortModif
+#' @param MortModif # MortModif "ORI" pour les équation originales d'Artemis, "QUE" pour les équation calibrées par essence sensibles au climat "BRT"
 #'
-#' @param RCP
+#' @param RCP  # RCP Scénario climatique choisi pour la simulation
 #'
 #' @return Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
 #'         leur hauteur et leur volume pour chaque placette
@@ -47,9 +51,17 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
 
   #Data_ori<-Data_ori %>% filter(Veg_Pot!="RE1")
 
+  Data_ori<-renommer_les_colonnes(Data_ori)
+
+  Clim<- renommer_les_colonnes_climat_mensuel(Clim)
+
+  ClimAn<- renommer_les_colonnes_climat_annuel(ClimAn)
+
   Data_ori<-vevifier_variable_meteo(Data_ori)
 
   Data_ori<-vevifier_variable_Sol(Data_ori)
+
+  Data_ori<-vevifier_variable_Sation(Data_ori)
 
   prep_data <- PrepareData(Data_ori, Clim, ClimAn, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
   Data <- prep_data[[1]]

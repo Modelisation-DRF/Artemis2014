@@ -18,7 +18,6 @@
 vevifier_variable_meteo <- function(data){
 
   select=dplyr::select
-  data<-renommer_les_colonnes(data = data)
 
   data <- data %>%
     rename(id_pe = PlacetteID, latitude = Latitude, longitude = Longitude)
@@ -69,7 +68,7 @@ vevifier_variable_meteo <- function(data){
     }
   }
 
-  data<-data %>% rename(PlacetteID=id_pe)
+  data<-data %>% rename(PlacetteID=id_pe,Latitude = latitude, Longitude = longitude )
 
   return (data)
 }
@@ -79,8 +78,6 @@ vevifier_variable_meteo <- function(data){
 vevifier_variable_Sol <- function(data){
 
   select=dplyr::select
-  data<-renommer_les_colonnes(data = data)
-
 
 
   mes_variables <- c("cec_015cm","sand_015cm")
@@ -126,11 +123,73 @@ vevifier_variable_Sol <- function(data){
       data <- rename(data, cec_015cm = cec)
     }
 
-    data<-data %>% rename(PlacetteID=id_pe)
 
   }
+  data<-data %>% rename(PlacetteID=id_pe,Latitude = latitude, Longitude = longitude )
 
     return (data)
 
 
 }
+
+
+
+
+
+vevifier_variable_Sation <- function(data){
+
+  select=dplyr::select
+
+
+  mes_variables <- c("Pente", "Exposition")
+  fonctions_validation <- list(valide_Pente, valide_Exposition)
+
+  for (i in seq_along(mes_variables)) {
+    if (mes_variables[i] %in% names(data) && !fonctions_validation[[i]](data)) {
+      data <- select(data, -!!rlang::sym(mes_variables[i]))
+    }
+  }
+
+  data <- data %>%
+    rename(id_pe = PlacetteID, latitude = Latitude, longitude = Longitude)
+
+
+
+  variables_presentes <- intersect(mes_variables, names(data))
+  for (col_names in variables_presentes) {
+    if (!length(unique(data[[col_names]])) == 1) {
+      data <- select(data, -!!rlang::sym(col_names))
+    }
+  }
+
+
+
+  map_noms_variables <- c(Pente = "pente",
+                          Exposition = "exposition")
+
+  variables_non_trouvees <- setdiff(mes_variables, names(data))
+
+
+  if(!is_empty(variables_non_trouvees)){
+    variables_a_extraire <- map_noms_variables[variables_non_trouvees]
+
+    data <- extract_map_plot(file=data, liste_raster="cartes_station", variable=variables_a_extraire)
+
+
+    if('pente' %in% variables_a_extraire) {
+      data <- rename(data, Pente = pente)
+    }
+
+    if('exposition' %in% variables_a_extraire) {
+      data <- rename(data, Exposition = exposition)
+    }
+
+
+  }
+  data<-data %>% rename(PlacetteID=id_pe,Latitude = latitude, Longitude = longitude )
+
+    return (data)
+
+
+}
+
