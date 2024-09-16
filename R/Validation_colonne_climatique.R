@@ -28,7 +28,7 @@ verifier_colonnes_ClimAn <- function(data) {
         erreurs[[col]] <- paste(col, "type incorrect :", "Attendu :", type_attendu, "mais obtenu :", type_actuel)
       }
     } else {
-      erreurs[[col]] <- paste(col, "est manquant dans le data frame")
+      erreurs[[col]] <- paste(col, "est manquant dans les données")
     }
   }
  return(erreurs)
@@ -44,7 +44,7 @@ verifier_colonnes_Clim <- function(data) {
     Annee = list(type = "integer", obligatoire = TRUE, valeurs_possibles = NULL, validation = NULL),
     Mois = list(type = "integer", obligatoire = TRUE, valeurs_possibles = 1:12, validation = "valeurs dans la plage possible"),
     rcp = list(type = "character", obligatoire = TRUE, valeurs_possibles = NULL, validation = NULL),
-    Ptot = list(type = "numeric", obligatoire = TRUE, valeurs_possibles = NULL, validation = NULL),
+    PTot = list(type = "numeric", obligatoire = TRUE, valeurs_possibles = NULL, validation = NULL),
     Tmin = list(type = "numeric", obligatoire = TRUE, valeurs_possibles = NULL, validation = NULL),
     Tmax = list(type = "numeric", obligatoire = TRUE, valeurs_possibles = NULL, validation = NULL)
   )
@@ -55,7 +55,7 @@ verifier_colonnes_Clim <- function(data) {
   for (col in names(specs)) {
 
     if (specs[[col]]$obligatoire && !(col %in% names(data))) {
-      erreurs[[col]] <- paste(col, "est manquant dans le data frame")
+      erreurs[[col]] <- paste(col, "est manquant dans les données")
       next
     }
 

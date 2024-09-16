@@ -118,6 +118,7 @@ suppressMessages(
 ########################################################################
 ###########################Fonction VarClimMois utilisé par ClimatBiosim
 ########################################################################
+
 VarClimMois<-function(DataMois){
 
   TempsCMI<-length(unique(DataMois$Annee))
