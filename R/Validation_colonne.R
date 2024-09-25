@@ -19,7 +19,7 @@
 #'
 #' @export
 
-valide_data <- function(data) {
+valide_data <- function(data, Mort_Modif,Acc_Modif) {
   data <- renommer_les_colonnes(data)
 
   validations <- list(
@@ -35,9 +35,9 @@ valide_data <- function(data) {
     # valide_Tmoy = "Tmoy non valide",
     valide_Type_Eco = "Type écologique requis",
     valide_Reg_Eco = "Valeure non permise pour Reg_Eco",
-    valide_Pente = "Pente à l'extérieur de la plage de valeurs permises (0>= et <=100)",
-    valide_sand = "sand_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<100)",
-    valide_cec = "cec_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<20)",
+    #valide_Pente = "Pente à l'extérieur de la plage de valeurs permises (0>= et <=100)",
+    #valide_sand = "sand_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<100)",
+    #valide_cec = "cec_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<20)",
     valide_Dom_Bio = " Valeure non permise pour Sdom_Bio",
     valide_Sdom_Bio = "Valeure non permise pour Sdom_Bio",
     valide_Cl_Drai = "Valeure non permise pour classe de rainage",
@@ -45,17 +45,36 @@ valide_data <- function(data) {
     # valide_GrwDays = "GrwDays non valide"
   )
 
+  validations_2 <- list(
+    valide_Age_moy = "Age moyen de la placette requis pour les modules de mortalité QUE ou BRT et pour le module d'accroissement BRT"
+
+  )
+
+
+
   # Initialiser la liste des erreurs
   erreurs <-list()
 
   # Itérer sur chaque validation
   for (nom_validation in names(validations)) {
     # Appeler dynamiquement la fonction de validation en utilisant do.call
-    valide <- do.call(nom_validation, list(data = data))
+    valide <- do.call(nom_validation, list(data = data ))
 
     # Si la validation échoue, ajouter le message d'erreur correspondant à la liste
     if (!valide) {
       erreurs <- c(erreurs, validations[[nom_validation]])
+    }
+  }
+
+
+
+  for (nom_validation in names(validations_2)) {
+
+    valide <- do.call(nom_validation, list(data = data , Mort_Modif = Mort_Modif,Acc_Modif = Acc_Modif))
+
+
+    if (!valide) {
+      erreurs <- c(erreurs, validations_2[[nom_validation]])
     }
   }
 
@@ -484,29 +503,29 @@ valide_Type_Eco <- function(data){
   if(any(is.na(data$Type_Eco)) ){
     return (FALSE)
   }
-  valeurs_autorisees<-c('FC10', 'FC11', 'FC12', 'FE10', 'FE11', 'FE12', 'FE13', 'FE15', 'FE16', 'FE20', 'FE21',
-                        'FE22', 'FE23', 'FE24', 'FE25', 'FE26', 'FE28', 'FE30', 'FE31', 'FE32', 'FE32H', 'FE33',
-                        'FE34', 'FE35', 'FE36', 'FE42', 'FE43', 'FE45', 'FE50', 'FE51', 'FE52', 'FE52P', 'FE53',
-                        'FE60', 'FE61', 'FE62', 'FE62P', 'FE65', 'FE66', 'FO10', 'FO12', 'FO14', 'FO15', 'FO16',
-                        'FO18', 'ME13', 'ME16', 'MF12', 'MF15', 'MF16', 'MF18', 'MJ10', 'MJ11', 'MJ12', 'MJ12P',
-                        'MJ13', 'MJ14', 'MJ15', 'MJ15P', 'MJ16', 'MJ18', 'MJ20', 'MJ20P', 'MJ21', 'MJ22', 'MJ22P',
-                        'MJ23', 'MJ24', 'MJ24P', 'MJ25', 'MJ25P', 'MJ26', 'MJ28', 'MS10', 'MS10P', 'MS11', 'MS12',
-                        'MS13', 'MS14', 'MS15', 'MS16', 'MS18', 'MS20', 'MS20P', 'MS21', 'MS22', 'MS22F', 'MS22P',
-                        'MS23', 'MS23F', 'MS24', 'MS25', 'MS25F', 'MS25P', 'MS25Q', 'MS25S', 'MS26', 'MS26F', 'MS40',
-                        'MS42', 'MS43', 'MS60', 'MS61', 'MS62', 'MS62P', 'MS63', 'MS65', 'MS66', 'RB10', 'RB11', 'RB12',
-                        'RB13', 'RB14', 'RB15', 'RB16', 'RB17', 'RB18', 'RB22', 'RB23', 'RB51', 'RB52', 'RB53', 'RB55',
-                        'RB55Q', 'RB56', 'RC37', 'RC38', 'RC39', 'RE10', 'RE11', 'RE11V', 'RE12', 'RE12P', 'RE13', 'RE14',
-                        'RE15', 'RE15P', 'RE15Q', 'RE15S', 'RE16', 'RE20', 'RE21', 'RE21P', 'RE21Q', 'RE21V', 'RE22', 'RE22M',
-                        'RE22P', 'RE23', 'RE24', 'RE25', 'RE25M', 'RE25P', 'RE25Q', 'RE25S', 'RE26', 'RE26S', 'RE32', 'RE37',
-                        'RE37P', 'RE38', 'RE39', 'RE40', 'RE42', 'RP10', 'RP10P', 'RP11', 'RP12', 'RP13', 'RP14', 'RP15',
-                        'RS10', 'RS11', 'RS12', 'RS12P', 'RS13', 'RS14', 'RS15', 'RS15P', 'RS16', 'RS18', 'RS20', 'RS20M',
-                        'RS20P', 'RS21', 'RS22', 'RS22M', 'RS22P', 'RS22S', 'RS23', 'RS23M', 'RS24', 'RS24V', 'RS25', 'RS25M',
-                        'RS25P', 'RS25Q', 'RS25S', 'RS26', 'RS34', 'RS35', 'RS37', 'RS37P', 'RS38', 'RS39', 'RS40', 'RS42', 'RS50',
-                        'RS51', 'RS52', 'RS53', 'RS54', 'RS55', 'RS56', 'RS75', 'RT10', 'RT11', 'RT12', 'RT12P', 'RT14', 'RT15', 'RT16')
-
-  if(!all(data$Type_Eco %in% valeurs_autorisees)){
-    return (FALSE)
-  }
+  # valeurs_autorisees<-c('FC10', 'FC11', 'FC12', 'FE10', 'FE11', 'FE12', 'FE13', 'FE15', 'FE16', 'FE20', 'FE21',
+  #                       'FE22', 'FE23', 'FE24', 'FE25', 'FE26', 'FE28', 'FE30', 'FE31', 'FE32', 'FE32H', 'FE33',
+  #                       'FE34', 'FE35', 'FE36', 'FE42', 'FE43', 'FE45', 'FE50', 'FE51', 'FE52', 'FE52P', 'FE53',
+  #                       'FE60', 'FE61', 'FE62', 'FE62P', 'FE65', 'FE66', 'FO10', 'FO12', 'FO14', 'FO15', 'FO16',
+  #                       'FO18', 'ME13', 'ME16', 'MF12', 'MF15', 'MF16', 'MF18', 'MJ10', 'MJ11', 'MJ12', 'MJ12P',
+  #                       'MJ13', 'MJ14', 'MJ15', 'MJ15P', 'MJ16', 'MJ18', 'MJ20', 'MJ20P', 'MJ21', 'MJ22', 'MJ22P',
+  #                       'MJ23', 'MJ24', 'MJ24P', 'MJ25', 'MJ25P', 'MJ26', 'MJ28', 'MS10', 'MS10P', 'MS11', 'MS12',
+  #                       'MS13', 'MS14', 'MS15', 'MS16', 'MS18', 'MS20', 'MS20P', 'MS21', 'MS22', 'MS22F', 'MS22P',
+  #                       'MS23', 'MS23F', 'MS24', 'MS25', 'MS25F', 'MS25P', 'MS25Q', 'MS25S', 'MS26', 'MS26F', 'MS40',
+  #                       'MS42', 'MS43', 'MS60', 'MS61', 'MS62', 'MS62P', 'MS63', 'MS65', 'MS66', 'RB10', 'RB11', 'RB12',
+  #                       'RB13', 'RB14', 'RB15', 'RB16', 'RB17', 'RB18', 'RB22', 'RB23', 'RB51', 'RB52', 'RB53', 'RB55',
+  #                       'RB55Q', 'RB56', 'RC37', 'RC38', 'RC39', 'RE10', 'RE11', 'RE11V', 'RE12', 'RE12P', 'RE13', 'RE14',
+  #                       'RE15', 'RE15P', 'RE15Q', 'RE15S', 'RE16', 'RE20', 'RE21', 'RE21P', 'RE21Q', 'RE21V', 'RE22', 'RE22M',
+  #                       'RE22P', 'RE23', 'RE24', 'RE25', 'RE25M', 'RE25P', 'RE25Q', 'RE25S', 'RE26', 'RE26S', 'RE32', 'RE37',
+  #                       'RE37P', 'RE38', 'RE39', 'RE40', 'RE42', 'RP10', 'RP10P', 'RP11', 'RP12', 'RP13', 'RP14', 'RP15',
+  #                       'RS10', 'RS11', 'RS12', 'RS12P', 'RS13', 'RS14', 'RS15', 'RS15P', 'RS16', 'RS18', 'RS20', 'RS20M',
+  #                       'RS20P', 'RS21', 'RS22', 'RS22M', 'RS22P', 'RS22S', 'RS23', 'RS23M', 'RS24', 'RS24V', 'RS25', 'RS25M',
+  #                       'RS25P', 'RS25Q', 'RS25S', 'RS26', 'RS34', 'RS35', 'RS37', 'RS37P', 'RS38', 'RS39', 'RS40', 'RS42', 'RS50',
+  #                       'RS51', 'RS52', 'RS53', 'RS54', 'RS55', 'RS56', 'RS75', 'RT10', 'RT11', 'RT12', 'RT12P', 'RT14', 'RT15', 'RT16')
+  #
+  # if(!all(data$Type_Eco %in% valeurs_autorisees)){
+  #   return (FALSE)
+  # }
 
   resultats <- data %>%
     group_by(PlacetteID) %>%
@@ -650,14 +669,10 @@ valide_GrwDays <- function(data){
 
 valide_Dom_Bio <- function(data){
   if (!all(c("PlacetteID", "Dom_Bio") %in% names(data))) {
-    return(FALSE)
+    return(TRUE)
   }
   if(length(data$Dom_Bio) == 0){
     return(FALSE)
-  }
-
-  if(any(is.na(data$Dom_Bio)) ){
-    return (FALSE)
   }
 
   valeurs_autorisees <- c('1', '2', '3', '4', '5', '6', '7',NA)
@@ -674,20 +689,20 @@ valide_Dom_Bio <- function(data){
 
 
 valide_Sdom_Bio <- function(data) {
-  # Check for required columns
+
   if (!all(c("PlacetteID", "Sdom_Bio") %in% names(data))) {
-    return(FALSE)
+    return(TRUE)
   }
 
-  # Check for empty data or NA values in Sdom_Bio
+
   if (nrow(data) == 0 || any(is.na(data$Sdom_Bio))) {
     return(FALSE)
   }
 
-  # Define allowed values
+
   valeurs_autorisees <- c('1', '2E', '2O', '3E', '3O', '4E', '4O', '5E', '5O', '6E', '6O', '7E', NA)
 
-  # Group by PlacetteID and summarize
+
   resultats <- data %>%
     group_by(PlacetteID) %>%
     summarize(
@@ -695,7 +710,7 @@ valide_Sdom_Bio <- function(data) {
       .groups = 'drop'
     )
 
-  # Return TRUE if all values are unique and authorized, otherwise FALSE
+
   return(all(resultats$valeur_unique))
 }
 
@@ -755,7 +770,12 @@ valide_Veg_Pot <- function(data){
 
 
 
-valide_Age_moy <- function(data){
+valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
+
+  if(Mort_Modif=="QUE" || Mort_Modif=="BRT" || Acc_Modif=="GAM"){
+
+
+
   if(!all(c("Age_moy","PlacetteID") %in% names(data))|| any(is.na(data$Age_moy))){
     return (FALSE)
   }
@@ -769,6 +789,10 @@ valide_Age_moy <- function(data){
 
     )
   return(all(resultats$valeur_unique))
+
+  }else {
+    return(TRUE)
+  }
 
 }
 

@@ -43,7 +43,7 @@
 #'
 
 
-simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,FacHa=25,EvolClim=1,AccModif='GAM',MortModif='QUE',RCP='RCP45'){
+simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
 
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
