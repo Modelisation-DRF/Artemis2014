@@ -1,10 +1,10 @@
 
 
 
-Graph<-function (Data, Espece="TOT", Variable='ST_HA'){
+Graph<-function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
 
 
-  Data <- Data %>% mutate(Yvar=NA,ST_HA=(pi*(DHPcm/200)^2)*Nombre*25, Vol_HA=(vol_dm3/1000), nbTi_HA=(Nombre/0.04)) %>%
+  Data <- Data %>% filter(GrEspece==Espece & PlacetteID %in% listePlacette) %>% mutate(Yvar=NA,ST_HA=(pi*(DHPcm/200)^2)*Nombre*25, Vol_HA=(vol_dm3/1000), nbTi_HA=(Nombre/0.04)) %>%
     group_by(PlacetteID,Annee) %>%
     summarise(ST_HA = sum(ST_HA), Vol_HA=sum(Vol_HA,na.rm = TRUE), nbTi_HA=sum(nbTi_HA, na.rm = TRUE), DQM=(ST_HA/nbTi_HA/pi)^0.5*200) %>%
     ungroup()
@@ -30,7 +30,39 @@ Graph<-function (Data, Espece="TOT", Variable='ST_HA'){
   }
 
 
-  if (Espece=="TOT"){Essence="Toutes essences"}
+  if (Espece == "TOT") {Essence="Toutes essences"}
+  if (Espece == "AUT") {Essence = "Autres essences"}
+  if (Espece == "BOG") {Essence = "Feuillus intolérants"}
+  if (Espece == "BOJ") {Essence = "Bouleau jaune"}
+  if (Espece == "BOP") {Essence = "Feuillus intolérants"}
+  if (Espece == "CET") {Essence = "Feuillus noble"}
+  if (Espece == "CHX") {Essence = "Feuillus noble"}
+  if (Espece == "EPX") {Essence = "Épinettes"}
+  if (Espece == "ERP") {Essence = "Feuillus non commercial"}
+  if (Espece == "ERR") {Essence = "Érable rouge"}
+  if (Espece == "ERS") {Essence = "Érable à sucre"}
+  if (Espece == "F0R") {Essence = "Autres essences"}
+  if (Espece == "FEU") {Essence = "Autres essences"}
+  if (Espece == "FRA") {Essence = "Feuillus noble"}
+  if (Espece == "FRN") {Essence = "Feuillus noble"}
+  if (Espece == "F_0") {Essence = "Feuillus noble"}
+  if (Espece == "F_1") {Essence = "Feuillus intolérants"}
+  if (Espece == "HEG") {Essence = "Hètre à grandes feuilles"}
+  if (Espece == "MEL") {Essence = "Résineux"}
+  if (Espece == "ORA") {Essence = "Feuillus noble"}
+  if (Espece == "OSV") {Essence = "Feuillus noble"}
+  if (Espece == "PEU") {Essence = "Feuillus intolérants"}
+  if (Espece == "PIG") {Essence = "Résineux"}
+  if (Espece == "PIN") {Essence = "Résineux"}
+  if (Espece == "PRP") {Essence = "Feuillus non commercial"}
+  if (Espece == "PRU") {Essence = "Résineux"}
+  if (Espece == "RES") {Essence = "Résineux"}
+  if (Espece == "SAB") {Essence = "Sapin baumier"}
+  if (Espece == "SAL") {Essence = "Feuillus non commercial"}
+  if (Espece == "SOA") {Essence = "Feuillus non commercial"}
+  if (Espece == "THO") {Essence = "Résineux"}
+  if (Espece == "TIL") {Essence = "Feuillus noble"}
+
 
   ymax<-max(Data$Yvar)
 

@@ -45,3 +45,22 @@ SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
   return (ArbreSamare)
 
 }
+
+
+Sortieplacette <- function(SimulHtVol ,simplifier=FALSE){
+
+  select=dplyr::select
+
+  MinAnnee = min(SimulHtVol$Annee)
+  MaxAnnee = max(SimulHtVol$Annee)
+
+  placetteSamare <- SimulHtVol
+
+  if(simplifier == TRUE){
+    placetteSamare_simp_min <-SimulHtVol %>% filter(Annee==MinAnnee )
+    placetteSamare_simp_max <-SimulHtVol %>% filter(Annee==MaxAnnee )
+    placetteSamare <-rbind(placetteSamare_simp_min,placetteSamare_simp_max)
+  }
+  return(placetteSamare)
+
+}
