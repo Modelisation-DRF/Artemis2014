@@ -53,9 +53,14 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
 
   Data_ori<-renommer_les_colonnes(Data_ori)
 
-  Clim<- renommer_les_colonnes_climat_mensuel(Clim)
+  if (!missing(Clim)) {
 
+  Clim<- renommer_les_colonnes_climat_mensuel(Clim)
+  }
+
+  if (!missing(ClimAn)) {
   ClimAn<- renommer_les_colonnes_climat_annuel(ClimAn)
+  }
 
   Data_ori<-vevifier_variable_meteo(Data_ori)
 
