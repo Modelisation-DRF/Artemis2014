@@ -68,6 +68,11 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
 
   Data_ori<-vevifier_variable_Sation(Data_ori)
 
+  if( !"Age_moy" %in% names(Data_ori)){
+
+    Data_ori <- Data_ori %>% mutate(Age_moy = 50)
+  }
+
   prep_data <- PrepareData(Data_ori, Clim, ClimAn, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
   Data <- prep_data[[1]]
   Models <- prep_data[[2]]

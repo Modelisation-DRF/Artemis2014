@@ -73,11 +73,11 @@ trouver_noms_absents <- function(Data, Mort_Modif,Acc_Modif) {
 
   ColOrdre1<- c("PlacetteID", "origTreeID", "Espece", "DHPcm", "Nombre", "Etat",
                 "Reg_Eco", "Cl_Drai", "Veg_Pot", "Type_Eco", "Latitude", "Longitude",
-                "Altitude", "PTot", "TMoy", "Age_moy")
+                "Altitude", "Age_moy")
 
   ColOrdre2<- c("PlacetteID", "origTreeID", "Espece", "DHPcm", "Nombre", "Etat",
                "Reg_Eco", "Cl_Drai", "Veg_Pot", "Type_Eco", "Latitude", "Longitude",
-               "Altitude", "PTot", "TMoy")
+               "Altitude")
 
   if(Mort_Modif=="QUE" || Mort_Modif=="BRT" || Acc_Modif=="GAM"){
 
