@@ -37,8 +37,7 @@
 #' print(result)
 #' @export
 #'
-ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,
-                         Tendance, Residuel, Clim, ClimAn, EvolClim, AccModif, MortModif, RCP, Models){
+ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, Clim, ClimAn, EvolClim, AccModif, MortModif, RCP, Models){
 
   #IA: aout de RCP et MortModif
 

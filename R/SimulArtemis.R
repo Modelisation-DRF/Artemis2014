@@ -45,6 +45,8 @@
 
 simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
 
+  Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
+
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
   AnneeDep <- as.numeric(format(Sys.Date(), "%Y"))
@@ -81,8 +83,10 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
   rm(prep_data)
 
   registerDoFuture()
-  list_plot <- unique(Data$PlacetteID)
   plan(multisession)
+
+  list_plot <- unique(Data$PlacetteID)
+
   Final<- bind_rows(
     foreach(x = iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
@@ -122,6 +126,8 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
   Final2 <- cubage(fic_arbres=ht, mode_simul='DET', nb_step=nb_periodes)  %>%
     rename(PlacetteID=id_pe, DHPcm=dhpcm, GrEspece=essence, origTreeID=no_arbre, Nombre=nb_tige,
            Altitude=altitude, Veg_Pot=veg_pot, PTot=p_tot, TMoy=t_ma)
+
+  Final2 <- Final2 %>% mutate(PlacetteID = gsub("^P", "", PlacetteID))
 
   return(Final2)
 
