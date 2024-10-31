@@ -46,6 +46,23 @@ SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
 
 }
 
+#' Fonction qui structure un dataframe de sortie dont chaque ligne correspond
+#' à un groupe d'espèce par placette et par année avec une ligne présentant le total.
+#'
+#' @param SimulHtVol Un dataframe contenant les résultats de simulation du simulateur Artémis.
+#'                   Typiquement un résultat retourné
+#'                   par la fonction "simulateurArtemis".
+#' @param simplifier Un booléen indiquant si les résultats doivent être simplifiés pour ne garder
+#'                  que la première et la dernière année de la simulation. Par défaut, \code{FALSE}.
+#' @return  Retourne un dataframe contenant le nombre de tiges par hectare, la surface terrière par hectare,
+#'          le diamètre moyen quadratique, le volume marchand brut par hectare, la hauteur dominante et la hauteur moyenne
+#'          par placette, groupe d'espèce et année.
+#' @examples
+#' #resultat <- Sortieplacette(SimulHtVol ,simplifier=FALSE)
+#' print(resultat)
+#' @export
+
+
 
 Sortieplacette <- function(SimulHtVol ,simplifier=FALSE){
 
@@ -54,12 +71,34 @@ Sortieplacette <- function(SimulHtVol ,simplifier=FALSE){
   MinAnnee = min(SimulHtVol$Annee)
   MaxAnnee = max(SimulHtVol$Annee)
 
-  placetteSamare <- SimulHtVol
+  suppressMessages(
+  placetteSamareT <- SimulHtVol %>%
+                    group_by(PlacetteID, Annee, Etat) %>%
+                    mutate(NbCum=cumsum(Nombre)) %>%
+                    summarise(nbTi_HA=sum(Nombre)*25,ST_HA=sum((DHPcm/200)^2*pi*Nombre)*25,DMQ=(ST_HA/nbTi_HA/pi)^0.5*200,Vol_HA=sum(vol_dm3/1000*Nombre,na.rm = TRUE)*25,
+                              HDomM=ifelse(nbTi_HA>100,mean(hauteur_pred[1:first(which((NbCum/0.04)>=100))],na.rm = TRUE),NA),
+                              Hauteur_Moy=sum(hauteur_pred*Nombre)/sum(Nombre)) %>%
+                    mutate(GrEspece="TOT"))
+
+
+
+
+  suppressMessages(
+  placetteSamare <- SimulHtVol %>%
+                    group_by(PlacetteID, Annee, Etat, GrEspece) %>%
+                    mutate(NbCum=cumsum(Nombre)) %>%
+                    summarise(nbTi_HA=sum(Nombre)*25,ST_HA=sum((DHPcm/200)^2*pi*Nombre)*25,DMQ=(ST_HA/nbTi_HA/pi)^0.5*200,Vol_HA=sum(vol_dm3/1000*Nombre)*25,
+                              HDomM=ifelse(nbTi_HA>100,mean(hauteur_pred[1:first(which((NbCum/0.04)>=100))],na.rm = TRUE),NA),
+                              Hauteur_Moy=sum(hauteur_pred*Nombre)/sum(Nombre)) %>%
+                    rbind(placetteSamareT) %>%
+                    arrange(PlacetteID,Annee,GrEspece,desc(Etat)))
+
 
   if(simplifier == TRUE){
-    placetteSamare_simp_min <-SimulHtVol %>% filter(Annee==MinAnnee )
-    placetteSamare_simp_max <-SimulHtVol %>% filter(Annee==MaxAnnee )
-    placetteSamare <-rbind(placetteSamare_simp_min,placetteSamare_simp_max)
+    placetteSamare_simp_min <-placetteSamare %>% filter(Annee==MinAnnee )
+    placetteSamare_simp_max <-placetteSamare %>% filter(Annee==MaxAnnee )
+    placetteSamare <-rbind(placetteSamare_simp_min,placetteSamare_simp_max) %>%  arrange(PlacetteID,Annee,GrEspece,desc(Etat))
+
   }
   return(placetteSamare)
 

@@ -44,8 +44,7 @@
 
 
 simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
-
-  Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
+    Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
@@ -94,6 +93,7 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models)}
   )
 
+  plan(sequential)
 
   if (EvolClim==1){
 

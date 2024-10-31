@@ -7,11 +7,9 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
   #   listePlacette <- unique(Data$PlacetteID)
   # }
 
-  Data <- Data %>% filter(GrEspece==Espece & PlacetteID %in% listePlacette) %>%
-    mutate(Yvar=NA,ST_HA=(pi*(DHPcm/200)^2)*Nombre*25, Vol_HA=(vol_dm3/1000), nbTi_HA=(Nombre/0.04)) %>%
-    group_by(PlacetteID,Annee) %>%
-    summarise(ST_HA = sum(ST_HA), Vol_HA=sum(Vol_HA,na.rm = TRUE), nbTi_HA=sum(nbTi_HA, na.rm = TRUE), DQM=(ST_HA/nbTi_HA/pi)^0.5*200) %>%
-    ungroup()
+
+ Data <-Sortieplacette(Data) %>%
+        filter(GrEspece==Espece & PlacetteID %in% listePlacette)
 
   if (Variable=='ST_HA'){
     Data$Yvar<-Data$ST_HA

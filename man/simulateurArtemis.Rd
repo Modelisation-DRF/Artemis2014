@@ -13,9 +13,9 @@ simulateurArtemis(
   Tendance = 0,
   Residuel = 0,
   FacHa = 25,
-  EvolClim = 1,
-  AccModif = "GAM",
-  MortModif = "QUE",
+  EvolClim = 0,
+  AccModif = "ORI",
+  MortModif = "ORI",
   RCP = "RCP45"
 )
 }
@@ -25,24 +25,29 @@ d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Et
 "DHPcm","Dom_Bio","Nombre","Sdom_Bio","Veg_Pot","Latitude","Longitude","Altitude",
 "Pente","PTot","TMoy","GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition",
 "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
-sur certains champs n'est pas disponible, on peut le laisser vide.}
+ sur certains champs n'est pas disponible, on peut le laisser vide.}
 
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 
-\item{ClimAn}{}
+\item{Clim}{Clim sorties mensuelles de climat si abscente laisser vide}
 
-\item{Tendance}{}
+\item{ClimAn}{ClimAn sorties annuelles de climat si abscente Laisser vide}
 
-\item{Residuel}{}
+\item{Tendance}{Tendance si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
+FE2 et FE3 afin de n'utiliser que les intevalles de croissance se terminant après 1998}
 
-\item{EvolClim}{}
+\item{Residuel}{Residuel si =1 placette avec coupe partielle deuis moins de 10 ans}
 
-\item{AccModif}{}
+\item{FacHa}{FacHa facteur d'espantion de la placette à l'hectare valeur par defaut à 25}
 
-\item{MortModif}{}
+\item{EvolClim}{EvolClim valeur de 0 pour climat constant et de 1 pour évolution du climat}
 
-\item{RCP}{}
+\item{AccModif}{AccModif "BRT" pour les équations Boosted regression tree de JieJie Wang 2022, "GAM" pour les GAM de D'Orangeville 2019, "ORI' pour les équations originale d'Artemis}
+
+\item{MortModif}{MortModif "ORI" pour les équation originales d'Artemis, "QUE" pour les équation calibrées par essence sensibles au climat "BRT"}
+
+\item{RCP}{RCP Scénario climatique choisi pour la simulation}
 }
 \value{
 Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
