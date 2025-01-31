@@ -54,13 +54,17 @@ simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,F
 
   Data_ori<-renommer_les_colonnes(Data_ori)
 
-  if (!missing(Clim)) {
+  if (exists("Clim") && !is.null(Clim)) {
 
   Clim<- renommer_les_colonnes_climat_mensuel(Clim)
+
+  Clim <- Clim %>% mutate(PlacetteID = paste0("P", PlacetteID))
   }
 
-  if (!missing(ClimAn)) {
+  if (exists("ClimAn") && !is.null(ClimAn)) {
+
   ClimAn<- renommer_les_colonnes_climat_annuel(ClimAn)
+  ClimAn <- ClimAn %>% mutate(PlacetteID = paste0("P", PlacetteID))
   }
 
   Data_ori<-vevifier_variable_meteo(Data_ori)

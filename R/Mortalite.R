@@ -43,6 +43,7 @@ mort<-function (Mort){
   Pred <- merge(ParaMorti,X,by = "Effect")
   cloglog <- sum(Pred$ParameterEstimate*Pred$Value)
   pred_mort=(1-exp(-exp(cloglog)))##Change sept 2023 pour retourner directement la prob de mortalite
+
   return(pred_mort)
 
 }
