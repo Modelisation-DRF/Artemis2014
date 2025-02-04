@@ -24,3 +24,8 @@ saveRDS(expect_test_for_Artemis_accroissement, "tests/testthat/fixtures/expect_t
 saveRDS(PredMort, "tests/testthat/fixtures/PredMort.rds")
 
 saveRDS(expect_test_for_Artemis_Mortalite , "tests/testthat/fixtures/expect_test_for_Artemis_Mortalite.rds")
+
+
+saveRDS(placcette_ArtemisClim , "tests/testthat/fixtures/placcette_ArtemisClim.rds")
+
+saveRDS(expect_result_for_ArtemisClimat , "tests/testthat/fixtures/expect_result_for_ArtemisClimat.rds")
