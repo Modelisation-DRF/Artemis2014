@@ -43,7 +43,8 @@
 #'
 
 
-simulateurArtemis<-function(Data_ori,Horizon,Clim,ClimAn,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
+simulateurArtemis<-function(Data_ori,Horizon,Clim = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
+
     Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
 
