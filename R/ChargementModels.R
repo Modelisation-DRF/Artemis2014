@@ -1,9 +1,22 @@
-
-#' @param AccModif
+#'Fonction qui charge les modèles d'accroissement en diametre et de mortalite
+#'nessecaire à la simulation. Les modèle sélectionnees dependent des valeures entree
+#'aux arguments ACCModif et MortModif
 #'
-#' @param MortModif
 #'
-#' @return
+#'
+#' @param AccModif Parametre permettant de selectionner la fonction d'accroissement diametrale
+#'                  utilisee par le simulateur. Le parametre peut prendre la valeur "ORI" pour
+#'                  les fonctions d'accroissement originales d'Artemis-2014, "BRT" pour la fonction
+#'                  d'accroissement Boosted Regression Tree de Wang et al. 2023 ou "GAM" pour la fonction
+#'                  d'accroissement de  D'Orangeville et al. 2019.
+#'
+#' @param MortModif Parametre permettant de selectionner la fonction de mortalité
+#'                  utilisee par le simulateur. Le paramètre peut prendre la valeure "ORI"
+#'                  pour les fonctions de mortalité originales d'Artemis-2014 ou "QUE"
+#'                  pour les fonction de mortalité de Power et al. 2025.
+#'
+#' @return Retourne une liste incluant des modele .rds et des fichiers nécessaires à
+#'        l'Utilisation des modèles.
 #'
 #' @examples
 #' result <- ChargeModeles(AccModif, MortModif)

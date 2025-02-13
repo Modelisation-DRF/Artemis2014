@@ -2,14 +2,14 @@
 % Please edit documentation in R/SimulArtemis.R
 \name{simulateurArtemis}
 \alias{simulateurArtemis}
-\title{Fonction qui sert à appeler le simulateur Artemis et qui fournit les données
-initiales ainsi qu'un choix de paramètres pour la simulation.}
+\title{Fonction qui sert à appeler le simulateur Artemis 2014 et qui fournie les donnees
+initiales ainsi qu'un choix de parametres pour la simulation.}
 \usage{
 simulateurArtemis(
   Data_ori,
   Horizon,
-  Clim,
-  ClimAn,
+  ClimMois = NULL,
+  ClimAn = NULL,
   Tendance = 0,
   Residuel = 0,
   FacHa = 25,
@@ -21,7 +21,7 @@ simulateurArtemis(
 }
 \arguments{
 \item{Data_ori}{Un dataframe contenant les valeurs de départ pour une liste
-d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
+ d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
 "DHPcm","Dom_Bio","Nombre","Sdom_Bio","Veg_Pot","Latitude","Longitude","Altitude",
 "Pente","PTot","TMoy","GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition",
 "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
@@ -30,32 +30,36 @@ d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Et
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 
-\item{Clim}{Clim sorties mensuelles de climat si abscente laisser vide}
+\item{ClimMois}{Donnees climatiques mensuelles. Si abscente laisser vide}
 
-\item{ClimAn}{ClimAn sorties annuelles de climat si abscente Laisser vide}
+\item{ClimAn}{Donnees climatiques annuelles. Si abscente laisser vide}
 
-\item{Tendance}{Tendance si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
-FE2 et FE3 afin de n'utiliser que les intevalles de croissance se terminant après 1998}
+\item{Tendance}{Si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
+potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se terminant après 1998}
 
 \item{Residuel}{Residuel si =1 placette avec coupe partielle deuis moins de 10 ans}
 
-\item{FacHa}{FacHa facteur d'espantion de la placette à l'hectare valeur par defaut à 25}
+\item{FacHa}{Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25}
 
-\item{EvolClim}{EvolClim valeur de 0 pour climat constant et de 1 pour évolution du climat}
+\item{EvolClim}{Valeure de 0 pour climat constant et de 1 pour evolution du climat à travers le temps de simulation
+Valeure par defaut de 0}
 
-\item{AccModif}{AccModif "BRT" pour les équations Boosted regression tree de JieJie Wang 2022, "GAM" pour les GAM de D'Orangeville 2019, "ORI' pour les équations originale d'Artemis}
+\item{AccModif}{Choix de fonction d'accroissement en diamètre "ORI" pour les équations originales d'Artémis 2014,
+"BRT" pour les équations Boosted regression tree de JieJie Wang 2022,
+ "GAM" pour les GAM de D'Orangeville 2019}
 
-\item{MortModif}{MortModif "ORI" pour les équation originales d'Artemis, "QUE" pour les équation calibrées par essence sensibles au climat "BRT"}
+\item{MortModif}{Choix de fonction de mortalité "ORI" pour les équation originales d'Artemis 2014,
+"QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025}
 
-\item{RCP}{RCP Scénario climatique choisi pour la simulation}
+\item{RCP}{Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1}
 }
 \value{
 Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
         leur hauteur et leur volume pour chaque placette
 }
 \description{
-Fonction qui sert à appeler le simulateur Artemis et qui fournit les données
-initiales ainsi qu'un choix de paramètres pour la simulation.
+Fonction qui sert à appeler le simulateur Artemis 2014 et qui fournie les donnees
+initiales ainsi qu'un choix de parametres pour la simulation.
 }
 \examples{
 result <- simulateurArtemis(Data_ori = Data, Horizon = 3, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='GAM', MortModif='QUE', RCP='RCP45' )
