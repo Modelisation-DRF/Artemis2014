@@ -1,37 +1,40 @@
 
-#'Fonction qui sert à appeler le simulateur Artemis et qui fournit les données
-#'initiales ainsi qu'un choix de paramètres pour la simulation.
+#'Fonction qui sert à appeler le simulateur Artemis 2014 et qui fournie les donnees
+#'initiales ainsi qu'un choix de parametres pour la simulation.
 #'
-#' @param Tendance # Tendance si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
-#'               FE2 et FE3 afin de n'utiliser que les intevalles de croissance se terminant après 1998
+#' @param Tendance  Si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
+#'                  potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se terminant après 1998
 #'
 #' @param Horizon Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 #'                le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).
 #'
-#' @param Residuel # Residuel si =1 placette avec coupe partielle deuis moins de 10 ans
+#' @param Residuel Residuel si =1 placette avec coupe partielle deuis moins de 10 ans
 #'
 #' @param Data_ori Un dataframe contenant les valeurs de départ pour une liste
-#'             d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
-#'             "DHPcm","Dom_Bio","Nombre","Sdom_Bio","Veg_Pot","Latitude","Longitude","Altitude",
-#'             "Pente","PTot","TMoy","GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition",
-#'             "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
-#'             sur certains champs n'est pas disponible, on peut le laisser vide.
+#'                d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
+#'               "DHPcm","Dom_Bio","Nombre","Sdom_Bio","Veg_Pot","Latitude","Longitude","Altitude",
+#'               "Pente","PTot","TMoy","GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition",
+#'               "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
+#'                sur certains champs n'est pas disponible, on peut le laisser vide.
 #'
 #'
-#' @param FacHa # FacHa facteur d'espantion de la placette à l'hectare valeur par defaut à 25
-#                 Clim sorties mensuelles de climat si abscente laisser vide
-#                 ClimAn sorties annuelles de climat si abscente Laisser vide
+#' @param FacHa  Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25
+#
+#' @param ClimMois Donnees climatiques mensuelles. Si abscente laisser vide
 #'
-#' @param Clim
-#' @param ClimAn
+#' @param ClimAn   Donnees climatiques annuelles. Si abscente laisser vide
 #'
-#' @param EvolClim  # EvolClim valeur de 0 pour climat constant et de 1 pour évolution du climat
+#' @param EvolClim  Valeure de 0 pour climat constant et de 1 pour evolution du climat à travers le temps de simulation
+#'                  Valeure par defaut de 0
 #'
-#' @param AccModif # AccModif "BRT" pour les équations Boosted regression tree de JieJie Wang 2022, "GAM" pour les GAM de D'Orangeville 2019, "ORI' pour les équations originale d'Artemis
+#' @param AccModif Choix de fonction d'accroissement en diamètre "ORI" pour les équations originales d'Artémis 2014,
+#'                 "BRT" pour les équations Boosted regression tree de JieJie Wang 2022,
+#'                  "GAM" pour les GAM de D'Orangeville 2019
 #'
-#' @param MortModif # MortModif "ORI" pour les équation originales d'Artemis, "QUE" pour les équation calibrées par essence sensibles au climat "BRT"
+#' @param MortModif Choix de fonction de mortalité "ORI" pour les équation originales d'Artemis 2014,
+#'                 "QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025
 #'
-#' @param RCP  # RCP Scénario climatique choisi pour la simulation
+#' @param RCP  Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1
 #'
 #' @return Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
 #'         leur hauteur et leur volume pour chaque placette
@@ -43,15 +46,13 @@
 #'
 
 
-simulateurArtemis<-function(Data_ori,Horizon,Clim = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
+simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
 
     Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
   AnneeDep <- as.numeric(format(Sys.Date(), "%Y"))
-
-  #Data_ori<-Data_ori %>% filter(Veg_Pot!="RE1")
 
   Data_ori<-renommer_les_colonnes(Data_ori)
 
