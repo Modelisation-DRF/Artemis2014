@@ -1,34 +1,43 @@
+#' Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à
+#' l'estimation de la mortalité, de l'accroissement en diamètre, et du recrutement pour chacque période de simumulation
+#' une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètre pour la placette à
+#' chacune des périodes de simulation
 #'
+#' @param Para Paramètres des différents modules Artémis contenus dans un dataframe
 #'
-#' @param Para
+#' @param Data Dataframe contenant la liste d'arbres initiale dela placette à simuler
 #'
-#' @param Data
+#' @param AnneeDep Anneeé de début de la simulation. Si laissée vide, l'annnées courante sera inscrite
 #'
-#' @param AnneeDep
+#' @param Horizon Valeur numérique du nombre de périodes de 10 ans sur lesquelles
+#'                le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).
 #'
-#' @param Horizon
+#' @param FacHa Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25
 #'
-#' @param FacHa
+#' @param Tendance Si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
+#'                  potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se terminant après 1998
 #'
-#' @param Tendance
+#' @param Residuel Residuel si =1 placette avec coupe partielle deuis moins de 10 ans
 #'
-#' @param Residuel
+#' @param ClimMois Donnees climatiques mensuelles. Si abscente laisser vide
 #'
-#' @param Clim
+#' @param ClimAn Donnees climatiques annuelles. Si abscente laisser vide
 #'
-#' @param ClimAn
+#' @param EvolClim Valeure de 0 pour climat constant et de 1 pour evolution du climat à travers le temps de simulation
+#'                  Valeure par defaut de 0
 #'
-#' @param EvolClim
+#' @param AccModif Choix de fonction d'accroissement en diamètre "ORI" pour les équations originales d'Artémis 2014,
+#'                 "BRT" pour les équations Boosted regression tree de JieJie Wang 2022,
+#'                  "GAM" pour les GAM de D'Orangeville 2019
 #'
-#' @param AccModif
+#'@param MortModif Choix de fonction de mortalité "ORI" pour les équation originales d'Artemis 2014,
+#'                 "QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025
 #'
-#'@param MortModif
+#'@param RCP Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1
 #'
-#'@param RCP
+#'@param Models Liste dans laquelle les modeles d'accroissement et de moratlité (à l'exception des modele d'Artemis 2014) sont inclus
 #'
-#'@param Models
-#'
-#' @return
+#' @return Retourne un dataframe contenant la liste d'arbre vivants de la placette simulee avec leur DHP pour chaque période de simulation
 #'
 #' @examples
 #' result <- ArtemisClimat(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel,
@@ -37,19 +46,11 @@
 #' print(result)
 #' @export
 #'
-ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, Clim, ClimAn, EvolClim, AccModif, MortModif, RCP, Models){
+ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models){
 
-  #IA: aout de RCP et MortModif
-
-  # if (AccModif=="BRT") {      #######Trouve pas la library si appelée directement du simulateur
-  #                             IA: il faut la passer en option dans le foreach
-  #   suppressMessages(
-  #     library(gbm)
-  #   )
-  # }
 
   #Longueur d'un pas de simulation
-  #t<-10
+
   LongPas=10
 
   t <- LongPas #IA: j'ai mis ça en paramètre de la fonction
@@ -132,17 +133,15 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Lecture du climat
   if (!(AccModif=="ORI" & MortModif=="ORI" & EvolClim==0) ){
 
-    ClimPe<-Clim %>% filter(PlacetteID==info_plac$PlacetteID)
+    ClimPe<-ClimMois %>% filter(PlacetteID==info_plac$PlacetteID)
     ClimAnPe<-ClimAn %>% filter(PlacetteID==info_plac$PlacetteID)
 
   # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
 
-  #if (!(AccModif=="ORI" & MortModif=="ORI") & EvolClim==0 ){ Enlevé pour passer mortalité avec climat historique
-
-    ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, rcp=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #IA: j'ai enlevé le paramètre climModel
- # }##Annee de départ définie à 2020 pour climat historique
+      ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, rcp=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
   }
-  # Initialisation du fichier qui contiendra les résultats de simulation de la placette
+
+   # Initialisation du fichier qui contiendra les résultats de simulation de la placette
   outputTot <- c()
 
 
@@ -168,7 +167,6 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
       #Mise à jour coupes
       Coupe1<-ifelse(Coupe==1,1,0)
-      #Coupe<-0
       Coupe<-ifelse(Coupe0==1,1,0)
       Coupe0<-0
 
@@ -176,7 +174,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     }
 
     # Ajout des donnees CO2 de la période si nécessaire
-    # IA: j'ai sorti ça du if/else, car doit toujours être fait
+
     if((AccModif=="BRT")) {
       if (EvolClim==1) {
         Plac$CO2<-CO2$CO2[which(abs(CO2$AnneeMoy-Annee)==min(abs(CO2$AnneeMoy-Annee)) & CO2$rcp==RCP)]
@@ -190,12 +188,11 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     anc<-ifelse(Plac$Annee[1]<2008,1,0)
 
-    Plac<-BAL(Plac,FacHa=FacHa) # #IA : j'ai mis FacHa en parametre de la fonction
-
+    Plac<-BAL(Plac,FacHa=FacHa)
 
     # calcul variable echelle placette
-    sum_st_ha <- sum(Plac$ST_m2[which(Plac$Etat=="vivant")]) #IA: pour uniformiser, j'ai ajouté [which(Plac$Etat=="vivant")] comme pour les n_arbre
-    n_arbre_ha <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])*FacHa # #IA : j'ai mis FacHa en parametre de la fonction
+    sum_st_ha <- sum(Plac$ST_m2[which(Plac$Etat=="vivant")])
+    n_arbre_ha <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])*FacHa
     n_arbre <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])
     mq_DHPcm <- sqrt(sum_st_ha/n_arbre_ha*40000/3.1416)
 
@@ -203,7 +200,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (EvolClim==1){
 
-      ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, t, rcp=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #IA: j'ai enlevé le paramètre climModel
+      ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, t, rcp=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
 
     }
 
@@ -241,7 +238,6 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     if (MortModif=="QUE"){
 
       if (EvolClim==0){ClimatQUE=ClimatHisto} else {ClimatQUE=ClimatModif}
-      #if (EvolClim==0){ClimatQUE=ClimatHisto} else {ClimatQUE=ClimatHisto}#######Modifié pour garder mortalité constante
 
       PredMort<-mortQUE(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
     }
@@ -265,7 +261,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       nest() %>%
       mutate(pred_acc = map(data,accrois)) %>%
       unnest(pred_acc) %>%
-      mutate(pred_acc=ifelse(pred_acc<0,0,(exp(pred_acc+Cor)-1))) %>%
+      mutate(pred_acc=round(ifelse(pred_acc<0,0,(exp(pred_acc+Cor)-1))*10)/10)%>%
       select(-data)
     }
 
@@ -314,7 +310,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     suppressMessages(
       EspecesSp <- Plac %>%
         group_by(GrEspece) %>%
-        summarise(nbtiges_ess=sum(Nombre), nbtiges_ess_ha=sum(Nombre)*FacHa, St_ha_ess=sum(ST_m2))) # IA: j'ai remplacé 25 par FacHa
+        summarise(nbtiges_ess=sum(Nombre), nbtiges_ess_ha=sum(Nombre)*FacHa, St_ha_ess=sum(ST_m2)))
 
     # ajouter les groupes d'Especes no presents dans la placette
     EspecesFinal <- left_join(Especes, EspecesSp, by="GrEspece") %>%
@@ -343,7 +339,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     PredRecrue$ArbreID<-PredRecrue$origTreeID
 
 
-    if (AccModif!="ORI" | MortModif=="QUE") {  #IA: il faut aussi séparer EPX en EPB/EPN quand MortModif='QUE' même si AccModif='ORI', car les équations de mortalité QUE dépendent de PEN/EPB, si on laisse EPX, ça ne généère pas de prédiction
+    if (AccModif!="ORI" | MortModif=="QUE") {
       # Separer recrues EPX entre EPN et EPB
       PropEPB<-Models[[8]]
       PropEPB<-PropEPB$PropEPB[which(PropEPB$VEG_POT==Veg_Pot)]
@@ -364,14 +360,14 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
           mutate(Espece=ifelse(GrEspece=="EPX","EPN",Espece))
       }
     # on ajoute les variables a l'echelle de la placette aux recrues
-      output3 <- left_join(PredRecrue,info_plac, by="PlacetteID") %>% # IA: le left_join donne un message d'avertissement quand le fichier en left doit se répéter sur plusieurs lignes du fichier à droite, je les ai inversé pour éviter le message
+      output3 <- left_join(PredRecrue,info_plac, by="PlacetteID") %>%
         mutate(Espece=ifelse(GrEspece=="EPX",Espece,ifelse(GrEspece%in% c("AUT","F0R","FEU","F_0","F_1","RES"),NA,GrEspece)),
                Moist=ifelse(Plac$Cl_Drai[1] %in% c(0,10,11),"X",
                             ifelse(Plac$Cl_Drai[1] %in% c(50,51,60,61),"H","M")),
                Age_moy=Accrois$Age_moy[1])
     }else {
-      #if (AccModif=="ORI"){ #IA: j'ai changé ça pour un else, sinon il fallait réécrire la condition
-      output3 <- left_join(PredRecrue, info_plac, by="PlacetteID") %>% # IA: le left_join donne un message d'avertissement quand le fichier en left doit se répéter sur plusieurs lignes du fichier à droite, je les ai inversé pour éviter le message
+
+      output3 <- left_join(PredRecrue, info_plac, by="PlacetteID") %>%
         mutate(Espece=ifelse(GrEspece %in% c("AUT","EPX","F0R","FEU","F_0","F_1","RES"),NA,GrEspece))
 
     }
@@ -381,7 +377,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     # on ajoute les recrues aux arbres de la placette
     Predictions <- bind_rows(Accrois, output3) %>%   ####J'ai garde juste les vivants (pas mis output)
       arrange(PlacetteID, origTreeID) %>%
-      mutate(Annee = AnneeDep+(t*k)) %>% #IA: j'ai remplacé le 10 par t
+      mutate(Annee = AnneeDep+(t*k)) %>%
       mutate(Age_moy=Age_moy+t) %>%
       select(-pred_acc, -ST_m2, -st_ha_cumul_gt)
 
@@ -389,8 +385,8 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
 
     # calcul variable echelle placette
-    St_Test <- sum(Test$ST_m2[which(Test$Etat=="vivant")]) #IA: pour uniformiser, j'ai ajouté [which(Plac$Etat=="vivant")] comme pour les n_arbre
-    n_Test <- sum(Test$Nombre[which(Test$Etat=="vivant")])*FacHa # #IA : j'ai mis FacHa en parametre de la fonction
+    St_Test <- sum(Test$ST_m2[which(Test$Etat=="vivant")])
+    n_Test <- sum(Test$Nombre[which(Test$Etat=="vivant")])*FacHa
 
 
     if (n_Test>5000 | St_Test >60){

@@ -4,7 +4,7 @@
 \alias{valide_data}
 \title{Répertoire des erreurs dans le fichier des arbres}
 \usage{
-valide_data(data)
+valide_data(data, Mort_Modif, Acc_Modif)
 }
 \arguments{
 \item{data}{Un dataframe représentant le fichier des arbres.}

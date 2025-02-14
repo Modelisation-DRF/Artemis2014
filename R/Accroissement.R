@@ -1,13 +1,15 @@
-
-
-
-#' @param Accrois
+#' Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis 2014
 #'
-#' @return
+#'
+#' @param Accrois Un dataframe d'une ligne qui contient toutes les valeurs utilisées
+#'                par les équations d'accroissement d'Artémis
+#'
+#' @return Retourne la prévision d'accroissement diamétrale en cm de l'arbre
+#'         pour un interval de croissance
 #'
 #'
 #' @examples
-#' result <- accrois(Accrois)
+#' result <- map(data,accrois)
 #' print(result)
 #' @export
 #'
