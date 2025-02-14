@@ -21,8 +21,8 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
     Etiquette="Volume marchand (m3/ha)"
   }
 
-  if (Variable=='DQM'){
-    Data$Yvar<-Data$DQM
+  if (Variable=='DMQ'){
+    Data$Yvar<-Data$DMQ
     Etiquette="Diam\uE8tre quadratique moyen (cm)"
   }
 
