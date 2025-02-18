@@ -1,6 +1,30 @@
-
-
-
+#' Fonction qui permet de produire des graphiques des résultats de simulation.
+#'
+#' @param Data Une sortie de simulation du package Artemis.
+#'
+#' @param Espece Le code de groupe d'espece pour lequel on veut produire le
+#'               graphique. Par défaut le graphique est produit pour le
+#'               groupe d'essence "TOT".
+#'
+#' @param Variable Variable pour laquelle on veut produire le graphique.
+#'                 Ce paramètre peut prendre la valeur "ST_HA" pour la surface
+#'                 terriere, "Vol_HA" pour le volume marchand brut, "DQM" pour
+#'                 le diamètre quadratique moyen, "nbTi_HA" pour le nombre de
+#'                 tiges marchandes par ha.
+#'
+#' @param listePlacette Une liste qui comprend les identifiants de placettes
+#'                      pour lesquelles on veut produire le graphique. Par defaut
+#'                      toutes les placettes sont selectionnées.
+#'
+#' @return Retourne un objet ggplot qui est un graphique.
+#'
+#'
+#' @examples Graphique<-Graph(Data=SimulTot,Espece="TOT", Variable='ST_HA',listePlacette)
+#' print(Graphique)
+#'
+#' @export
+#'
+#'
 Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
 
   # if (length(listePlacette) == 0) {
@@ -101,4 +125,5 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
   GraphEvol
 
 
+  return(GraphEvol)
 }

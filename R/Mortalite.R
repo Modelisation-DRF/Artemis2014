@@ -1,9 +1,10 @@
-
-
+#' Fonction pour calculer la probabilité de mortalité. Fonction de base d'Artémis-2014.
 #'
-#' @param Mort
 #'
-#' @return
+#' @param Mort Un dataframe d'une ligne qui contient toutes les valeures utilisées
+#'             par les équations de probabilité de mortalité d'Artémis-2014.
+#'
+#' @return Retourne la probabilité de mortalité pour la période de simulation en cours.
 #'
 #' @examples
 #' result <- mort(Mort)

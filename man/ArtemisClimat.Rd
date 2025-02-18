@@ -2,10 +2,10 @@
 % Please edit documentation in R/ArtemisClimat.R
 \name{ArtemisClimat}
 \alias{ArtemisClimat}
-\title{Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à
-l'estimation de la mortalité, de l'accroissement en diamètre, et du recrutement pour chacque période de simumulation
-une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètre pour la placette à
-chacune des périodes de simulation}
+\title{Fonction qui éffectue la simulation d'Artemis. Elle procède pour chacune des placettes à
+l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simumulation
+une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètres pour la placette à
+chacune des périodes de simulation.}
 \usage{
 ArtemisClimat(
   Para,
@@ -25,48 +25,54 @@ ArtemisClimat(
 )
 }
 \arguments{
-\item{Para}{Paramètres des différents modules Artémis contenus dans un dataframe}
+\item{Para}{Paramètres des différents modules d'Artémis contenus dans un dataframe.}
 
-\item{Data}{Dataframe contenant la liste d'arbres initiale dela placette à simuler}
+\item{Data}{Dataframe contenant la liste d'arbres initiale de la placette à simuler.}
 
-\item{AnneeDep}{Anneeé de début de la simulation. Si laissée vide, l'annnées courante sera inscrite}
+\item{AnneeDep}{Année de début de la simulation. Si laissée vide, l'annnées courante sera inscrite.}
 
-\item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
+\item{Horizon}{Valeure numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 
-\item{FacHa}{Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25}
+\item{FacHa}{Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25.}
 
-\item{Tendance}{Si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
-potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se terminant après 1998}
+\item{Tendance}{Si =1 les paramètres d'accroissement, de mortalité et de recrutement sont modifiés pour les végétations
+potentielles FE2 et FE3 afin dutiliser deulement les intevalles de croissance se terminant après 1998.}
 
-\item{Residuel}{Residuel si =1 placette avec coupe partielle deuis moins de 10 ans}
+\item{Residuel}{Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.}
 
-\item{ClimMois}{Donnees climatiques mensuelles. Si abscente laisser vide}
+\item{ClimMois}{Données climatiques mensuelles. Si abscente laisser vide.}
 
-\item{ClimAn}{Donnees climatiques annuelles. Si abscente laisser vide}
+\item{ClimAn}{Données climatiques annuelles. Si abscente laisser vide.}
 
-\item{EvolClim}{Valeure de 0 pour climat constant et de 1 pour evolution du climat à travers le temps de simulation
-Valeure par defaut de 0}
+\item{EvolClim}{Paramètre qui prend la valeure de 0 pour climat constant et
+de 1 pour une évolution du climat à travers le temps de
+simulation. Valeure par defaut de 0.}
 
-\item{AccModif}{Choix de fonction d'accroissement en diamètre "ORI" pour les équations originales d'Artémis 2014,
-"BRT" pour les équations Boosted regression tree de JieJie Wang 2022,
- "GAM" pour les GAM de D'Orangeville 2019}
+\item{AccModif}{Choix de la fonction d'accroissement en diamètre, "ORI" pour les
+équations originales d'Artémis-2014, "BRT" pour les équations
+Boosted regression tree de JieJie Wang 2022, "GAM" pour les
+équations de D'Orangeville 2019.}
 
-\item{MortModif}{Choix de fonction de mortalité "ORI" pour les équation originales d'Artemis 2014,
-"QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025}
+\item{MortModif}{Choix de fonction de mortalité ,"ORI" pour les équations
+originales d'Artémis-2014,"QUE" pour les équations calibrées
+par essence sensibles au climat de Power et al. 2025.}
 
-\item{RCP}{Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1}
+\item{RCP}{Scénario climatique choisi pour la simulation soit RCP 4.5 ou 8.5.
+Ce paramètre est seulement utilisé si le paramètre EvolClim=1.}
 
-\item{Models}{Liste dans laquelle les modeles d'accroissement et de moratlité (à l'exception des modele d'Artemis 2014) sont inclus}
+\item{Models}{Liste dans laquelle les modèles d'accroissement et de moratlité
+(à l'exception des modele d'Artémis-2014) sont inclus.}
 }
 \value{
-Retourne un dataframe contenant la liste d'arbre vivants de la placette simulee avec leur DHP pour chaque période de simulation
+Retourne un dataframe contenant la liste d'arbres vivants de la
+        placette simulée avec leur DHP pour chaque période de simulation.
 }
 \description{
-Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à
-l'estimation de la mortalité, de l'accroissement en diamètre, et du recrutement pour chacque période de simumulation
-une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètre pour la placette à
-chacune des périodes de simulation
+Fonction qui éffectue la simulation d'Artemis. Elle procède pour chacune des placettes à
+l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simumulation
+une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètres pour la placette à
+chacune des périodes de simulation.
 }
 \examples{
 result <- ArtemisClimat(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel,

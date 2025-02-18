@@ -56,11 +56,11 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
   Data_ori<-renommer_les_colonnes(Data_ori)
 
-  if (exists("Clim") && !is.null(Clim)) {
+  if (exists("ClimMois") && !is.null(ClimMois)) {
 
-  Clim<- renommer_les_colonnes_climat_mensuel(Clim)
+  ClimMois<- renommer_les_colonnes_climat_mensuel(ClimMois)
 
-  Clim <- Clim %>% mutate(PlacetteID = paste0("P", PlacetteID))
+  ClimMois <- ClimMois %>% mutate(PlacetteID = paste0("P", PlacetteID))
   }
 
   if (exists("ClimAn") && !is.null(ClimAn)) {
@@ -80,10 +80,10 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     Data_ori <- Data_ori %>% mutate(Age_moy = 50)
   }
 
-  prep_data <- PrepareData(Data_ori, Clim, ClimAn, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
+  prep_data <- PrepareData(Data_ori, ClimMois, ClimAn, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
   Data <- prep_data[[1]]
   Models <- prep_data[[2]]
-  Clim <- prep_data[[3]]
+  ClimMois <- prep_data[[3]]
   ClimAn <- prep_data[[4]]
   rm(prep_data)
 
@@ -95,7 +95,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   Final<- bind_rows(
     foreach(x = iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
-                     AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, Clim=Clim, ClimAn =ClimAn,
+                     AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models)}
   )
 
