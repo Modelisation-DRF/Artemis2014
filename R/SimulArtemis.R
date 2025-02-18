@@ -88,7 +88,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   rm(prep_data)
 
   registerDoFuture()
-  plan(multisession)
+  plan(sequential)
 
   list_plot <- unique(Data$PlacetteID)
 
