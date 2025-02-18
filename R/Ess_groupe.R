@@ -1,16 +1,26 @@
-
+#' Fonction qui associe un groupe d'essence a chacun des arbres des données
+#' initiales. Les groupes d'essences sont ceux d'Artémis-2014.
 #'
-#' @param Data
+#' @param Data Un dataframe contenant une liste d'arbres pour lesquels on veut
+#'             associer un groupe d'essence à partir d'un champ "Essence".
 #'
-#'@param SpInd
 #'
-#'@param ListeVp
+#' @param SpInd Un dataframe avec une colonne SpeciesID qui est un code numérique séquentiel
+#'              et SpeciesName qui est le code d'essence usuel au Quebec.
 #'
-#'@param SpGroups
+#' @param ListeVp Un dataframe avec une colonne VegPotID qui est un code numérique
+#'                sequentiel de végétation potentielle et VegPotName qui
+#'                est le code de végétation potentielle usuel au Quebec.
 #'
-#'@param Sp
+#' @param SpGroups Un dataframe associant les codes d'essence, de végétation
+#'                 potentielles et de groupe d'essences.
 #'
-#' @return
+#' @param Sp Un dataframe avec une colonne SpeciesGroupID qui est un code
+#'           numérique séquentiel de groupe d'essence et une colonne
+#'           SpeciesGroupName qui correspond aux groupes d'essences d'Artémis-2014.
+#'
+#' @return Retourne un dataframe dans lequel chacun des arbres se voient associer
+#'          un groupe d'essence.
 #'
 #' @examples
 #' result <- Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp)

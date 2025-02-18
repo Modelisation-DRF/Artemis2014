@@ -1,27 +1,43 @@
-
-
+#' Fonction de prévision de la probabilité de mortalité basée sur les équations
+#' de mortalité de Power et al. 2025.
 #'
-#'@param Mort
 #'
-#'@param ClimatQUE
+#'@param Mort Un dataframe contenant une liste d'arbres avec les variables utilisées
+#'            pour faire les prévisions.
 #'
-#'@param Models
+#'@param ClimatQUE Un dataframe contenenant les variables climatiques crées par la fonction
+#'                 ClimatBiosim pour être utilisé dans les fonctions d'accroissement et de
+#'                 mortalité sensibles au climat.
 #'
-#'@param DrainageCl
+#'@param Models Liste contenant les modeles .rds a être utilisés dans la simulation
+#'              ainsi que les associations d'essences et les paramètres des modèles.
 #'
-#'@param PenteCl
+#'@param DrainageCl Classe de drainage ou les drainages hydriques et xériques sont
+#'                  regrouppeés en "HydXer" et les drainages mésiques et sub hydriques
+#'                  sont regrouppés en "MesSub".
 #'
-#'@param Texture
+#'@param PenteCl Classe de pente de la placette selon la claissification québécoise.
+#'               La classe de pente est exprimée par une lettre et les pentes "E" et
+#'               "F" sont regrouppées dans la classe "EF".
 #'
-#'@param Coupe
+#'@param Texture Classe de texture derivée du 4ieme charactère du type écologique.
+#'                les texture sont regrouppées en "FinMoy" pour les texture fines
+#'                et moyennes et "GrosOrg" pour les textures grossières et les sols
+#'                organiques.
 #'
-#'@param Coupe0
+#'@param Coupe Variable binaire où la valeure 1 identifie les placettes où une
+#'             coupe partielle a été effectuée il y a plus de 10 ans mais moins de 20 ans.
 #'
-#'@param sum_st_ha
+#'@param Coupe0 Variable binaire où la valeure 1 identifie les placettes ou une
+#'             coupe partielle a été effectuee il y a moins de 10 ans.
 #'
-#'@param t
+#'@param sum_st_ha Surface terriere marchande de la placette au debut de l'étape
+#'                 de simulation.
 #'
-#' @return
+#'@param t Durée de l'étape de simulation (généralement 10 ans).
+#'
+#' @return Retourne un dataframe avec une colonne origTreeID et une colonne avec la
+#'          probabilité de mortalité pour la période de simulation en cours.
 #'
 #' @examples
 #' result <- mortQUE(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
@@ -31,9 +47,9 @@
 #'
 mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t){
 
-       EssGrQUE<-Models[[9]]      #0.0003milis
+       EssGrQUE<-Models[[9]]
        ParaMortQUE<-Models[[10]] %>% mutate(Effect = str_to_lower(Effect)) %>% arrange(Effect,Essence)  #1.8milis
-       CovParmsQUE<-Models[[11]]   #0.0003milis
+       CovParmsQUE<-Models[[11]]
 
  suppressMessages(
           Input<-Mort %>%
@@ -41,7 +57,7 @@ mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, 
             left_join(EssGrQUE, by="GrEspece") %>% # le fichier ne contient pas les EPX, ni EPB/EPN
             mutate(Ess_regroupe=ifelse(Espece %in% c("EPN","EPB"), Espece, Ess_regroupe)) %>% # on met EPB/EPN pour les manquants
             mutate(Ess_regroupe=replace(Ess_regroupe,Espece=="EPR", "EPN")) %>%
-            left_join(ClimatQUE))    #34 milis
+            left_join(ClimatQUE))
 
           n<-nrow(Mort)
 
@@ -52,10 +68,10 @@ mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, 
           listeEssE<-c(rep("BOJ",n),rep("BOP",n),rep("EPB",n),rep("ERR",n),rep("PEU",n),rep("PIG",n),rep("SAB",n))
           listePente<-c(rep("B",n),rep("C",n),rep("D",n),rep("EF",n))
 
-          Xmort<-matrix(0,ncol=73,nrow=n)   #0.005 milis
+          Xmort<-matrix(0,ncol=73,nrow=n)
 
           # les 7 premieres colonnes sont pour l'effet âge pour 7 essences
-          Xmort[,1:7]<-(Input$Ess_regroupe==listeEssA)*Input$Age_moy # 0.01milis, ça met l'âge de la placette à certaines des lignes des 7 premieres colonnes
+          Xmort[,1:7]<-(Input$Ess_regroupe==listeEssA)*Input$Age_moy
           Xmort[,8]<-(Input$Ess_regroupe=="ERR")*Input$cec_015cm
           Xmort[,9]<-(Input$Ess_regroupe=="SAB")*Input$cec_015cm
           #Xmort[,10]<-(Input$Ess_regroupe=="BOJ")*Input$CMI #revue modèle pour être conforme à la publication 3 oct 2023
@@ -82,10 +98,10 @@ mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, 
           Xmort[,73]<-(Input$Ess_regroupe=="EPB")*Input$TMoyPeriode
 
           # Matrice de parametres: il faut que les colonnes de Xmort soit dans le même ordre que celles de BetaMat
-          BetaMat<-matrix(ParaMortQUE$Estimate,ncol=1) #0.005 milis
+          BetaMat<-matrix(ParaMortQUE$Estimate,ncol=1)
 
           # Calcul mortalite
-          mort_pred <-Xmort %*% BetaMat + log(t) #0.02 milis  #IA: j'ai changé le nom du data mort par mort_pred, car mort c'est le nom de la fct de mortalité originale d'Artémis
+          mort_pred <-Xmort %*% BetaMat + log(t)
 
           # Simulation des effets aléatoires
 
@@ -95,19 +111,13 @@ mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, 
           CovParmsQUE<-CovParmsQUE[rep(seq_len(nrow(CovParmsQUE)), each = 500), ]
           CovParmsQUE$ranef<-sapply(CovParmsQUE$Variance,fctRand)
 
-          # IA: sans le random
-         # Output <- Input %>%
-          #  select(origTreeID) %>%
-           # mutate(pred_mort=mort_pred[,1])
 
-
-         # Calcul des prévisions 170 milisecondes le merge est l'étape la plus longue diminuée de moitiée avec 500 rep peu d'impact sur preds
             suppressWarnings(
              Output <- Input %>%
              select(origTreeID,Ess_regroupe) %>%
              mutate(pred_mort=mort_pred[,1]) %>%
              rename(Essence=Ess_regroupe) %>%
-             left_join(CovParmsQUE, by="Essence") %>% # IA: left_join va plus vite que merge
+             left_join(CovParmsQUE, by="Essence") %>%
              mutate(pred_mort=(1-exp(-exp(pred_mort+ranef)))) %>%  #le modele de mortalite est avec un lien cloglog
              group_by(origTreeID) %>%
              summarise(pred_mort=median(pred_mort)))
