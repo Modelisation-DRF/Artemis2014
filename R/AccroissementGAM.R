@@ -1,17 +1,17 @@
-#' Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019
+#' Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.
 #'
 #'
 #'
 #' @param Accrois Un dataframe présentant une ligne par arbre avec les variables
-#'               dendrométriques nécessaires à l'application des modèles
+#'               dendrométriques nécessaires à l'application des modèles.
 #'
 #' @param ClimatGAM Un dataframe présentant les variables climatiques nécessaires
-#'                  à l'appication des modèles de D'Orangeville et al. 2019
+#'                  à l'application des modèles de D'Orangeville et al. 2019.
 #'
-#' @param Models Les modèles d'accroissement en diamétrale de D'Orangevile et al. 2019
-#'                en format .rds
+#' @param Models Les modèles d'accroissement en diamétre de D'Orangevile et al. 2019
+#'                en format .rds.
 #'
-#' @param t La période de temps de l'intervalle de croissance (10 ans par défaut)
+#' @param t La période de temps de l'intervalle de croissance (10 ans par défaut).
 #'
 #' @return Retourne un dataframe incluant le numéro d'arbre et la prévision
 #'        d'accroissement diamétrale  en cm.

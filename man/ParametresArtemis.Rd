@@ -2,16 +2,14 @@
 % Please edit documentation in R/ParametresArtemis.R
 \name{ParametresArtemis}
 \alias{ParametresArtemis}
-\title{Praparation de parametres d'Artemis
-Quand Artemis sera mis en package, tous ces fichiers devront être des fichiers rda
-je mettrais aussi ListeCor, Effet.mort, Effet.acc, Effet.rec en fichiers rda.
-On se fait un répertoire avec le code qui sert à transformer les fichiers en rda, comme ça, c'est facile si on doit le refaire}
+\title{Fonction qui effectue la préparation des paramètres d'Artémis.}
 \usage{
 ParametresArtemis()
 }
+\value{
+Retourne une liste incluant les parametres necessaires pour le
+        fonctionnement du Simulateur Artémis.
+}
 \description{
-Praparation de parametres d'Artemis
-Quand Artemis sera mis en package, tous ces fichiers devront être des fichiers rda
-je mettrais aussi ListeCor, Effet.mort, Effet.acc, Effet.rec en fichiers rda.
-On se fait un répertoire avec le code qui sert à transformer les fichiers en rda, comme ça, c'est facile si on doit le refaire
+Fonction qui effectue la préparation des paramètres d'Artémis.
 }

@@ -2,20 +2,20 @@
 % Please edit documentation in R/Accroissement.R
 \name{accrois}
 \alias{accrois}
-\title{Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis 2014}
+\title{Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis-2014}
 \usage{
 accrois(Accrois)
 }
 \arguments{
 \item{Accrois}{Un dataframe d'une ligne qui contient toutes les valeurs utilisées
-par les équations d'accroissement d'Artémis}
+par les équations d'accroissement d'Artémis.}
 }
 \value{
 Retourne la prévision d'accroissement diamétrale en cm de l'arbre
-        pour un interval de croissance
+        pour un interval de croissance.
 }
 \description{
-Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis 2014
+Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis-2014
 }
 \examples{
 result <- map(data,accrois)

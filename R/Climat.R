@@ -1,21 +1,36 @@
-
-#' @param Placettes
+#' Fonction qui extrait les variables climatiques de la période de simulation en cours.
+#' Elle permet de produire les variables climatiques nécessaires aux modules de mortalité,
+#' de croissance et de recrutement sensibles au climat.
 #'
-#' @param Annee
 #'
-#' @param t
+#' @param Placettes Identifiant de la placette pour laquelle on veut extraire les variables
+#'                  climatiques.
 #'
-#' @param Clim
+#' @param Annee Année de debut de la période de simulation en cours.
 #'
-#' @param ClimAn
+#' @param t Duree de la periode de simulation (habituellement 10 ans).
 #'
-#'@param EvolClim
+#' @param ClimMois Un dataframe contenant des prévisions climatiques mensuelles issues du logiciel biosim
+#'                dans lequel il y a une correspondance avec l'identifiant de placette et la
+#'                valeure de l'argument année de la fonction.
 #'
-#'@param AccModif
+#' @param ClimAn Un dataframe contenant des prévisions climatiques annuelles issues du logiciel biosim
+#'                dans lequel il y a une correspondance avec l'identifiant de placette et la
+#'                valeure de l'argument année de la fonction.
 #'
-#'@param rcp
+#'@param EvolClim Paramètre qui prend la valeure  0 pour un climat constant et de 1 pour une évolution du
+#'                 climat à travers le temps de simulation. Valeure par défaut de 0.
 #'
-#' @return
+#'@param AccModif Choix de la fonction d'accroissement en diamètre "ORI" pour les
+#'                 équations originales d'Artémis-2014, "BRT" pour les équations
+#'                 Boosted regression tree de JieJie Wang 2022, "GAM" pour les
+#'                 GAM de D'Orangeville 2019.
+#'
+#'@param RCP Scénario climatique choisi pour la simulation soit RCP 4.5 ou RCP 8.5.
+#'           Ce paramètre est seulement utilisé si le paramètre EvolClim=1.
+#'
+#' @return Retourne un dataframe avec l'identifiant de la placette et les données
+#'          climatiques formatées pour la période de simulation en cours.
 #'
 #' @examples
 #' result <- ClimatBiosim(Placettes, Annee, t, rcp, Clim, ClimAn, EvolClim, AccModif)
@@ -23,7 +38,7 @@
 #' print(result)
 #' @export
 #'
-ClimatBiosim<-function (Placettes, Annee, t, rcp, Clim, ClimAn, EvolClim, AccModif){ #IA: j'ai enlevé le paramètre climModel
+ClimatBiosim<-function (Placettes, Annee, t, RCP, ClimMois, ClimAn, EvolClim, AccModif){
 
 if (Annee<2091){
  An=Annee}else{
@@ -54,7 +69,7 @@ if (Annee<2091){
 
   if(EvolClim==1){ #methode pour evolution climatique
 
-VarMois<-Clim %>%
+VarMois<-ClimMois %>%
       filter(Annee>=An & Annee<=(An+t)) %>%
       group_by(PlacetteID) %>%
       nest() %>%
@@ -83,7 +98,7 @@ suppressMessages(
 
 }else{ #Climat historique calculé sur les 30 années préceédentes le début de simulation
 
-  VarMois<-Clim %>%
+  VarMois<-ClimMois %>%
     #filter(Annee>=(An-30) & Annee<=An) %>%
     filter(Annee>=1991 & Annee<=2000) %>% #######Période de référence pour les courbes actuellement utilisées corespond au milieu de la plage de 30 ans
     group_by(PlacetteID) %>%

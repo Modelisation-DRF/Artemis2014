@@ -1,15 +1,15 @@
-#'Fonction qui estime l'accroissement en diamètre des arbres pour 1 interval de croissance
+#'Fonction qui estime l'accroissement en diamètre des arbres pour 1 interval de croissance.
 #'La fonction utilise les modèles Boosted Regression Trees (BRT) de Wang et al. 2023
 #'
-#' @param Accrois Un dataframe contenant l'information à l'échelle de l'arbre
+#' @param Accrois Un dataframe contenant l'information à l'échelle de l'arbre.
 #'
-#' @param ClimatBRT Un dataframe contenant les variables climatiques utilisées par les modèles BRT
+#' @param ClimatBRT Un dataframe contenant les variables climatiques utilisées par les modèles BRT.
 #'
-#' @param Models Une liste contenant les modèles BRT sous format .rds
+#' @param Models Une liste contenant les modèles BRT sous format .rds.
 #'
-#' @param sum_st_ha La surface terrière marchande de la placette
+#' @param sum_st_ha La surface terrière marchande de la placette.
 #'
-#' @param t La période de temps de l'intervalle de croissance (10 ans par défaut)
+#' @param t La période de temps de l'intervalle de croissance (10 ans par défaut).
 #'
 #' @return Retourne un dataframe incluant le numéro d'arbre et la prévision
 #'        d'accroissement diamétrale  en cm.
