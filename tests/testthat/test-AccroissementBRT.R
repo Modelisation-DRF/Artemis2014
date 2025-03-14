@@ -1,5 +1,5 @@
 
-test_that("multiplication works", {
+test_that("Tester que la fonction d'accroissementBRT retourne la valeur attendue. Quand AccModif = 'BRT'", {
 
   set.seed(NULL)
   set.seed(3)
@@ -23,8 +23,10 @@ test_that("multiplication works", {
 
   expectForAccBRT <- data.frame(
     origTreeID = 1:16,
-    pred_acc = c(1.316761, 1.316761, 1.316761, 1.316761, 4.642885, 1.316761, 1.316761, 1.316761,
-                 1.316761, 1.316761, 2.496479, 1.777854, 1.316761, 2.493227, 2.493227, 2.493227))
+    pred_acc = c(1.31676, 1.31676, 1.31676, 1.31676, 4.64288, 1.31676, 1.31676, 1.31676, 1.31676,
+                 1.31676, 2.49648, 1.77785, 1.31676, 2.49323, 2.49323, 2.49323)
+  )
+
 
   expectForAccBRT <- as.data.frame(expectForAccBRT)%>% mutate(pred_acc = round(pred_acc, 5))
 

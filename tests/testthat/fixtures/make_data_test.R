@@ -1,8 +1,12 @@
 
 
-# Fichier pour les tests du simulateur Artemis
+# Fichier pour les tests du simulateur Artemis Module d’accroissement Original et Module de mortalité Original
 
 saveRDS(expect_test_for_Artemis_AccModif_ORI_MortModif_ORI, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds")
+
+# Fichier pour les tests du simulateur Artemis Module d’accroissement BRT et Module de mortalité Original
+
+saveRDS(expect_test_for_Artemis_AccModif_BRT_MortModif_ORI, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds")
 
 
 #  Fichier des arbres sur lequel on applique la fonction de d'Accroissement
@@ -14,6 +18,9 @@ saveRDS(PredAcc, "tests/testthat/fixtures/PredAcc.rds")
 
 # Data frame résultant de la fonction d'accroissement.
 saveRDS(expect_test_for_Artemis_accroissement, "tests/testthat/fixtures/expect_test_for_Artemis_accroissement.rds")
+
+# Data frame résultant de la fonction d'accroissement.
+saveRDS(expect_test_for_Artemis_MortaliteQUE, "tests/testthat/fixtures/expect_test_for_Artemis_MortaliteQUE.rds")
 
 
 # Fichier des arbres sur lequel on applique la fonction de de Mortalité
@@ -34,5 +41,12 @@ saveRDS(expect_result_for_ArtemisClimat , "tests/testthat/fixtures/expect_result
 # fichier des arbres de la placette pour appliquer le module d'accroissement
 saveRDS(plac_Accrois , "tests/testthat/fixtures/plac_Accrois.rds")
 
-# fichier des arbres de la placette pour appliquer le module d'accroissement
+# fichier des arbres de la placette pour appliquer le module d'accroissement BRT
 saveRDS(plac_AccroisBRT , "tests/testthat/fixtures/plac_AccroisBRT.rds")
+
+# fichier des arbres de la placette pour appliquer le module d'mortalite QUE
+saveRDS(plac_Mortalite_QUE , "tests/testthat/fixtures/plac_Mortalite_QUE.rds")
+
+# fichier des arbres de la placette pour appliquer le module d'accroissement BRT
+saveRDS(plac_AccroisGAM , "tests/testthat/fixtures/plac_AccroisGAM.rds")
+

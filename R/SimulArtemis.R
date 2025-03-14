@@ -126,10 +126,10 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
   nb_periodes <- Horizon+1
 
-  ht <- relation_h_d(fic_arbres=Final, mode_simul='DET', nb_step=nb_periodes, reg_eco = TRUE, dt =10)
+  ht <- OutilsDRF::relation_h_d(fic_arbres=Final, mode_simul='DET', nb_step=nb_periodes, reg_eco = TRUE, dt =10)
 
 
-  Final2 <- cubage(fic_arbres=ht, mode_simul='DET', nb_step=nb_periodes)  %>%
+  Final2 <- OutilsDRF::cubage(fic_arbres=ht, mode_simul='DET', nb_step=nb_periodes)  %>%
     rename(PlacetteID=id_pe, DHPcm=dhpcm, GrEspece=essence, origTreeID=no_arbre, Nombre=nb_tige,
            Altitude=altitude, Veg_Pot=veg_pot, PTot=p_tot, TMoy=t_ma)
 
