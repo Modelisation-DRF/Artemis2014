@@ -20,7 +20,7 @@ Depends:
     gbm, 
     SPEI,
     sp, 
-    TarifQC,
+    OutilsDRF,
     ExtractMap,
     Billonage,
     R (>= 4.2)  

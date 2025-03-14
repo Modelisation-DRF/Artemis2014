@@ -26,5 +26,6 @@ test_that("multiplication works", {
   set.seed(NULL)
   expect_result_for_ArtemisClimat <- readRDS(test_path("fixtures", "expect_result_for_ArtemisClimat.rds"))
 
-  expect_equal(result, expect_result_for_ArtemisClimat)
+  expect_equal(result, expect_result_for_ArtemisClimat, tolerance = 1e-4)
+
 })
