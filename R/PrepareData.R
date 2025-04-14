@@ -1,29 +1,54 @@
-
-
+#'Fonction qui prépare les données en vue d'effectuer
+#'une simulation avec le package Artémis-2014.
 #'
-#'@param Data
 #'
-#'@param Clim_tous
+#'@param Data Un data frame qui contient la liste d'arbre de départ pour la
+#'            simulation.
 #'
-#'@param ClimAn_tous
+#'@param Clim_tous Un data frame de données climatique mensuelles. Ce fichier
+#'                 est seulement nécessaire pour les simulations effectuées avec
+#'                 les modules d'accroissement ou de mortalité sensibles au climat.
 #'
-#'@param AccModif
+#'@param ClimAn_tous Un data frame de données climatiques annuelles. Ce fichier
+#'                   est seulement nécessaire pour les simulations effectuées avec
+#'                   les modules d'accroissement ou de mortalité sensibles au climat.
 #'
-#'@param EvolClim
+#'@param AccModif Vecteur qui peut prendre les valeurs 'ORI' pour l'utilisation
+#'                du module d'accroissement original d'Artémis-2014, 'BRT' pour
+#'                les équations d'accroissement en diamètre de Wang. et al. 2023 ou
+#'                'GAM' pour les équations d'accroissement de D'Orangeville et al. 2019.
 #'
-#'@param MortModif
+#'@param EvolClim Un vecteur qui prend la valeure binaire de 0 pour un climat stable
+#'                ou de 1 pour un climat qui évolue. Si le climat évolue, il faut fournir
+#'                les données climatiques pour chaque année de simulation avec les
+#'                data frame Clim_tous et ClimAn_tous.
 #'
-#'@param RCP
 #'
-#'@param SpInd
+#'@param MortModif Un vecteur qui peut prendre la valeur 'ORI' pour l'utilisation
+#'                  du module de mortalité original d'Artémis-2014 ou 'QUE' pour
+#'                  utiliser les équations de mortalité de Power et al. 2025.
 #'
-#'@param ListeVp
+#'@param RCP Vecteur qui prend la valeur 'RCP45' ou 'RCP85' selon le scénario de
+#'           changements climatiques que l'on veut utiliser.
 #'
-#'@param SpGroups
+#'@param SpInd Un data frame qui associe un code numérique à chacune des essences.
+#'             Ce data frame est conservé en tant que données internes au package.
 #'
-#'@param Sp
+#'@param ListeVp un data frame qui associe un code numérique à chacune des
+#'               végétations potentielles. Ce data frame est conservé en tant que données
+#'               internes au package.
 #'
-#'@return
+#'@param SpGroups Un data frame qui associe les codes numérique des essence, des
+#'                groupes d'essence, des végétations potentielles des relations
+#'                hauteur diamètre, de volume et de récolte.  Ce data frame est
+#'                conservé en tant que données internes au package.
+#'
+#'@param Sp Un data frame qui associe un code numérique à chacun des groupes
+#'          d'essences. Ce data frame est conservé en tant que données internes au package.
+#'
+#'@return La fonction retourne une liste comprenant le dataframe de données mis en forme,
+#'        les modèles BRT ou GAM lorsqu'ils doivent être utilisés et les deux dataframes
+#'        de données climatiques.
 #'
 #'@examples
 #' result <- PrepareData(Data, Clim_tous, ClimAn_tous, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)

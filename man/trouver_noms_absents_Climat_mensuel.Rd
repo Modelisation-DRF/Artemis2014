@@ -17,3 +17,7 @@ La fonction \code{trouver_noms_absents_Climat_mensuel} vérifie si toutes les co
 sont présentes dans un dataframe représentant le fichier climat mensuel. Elle retourne une liste
 des noms des colonnes manquantes, le cas échéant.
 }
+\examples{
+noms_absents_ClimMois<-trouver_noms_absents_Climat_mensuel(Data)
+
+}

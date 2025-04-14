@@ -25,8 +25,6 @@
 #'
 ChargeModeles<- function(AccModif, MortModif){
 
-    # Proportions d'épinettes IA: je l'ai sorti des if
-
 
   if (AccModif=="BRT") {
     # Modeles BRT
@@ -38,7 +36,7 @@ ChargeModeles<- function(AccModif, MortModif){
     mod_epb<-mod_epb_BRT
     # Essences BRT
     suppressMessages(
-      EssGr<- EssGr_BRT) #IA: j'ai utilisé un nom générique EssGr au lieu de EssGrBRT
+      EssGr<- EssGrBRT) #IA: j'ai utilisé un nom générique EssGr au lieu de EssGrBRT
 
   }
 
@@ -52,7 +50,7 @@ ChargeModeles<- function(AccModif, MortModif){
     mod_sab<-mod_sab_GAM
     # Essences GAM
     suppressMessages(
-      EssGr<-EssGr_GAM) #IA: j'ai utilisé un nom générique EssGr au lieu de EssGrGam
+      EssGr<-EssGrGAM) #IA: j'ai utilisé un nom générique EssGr au lieu de EssGrGam
 
   }
 
@@ -71,13 +69,13 @@ ChargeModeles<- function(AccModif, MortModif){
   if (MortModif=='QUE') {
     # Parametres mortalite QUE
     suppressMessages(
-      EssGrMortQUE<-EssGrMortQUEt
+      EssGrMortQUE<-EssGrMortQUE
     )
     suppressMessages(
-      ParaMortQUE<-ParaMortQUEt
+      ParaMortQUE<-ParaMortQUE
     )
     suppressMessages(
-      CovParmMortQUE<-CovParmMortQUEt
+      CovParmMortQUE<-CovParmMortQUE
     )
   }
   else{

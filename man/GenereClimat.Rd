@@ -36,3 +36,7 @@ deux dataframe, le premier contenant les prévisions à l'échelle annuelle et l
 à l'échelle mensuelle. La fonction peut-être longue à exécuter (environ 0.5 seconde par placette
 et par période de simulation de 10 ans)
 }
+\examples{
+result<-GenereClimat(Intrant_Test,AnneeDep=2025,AnneeFin=2100)
+print(result)
+}

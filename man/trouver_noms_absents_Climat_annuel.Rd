@@ -17,3 +17,7 @@ La fonction \code{trouver_noms_absents_Climat_annuel} vérifie si toutes les col
 sont présentes dans un dataframe représentant le fichier climat annuel. Elle retourne une liste
 des noms des colonnes manquantes, le cas échéant.
 }
+\examples{
+noms_absents_ClimAn<-trouver_noms_absents_Climat_annuel(Data)
+
+}

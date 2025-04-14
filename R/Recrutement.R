@@ -1,9 +1,12 @@
-
-
+#' Fonction qui prévoie le nombre de recrues de plus de 9,1 cm pour chacune des étapes
+#' de simulation
 #'
-#'@param EspecesFinal
 #'
-#'@return
+#'@param EspecesFinal un vecteur qui comprend un groupe d'espèce une colonne
+#'                     raporte le nombre de tiges, le nombre de
+#'                    tiges par hectare et la surface terrière.
+#'
+#'@return retourne un vecteur avec le nombre de recrue, leur DHP et la variance
 #'
 #'@examples
 #' result <- fctrecrue(EspecesFinal)

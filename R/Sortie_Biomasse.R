@@ -1,5 +1,19 @@
 
-
+#' Fonction qui structure un dataframe de sortie dont chaque ligne correspond
+#' à chacun des arbres par placette et par année et où la biomasse du bois, de l'écorce
+#' du feuillage, des branches et la biomasse totale est rapportée à l'aide des équations
+#' de Lambert et al. 2005.
+#'
+#' @param SimulHtVol Un dataframe contenant les résultats de simulation du simulateur Artémis.
+#'                   Typiquement un résultat retourné
+#'                   par la fonction "simulateurArtemis".
+#'
+#' @return  Retourne un dataframe contenant l'ensemble des arbres pour chacune des
+#'          placettes, années avec leur prévisions de biomasse.
+#' @examples
+#' resultat <- SortieBiomasse(SimulHtVol)
+#' print(resultat)
+#' @export
 
 SortieBiomasse<-function (SimulHtVol){
 
@@ -25,6 +39,7 @@ SimulHtVolTot<-rbind(SimulHtVolEss,SimulHtVolGrEss) %>%
                       BioTot=BioBois+BioEcorce+BioBranche+BioFeuillage) %>%
               select(PlacetteID,origTreeID,Espece,GrEspece,DHPcm,hauteur_pred,Nombre,Etat,BioBois,BioEcorce,BioBranche,BioFeuillage,BioTot)
 
+rm(ListeSp,SimulHtVolEss)
 
 return(SortieBiomasse)
 }

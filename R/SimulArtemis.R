@@ -48,8 +48,7 @@
 
 simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
 
-    Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
-
+  Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
   AnneeDep <- as.numeric(format(Sys.Date(), "%Y"))
@@ -88,7 +87,8 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   rm(prep_data)
 
   registerDoFuture()
-  plan(sequential)
+  plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
+  #plan(multisession)
 
   list_plot <- unique(Data$PlacetteID)
 
