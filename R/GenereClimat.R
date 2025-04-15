@@ -21,6 +21,11 @@
 #' @export
 #'
 GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
+
+  Data_Ori <- Data_Ori %>%
+    mutate(Latitude = as.numeric(Latitude), Longitude = as.numeric(Longitude) , Altitude = as.numeric(Altitude))
+
+
   if (AnneeFin > as.numeric(format(Sys.Date(), "%Y"))) {
     suppressMessages(
       Placettes <- Data_Ori %>%

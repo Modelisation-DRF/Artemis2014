@@ -27,9 +27,9 @@
 #'
 Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
 
-  # if (length(listePlacette) == 0) {
-  #   listePlacette <- unique(Data$PlacetteID)
-  # }
+  if (length(listePlacette) == 0) {
+    listePlacette <- unique(Data$PlacetteID)
+  }
 
 
  Data <-Sortieplacette(Data) %>%
