@@ -106,7 +106,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
 
     PTotTMoyEvol<-ClimAn %>%
-      mutate(Annee=Annee-1) %>%
+      mutate(Annee=Annee) %>%
       select(PlacetteID,Annee,PTot,TMoy)########Ajuste la température et les précipitations pour le calcul de la hauteur
 
     Final<-Final %>%

@@ -34,7 +34,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
     )
 
 
-    AnneeDep <- ifelse(AnneeDep > 2020, 2020, AnneeDep)
+    AnneeDep <- ifelse(AnneeDep > 1991, 1991, AnneeDep)###1991 pour période climat historique 1981-2010
 
     QcAn <- as.data.frame(generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
