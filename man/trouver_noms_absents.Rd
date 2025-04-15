@@ -17,3 +17,7 @@ La fonction \code{trouver_noms_absents} vérifie si toutes les colonnes obligato
 sont présentes dans un dataframe représentant le fichier d'arbres. Elle retourne une liste
 des noms des colonnes manquantes, le cas échéant.
 }
+\examples{
+noms_absents_data<-trouver_noms_absents (Data, Mort_Modif,Acc_Modif)
+
+}

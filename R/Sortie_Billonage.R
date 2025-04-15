@@ -32,7 +32,8 @@ SortieBillonage <- function(Data, Type ){
 
   final <- left_join(data1, billo, by = "bilonID") %>%  mutate (Stm2ha=pi*(DHPcm/200)^2) %>%
     dplyr::select(-Espece) %>%
-    rename(Espece = Espece_original)
+    rename(Espece = Espece_original) %>%
+    arrange(PlacetteID,Annee,GrEspece)
 
   final <- final %>% select(-bilonID)
 

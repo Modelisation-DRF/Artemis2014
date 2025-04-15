@@ -1,10 +1,11 @@
 
 
-#' Renommer les colonnes  du fichier des arbres
+#' Fonction qui permet de renommer les colonnes  du fichier d'intrant qui contient
+#' la liste d'arbres à simuler.
 #'
 #' La fonction \code{renommer_les_colonnes} renomme les colonnes d'un dataframe
 #'
-#' @param data Un dataframe, représentant le fichier des arbres, dont les colonnes doivent être renommées et réorganisées.
+#' @param data Un dataframe, contenant la liste d'arbres pour débuter la simulation
 #'
 #'
 #' @details
@@ -65,7 +66,7 @@ renommer_les_colonnes <- function(data){
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
-#' @examples
+#' @examples noms_absents_data<-trouver_noms_absents (Data, Mort_Modif,Acc_Modif)
 #'
 #' @export
 #'
@@ -112,7 +113,7 @@ trouver_noms_absents <- function(Data, Mort_Modif,Acc_Modif) {
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
-#' @examples
+#' @examples noms_absents_ClimMois<-trouver_noms_absents_Climat_mensuel(Data)
 #'
 #' @export
 #'
@@ -187,7 +188,7 @@ renommer_les_colonnes_climat_mensuel <- function(data){
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
-#' @examples
+#' @examples noms_absents_ClimAn<-trouver_noms_absents_Climat_annuel(Data)
 #'
 #' @export
 #'

@@ -7,12 +7,20 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
   set.seed(3)
 
 
-  Result <- simulateurArtemis(Data_ori = Intrant_Ref ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45')
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
+            arrange(PlacetteID,origTreeID,Annee)
 
 
   set.seed(NULL)
 
-  expect_test_for_Artemis_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds"))
+  expect_test_for_Artemis_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds"))%>%
+                                                          arrange(PlacetteID,origTreeID,Annee)
+  expect_test_for_Artemis_AccModif_ORI_MortModif_ORI <-expect_test_for_Artemis_AccModif_ORI_MortModif_ORI [,c("Veg_Pot","Annee","PlacetteID", "origTreeID","Espece", "Etat", "Nombre",
+                                                                                                            "DHPcm","Type_Eco", "reg_eco","Altitude", "PTot", "TMoy",
+                                                                                                              "hauteur_pred", "milieu", "sdom_bio", "GrEspece","vol_dm3")]
+
+
+  expect_test_for_Artemis_AccModif_ORI_MortModif_ORI<-as.data.table(expect_test_for_Artemis_AccModif_ORI_MortModif_ORI)
 
   expect_equal(Result, expect_test_for_Artemis_AccModif_ORI_MortModif_ORI , tolerance = 1e-6)
 
@@ -28,13 +36,25 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
             set.seed(3)
 
 
-            Result <- simulateurArtemis(Data_ori = Intrant_Ref ,Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='BRT',MortModif='ORI', EvolClim=0, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test)
+            Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='BRT',MortModif='ORI', EvolClim=0, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test)
 
 
             set.seed(NULL)
 
-            expect_test_for_Artemis_AccModif_BRT_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds"))
+
+            Result<-Result %>%
+                    arrange(PlacetteID,origTreeID,Annee)
+
+            expect_test_for_Artemis_AccModif_BRT_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds"))%>%
+                                                                    arrange(PlacetteID,origTreeID,Annee)
+
+            expect_test_for_Artemis_AccModif_BRT_MortModif_ORI <-expect_test_for_Artemis_AccModif_BRT_MortModif_ORI[,c("Veg_Pot","Annee","PlacetteID", "origTreeID","Espece", "Etat", "Nombre",
+                                                                                                                       "DHPcm","Type_Eco", "reg_eco","Altitude", "PTot", "TMoy",
+                                                                                                                       "hauteur_pred", "milieu", "sdom_bio", "GrEspece","vol_dm3")]
+
+            expect_test_for_Artemis_AccModif_BRT_MortModif_ORI <-as.data.table(expect_test_for_Artemis_AccModif_BRT_MortModif_ORI)
 
             expect_equal(Result, expect_test_for_Artemis_AccModif_BRT_MortModif_ORI, tolerance = 1e-6)
 
 })
+

@@ -1,12 +1,14 @@
-
-
-
+#'Fonction qui calcule la surface terrière des arbres de diamètre plus grand
+#'que l'arbre ciblé par le calcul
 #'
-#'@param Data
+#'@param Data Un dataframe qui contient une liste d'arbres structuré par placette
+#'            avec leur diamètre à hauteur de poitrine.
 #'
-#'@param FacHa
+#'@param FacHa Facteur d'expansion à l'hectare de la placette
 #'
-#'@return
+#'@return retourne le dataframe fourni initialement avec une colonne supplémentaire
+#'         'st_ha_cumul_gt' qui rapporte la surface terrière des arbres de plus grand
+#'         diamètre de chacun des arbres.
 #'
 #'@examples
 #' result <- BAL(Data,FacHa)

@@ -32,13 +32,15 @@ SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
            Etat, DHPcm, hauteur_pred, vol_dm3, Stm2) %>%
     rename(ST_m2=Stm2, Vol_dm3=vol_dm3, Hautm=hauteur_pred) %>%
     relocate(PlacetteID,Annee,origTreeID, Espece,GrEspece, Etat, Nombre,DHPcm,Hautm,
-             ST_m2,Vol_dm3)
+             ST_m2,Vol_dm3) %>%
+    arrange(PlacetteID,Annee,origTreeID)
 
 
   if(simplifier == TRUE){
     ArbreSamare_simp_min <-ArbreSamare %>% filter(Annee==MinAnnee )
     ArbreSamare_simp_max <-ArbreSamare %>% filter(Annee==MaxAnnee )
-    ArbreSamare <-rbind(ArbreSamare_simp_min,ArbreSamare_simp_max)
+    ArbreSamare <-rbind(ArbreSamare_simp_min,ArbreSamare_simp_max)%>%
+      arrange(PlacetteID,Annee,origTreeID)
   }
 
 

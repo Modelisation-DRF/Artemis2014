@@ -1,12 +1,11 @@
-
-
-
-
-
+#' Fonction qui vérifie si les variables climatiques de base température annuelle moyenne,
+#' précipitations totales et growing degree days. Si elle sont absentes, elles
+#' sont estimée à l'aide du package extract_map.
 #'
-#'@param data
+#'@param data Un dataframe contenant la liste d'arbres à simuler
 #'
-#'@return
+#'@return Retourne la liste d'arbre initiale avec les données météo ajoutée si
+#'        elles sont absentes
 #'
 #'@examples
 #' result <- vevifier_variable_meteo(data)
@@ -73,7 +72,21 @@ vevifier_variable_meteo <- function(data){
   return (data)
 }
 
-
+#' Fonction qui vérifie si la proportion de sable et de capacité d'échange cationique.
+#' Si elle sont absentes, elles sont estimée à l'aide du package extract_map.
+#'
+#'@param data Un dataframe contenant la liste d'arbres à simuler.
+#'
+#'@return Retourne la liste d'arbres initiale avec les données de sol ajoutées si
+#'        elles sont absentes.
+#'
+#'@examples
+#' result <- vevifier_variable_meteo(data)
+#'
+#' print(result)
+#'@export
+#'
+#'
 
 vevifier_variable_Sol <- function(data){
 
@@ -133,7 +146,21 @@ vevifier_variable_Sol <- function(data){
 }
 
 
-
+#' Fonction qui vérifie si la pente et l'exposition.
+#' Si elle sont absentes, elles sont estimée à l'aide du package extract_map.
+#'
+#'@param data Un dataframe contenant la liste d'arbres à simuler.
+#'
+#'@return Retourne la liste d'arbres initiale avec les données de station ajoutées si
+#'        elles sont absentes.
+#'
+#'@examples
+#' result <- vevifier_variable_meteo(data)
+#'
+#' print(result)
+#'@export
+#'
+#'
 
 
 vevifier_variable_Sation <- function(data){

@@ -14,9 +14,12 @@
 #' @param RCP Scenario climatique choisi pour la simulation soit "RCP45"  ou "RCP85"
 #' @return La fonction retourne une liste de deux dataframe, le premier contenant
 #'        les prévisions à l'échelle annuelle et le deuxième à l'échelle mensuelle.
-#' @export
 #'
 #' @examples
+#' result<-GenereClimat(Intrant_Test,AnneeDep=2025,AnneeFin=2100)
+#' print(result)
+#' @export
+#'
 GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
   if (AnneeFin > as.numeric(format(Sys.Date(), "%Y"))) {
     suppressMessages(

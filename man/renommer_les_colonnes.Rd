@@ -2,12 +2,13 @@
 % Please edit documentation in R/Vérification_sur_les_noms_de_colonnes.R
 \name{renommer_les_colonnes}
 \alias{renommer_les_colonnes}
-\title{Renommer les colonnes  du fichier des arbres}
+\title{Fonction qui permet de renommer les colonnes  du fichier d'intrant qui contient
+la liste d'arbres à simuler.}
 \usage{
 renommer_les_colonnes(data)
 }
 \arguments{
-\item{data}{Un dataframe, représentant le fichier des arbres, dont les colonnes doivent être renommées et réorganisées.}
+\item{data}{Un dataframe, contenant la liste d'arbres pour débuter la simulation}
 }
 \description{
 La fonction \code{renommer_les_colonnes} renomme les colonnes d'un dataframe
