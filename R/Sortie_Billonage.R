@@ -3,6 +3,7 @@
 SortieBillonage <- function(Data, Type ){
 
   # Data=fic; Type="DHP2015"
+  Data_ori <- Data
 
   select=dplyr::select
 
@@ -20,7 +21,7 @@ SortieBillonage <- function(Data, Type ){
 
   if (nrow(data) == 0) {
 
-    Data<- Data %>% mutate(erreur = "Code d'essence a l'exterieur de la plage de valeurs possibles pour billonage")
+    Data<- Data_ori %>% mutate(erreur = "Code d'essence a l'exterieur de la plage de valeurs possibles pour billonage")
 
     return(Data)
   }
