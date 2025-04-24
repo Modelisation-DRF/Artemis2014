@@ -40,7 +40,10 @@
 #'         leur hauteur et leur volume pour chaque placette
 #'
 #' @examples
-#' result <- simulateurArtemis(Data_ori = Data, Horizon = 3, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='GAM', MortModif='QUE', RCP='RCP45' )
+#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+#' print(result)
+#'
+#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 0, AccModif='BRT', MortModif='QUE', RCP='RCP45' )
 #' print(result)
 #' @export
 #'

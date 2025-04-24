@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(ParkageArtemis)
+library(Artemis2014)
 
-test_check("ParkageArtemis")
+test_check("Artemis2014")
