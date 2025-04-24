@@ -57,7 +57,19 @@ ParaBiomasse<-read_delim("data_raw/ParaBiomasse.csv", delim=";")
 
 PropEPX<-read_delim("data_raw/PropEPX.csv", delim=";")
 
+#######MortQUE
+CovParmMortQUE<-read_delim("data_raw/MortQUE/CovParmMortQUE.csv", delim=";")
+EssGrMortQUE<-read_delim("data_raw/MortQUE/EssGrMortQUE.csv", delim=";")
+ParaMortQUE<-read_delim("data_raw/MortQUE/ParaMortQUE.csv", delim=";")
 
+
+usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
+                  ListeVp,ListeSpVp, Sp, SpGroups, SpInd, ListeSpVp, ParaBiomasse, CovParmMortQUE,
+                  EssGrMortQUE, ParaMortQUE,
+                  internal=TRUE, overwrite = TRUE)
+
+
+######################DonneesAccessibles
 #######BRT
 CO2<-read_delim("data_raw/CO2.csv", delim=";")
 EssGrBRT<-read_delim("data_raw/BRT/EssGr_BRT.csv", delim=";")
@@ -77,30 +89,23 @@ mod_peu_GAM<-readRDS("data_raw/GAM/mod_peu_GAM.rds")
 mod_pig_GAM<-readRDS("data_raw/GAM/mod_pig_GAM.rds")
 mod_sab_GAM<-readRDS("data_raw/GAM/mod_sab_GAM.rds")
 
-#######MortQUE
-CovParmMortQUE<-read_delim("data_raw/MortQUE/CovParmMortQUE.csv", delim=";")
-EssGrMortQUE<-read_delim("data_raw/MortQUE/EssGrMortQUE.csv", delim=";")
-ParaMortQUE<-read_delim("data_raw/MortQUE/ParaMortQUE.csv", delim=";")
-
-
-usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
-                  ListeVp,ListeSpVp, Sp, SpGroups, SpInd, ListeSpVp, ParaBiomasse, CovParmMortQUE,
-                  EssGrMortQUE, ParaMortQUE,
-                  internal=TRUE, overwrite = TRUE)
-
-
-######################DonneesAccessibles
+#########Exemples
 
 ClimAn_Test<-read_delim("data_raw/ClimAn_test.csv", delim=";")
 ClimMois_Test<-read_delim("data_raw/ClimMois_test.csv", delim=";")
 Intrant_Test<-read_delim("data_raw/Intrant_test.csv", delim=";")
+ClimAn_Exemple<-read_delim("data_raw/ClimAn_Exemple.csv", delim=",")
+ClimMois_Exemple<-read_delim("data_raw/ClimMois_Exemple.csv", delim=",")
+Donnees_Exemple<-read_delim("data_raw/ClimMois_Exemple.csv", delim=",")
+
 
 usethis::use_data(ClimAn_Test, ClimMois_Test, Intrant_Test,
+                  ClimAn_Exemple,ClimMois_Exemple,Donnees_Exemple,
                   CO2, EssGrBRT, mod_epb_BRT, mod_epn_BRT, mod_peu_BRT,
                   mod_pig_BRT, mod_sab_BRT, mod_bop_BRT,
                   PropEPX, EssGrGAM, mod_bop_GAM, mod_epb_GAM,
                   mod_epn_GAM, mod_peu_GAM, mod_pig_GAM, mod_sab_GAM,
-                  internal=FALSE, overwrite = TRUE)####On garde laes modèles GAM dans data sinon syst data trop gros
+                  internal=FALSE, overwrite = TRUE)####On garde les modèles GAM dans data sinon syst data trop gros
 
 
 

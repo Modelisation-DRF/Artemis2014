@@ -61,6 +61,10 @@ PrepareData <- function(Data, Clim_tous, ClimAn_tous, AccModif, EvolClim, MortMo
 
 
 # Convertir Especes en GrEspece
+Data<-Data %>%
+      filter(DHPcm>=9.1) %>% ######Enlève les gaules qui peuvent être présentes
+      mutate(Reg_Eco=substr(Reg_Eco,1,2))##Prend seulement les 2 premiers charactères
+
 Data<-Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp) #%>%
   #mutate(PlacetteID=as.character(PlacetteID),
    #      PlacetteID=paste("00",PlacetteID,sep=""),
