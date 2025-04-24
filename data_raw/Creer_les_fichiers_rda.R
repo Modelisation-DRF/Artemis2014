@@ -96,7 +96,7 @@ ClimMois_Test<-read_delim("data_raw/ClimMois_test.csv", delim=";")
 Intrant_Test<-read_delim("data_raw/Intrant_test.csv", delim=";")
 ClimAn_Exemple<-read_delim("data_raw/ClimAn_Exemple.csv", delim=",")
 ClimMois_Exemple<-read_delim("data_raw/ClimMois_Exemple.csv", delim=",")
-Donnees_Exemple<-read_delim("data_raw/ClimMois_Exemple.csv", delim=",")
+Donnees_Exemple<-read_delim("data_raw/Donnees_Exemple.csv", delim=",")
 
 
 usethis::use_data(ClimAn_Test, ClimMois_Test, Intrant_Test,
