@@ -51,6 +51,43 @@
 
 simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45'){
 
+
+  if (!exists("Data_ori")){
+    stop("Un data frame contenant l'inventaire de départ doit être passé à l'arguement Data_ori" )
+  }
+
+  if (!exists("Horizon")|Horizon==0){
+    stop("Une valuere plus grande que 0 doit être passée à l'argument Horizon " )
+  }
+
+  if ((is.null(ClimMois)|is.null(ClimAn))&(EvolClim==1|AccModif!="ORI"|MortMofdif!="ORI")){
+    stop("L'argument ClimAn et ClimMois ne peuvent pas être null
+    lorsque EvolClim=1 ou que AccModif n'est pas égal à ORI
+    ou que MortModif n'est pas égal à ORI" )
+  }
+
+  if(!Tendance %in% c(0,1)){
+    stop("Les valeurs permises pour l'argument Tendance sont 0 ou 1")
+  }
+
+  if(!Residuel %in% c(0,1)){
+    stop("Les valeurs permises pour l'argument Residuel sont 0 ou 1")
+  }
+
+  if(!MortModif %in% c("ORI","BRT")){
+    stop("Les valeurs permises pour l'argument MortModif sont ORI ou BRT")
+  }
+
+  if(!AccModif %in% c("ORI","GAM","BRT")){
+    stop("Les valeurs permises pour l'argument AccModif sont ORI, GAM ou BRT")
+  }
+
+  if(!RCP %in% c("RCP45","RCP85")){
+    stop("Les valeurs permises pour l'argument RCP sont soit RCP45 ou RCP85")
+  }
+
+
+
   Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
