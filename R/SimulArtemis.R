@@ -18,7 +18,7 @@
 #'                sur certains champs n'est pas disponible, on peut le laisser vide.
 #'
 #'
-#' @param FacHa  Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25
+#' @param FacHa  Facteur d'expansion de de toutes les placettes à l'hectare. Valeure par defaut fixée à 25
 #
 #' @param ClimMois Donnees climatiques mensuelles. Si abscente laisser vide
 #'
@@ -43,7 +43,7 @@
 #' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
 #' print(result)
 #'
-#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT', MortModif='QUE', RCP='RCP45' )
+#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT', MortModif='QUE', RCP='RCP45' )
 #' print(result)
 #' @export
 #'

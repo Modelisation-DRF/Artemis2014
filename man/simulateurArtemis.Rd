@@ -39,7 +39,7 @@ potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se ter
 
 \item{Residuel}{Residuel si =1 placette avec coupe partielle deuis moins de 10 ans}
 
-\item{FacHa}{Facteur d'expansion de la placette à l'hectare. Valeure par defaut fixée à 25}
+\item{FacHa}{Facteur d'expansion de de toutes les placettes à l'hectare. Valeure par defaut fixée à 25}
 
 \item{EvolClim}{Valeure de 0 pour climat constant et de 1 pour evolution du climat à travers le temps de simulation
 Valeure par defaut de 0}
@@ -65,6 +65,6 @@ initiales ainsi qu'un choix de parametres pour la simulation.
 result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
 print(result)
 
-result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 0, AccModif='BRT', MortModif='QUE', RCP='RCP45' )
+result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT', MortModif='QUE', RCP='RCP45' )
 print(result)
 }

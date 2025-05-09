@@ -8,7 +8,8 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
 
 
   Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
-            arrange(PlacetteID,origTreeID,Annee)
+            arrange(PlacetteID,origTreeID,Annee) %>%
+            select(-Cl_Drai)#Enlevé drainage car rajouté après
 
 
   set.seed(NULL)
@@ -37,7 +38,7 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
 
 
             Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='BRT',MortModif='ORI', EvolClim=0, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test)
-
+            Result<-Result %>% select(-Cl_Drai)#Enlevé drainage car rajouté après
 
             set.seed(NULL)
 

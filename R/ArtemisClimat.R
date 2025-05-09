@@ -82,7 +82,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   PlacOri<-Plac %>%
     mutate(ArbreID=origTreeID) %>%
     select(Annee,PlacetteID, origTreeID,Espece,GrEspece,
-           Etat, Nombre, DHPcm,Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy)
+           Etat, Nombre, DHPcm,Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai)
 
   # info placette
   info_plac <- Plac[1,] %>% select(-Nombre, -DHPcm, -Variance, -Etat, -origTreeID, -GrEspece, -Espece)
@@ -387,6 +387,8 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       mutate(Age_moy=Age_moy+t) %>%
       select(-pred_acc, -ST_m2, -st_ha_cumul_gt)
 
+    Predictions$Cl_Drai<-PlacOri$Cl_Drai[1]  #####Ajouté pour suivre cette variable
+
     Test<-BAL( Predictions,FacHa=FacHa)
 
 
@@ -413,7 +415,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   if (k>1){
   outputTot<-outputTot %>%
     select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
-           Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy) %>%
+           Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai) %>%
     bind_rows(PlacOri) %>%
     arrange(Annee,origTreeID)
   } else{
