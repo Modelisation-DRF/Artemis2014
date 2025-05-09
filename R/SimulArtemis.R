@@ -60,7 +60,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     stop("Une valuere plus grande que 0 doit être passée à l'argument Horizon " )
   }
 
-  if ((is.null(ClimMois)|is.null(ClimAn))&(EvolClim==1|AccModif!="ORI"|MortMofdif!="ORI")){
+  if ((is.null(ClimMois)|is.null(ClimAn))&(EvolClim==1|AccModif!="ORI"|MortModif!="ORI")){
     stop("L'argument ClimAn et ClimMois ne peuvent pas être null
     lorsque EvolClim=1 ou que AccModif n'est pas égal à ORI
     ou que MortModif n'est pas égal à ORI" )
