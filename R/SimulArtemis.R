@@ -60,7 +60,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     stop("Une valuere plus grande que 0 doit être passée à l'argument Horizon " )
   }
 
-  if ((is.null(ClimMois)|is.null(ClimAn))&(EvolClim==1|AccModif!="ORI"|MortMofdif!="ORI")){
+  if ((is.null(ClimMois)|is.null(ClimAn))&(EvolClim==1|AccModif!="ORI"|MortModif!="ORI")){
     stop("L'argument ClimAn et ClimMois ne peuvent pas être null
     lorsque EvolClim=1 ou que AccModif n'est pas égal à ORI
     ou que MortModif n'est pas égal à ORI" )
@@ -170,7 +170,8 @@ suppressMessages(
 
   nb_periodes <- Horizon+1
 
-  ht <- OutilsDRF::relation_h_d(fic_arbres=Final, mode_simul='DET', nb_step=nb_periodes, reg_eco = TRUE, dt =10)
+  ht <- OutilsDRF::relation_h_d(fic_arbres=Final, mode_simul='DET', nb_step=nb_periodes,
+                                reg_eco = TRUE, dt =10, grouping_vars = "Annee")
 
 
   Final2 <- OutilsDRF::cubage(fic_arbres=ht, mode_simul='DET', nb_step=nb_periodes)  %>%

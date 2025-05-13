@@ -38,8 +38,8 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
     #valide_Pente = "Pente à l'extérieur de la plage de valeurs permises (0>= et <=100)",
     #valide_sand = "sand_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<100)",
     #valide_cec = "cec_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<20)",
-    valide_Dom_Bio = " Valeure non permise pour Sdom_Bio",
-    valide_Sdom_Bio = "Valeure non permise pour Sdom_Bio",
+    #valide_Dom_Bio = " Valeure non permise pour Dom_Bio",
+    #valide_Sdom_Bio = "Valeure non permise pour Sdom_Bio",
     valide_Cl_Drai = "Valeure non permise pour classe de rainage",
     valide_Veg_Pot = "Valeure non permise pour Veg_Pot"
     # valide_GrwDays = "GrwDays non valide"
@@ -688,31 +688,31 @@ valide_Dom_Bio <- function(data){
 
 
 
-valide_Sdom_Bio <- function(data) {
-
-  if (!all(c("PlacetteID", "Sdom_Bio") %in% names(data))) {
-    return(TRUE)
-  }
-
-
-  if (nrow(data) == 0 || any(is.na(data$Sdom_Bio))) {
-    return(FALSE)
-  }
-
-
-  valeurs_autorisees <- c('1', '2E', '2O', '3E', '3O', '4E', '4O', '5E', '5O', '6E', '6O', '7E', NA)
-
-
-  resultats <- data %>%
-    group_by(PlacetteID) %>%
-    summarize(
-      valeur_unique = n_distinct(Sdom_Bio) == 1 & all(Sdom_Bio %in% valeurs_autorisees),
-      .groups = 'drop'
-    )
-
-
-  return(all(resultats$valeur_unique))
-}
+# valide_Sdom_Bio <- function(data) {
+#
+#   if (!all(c("PlacetteID", "Sdom_Bio") %in% names(data))) {
+#     return(TRUE)
+#   }
+#
+#
+#   if (nrow(data) == 0 || any(is.na(data$Sdom_Bio))) {
+#     return(FALSE)
+#   }
+#
+#
+#   valeurs_autorisees <- c('1', '2E', '2O', '3E', '3O', '4E', '4O', '5E', '5O', '6E', '6O', '7E', NA)
+#
+#
+#   resultats <- data %>%
+#     group_by(PlacetteID) %>%
+#     summarize(
+#       valeur_unique = n_distinct(Sdom_Bio) == 1 & all(Sdom_Bio %in% valeurs_autorisees),
+#       .groups = 'drop'
+#     )
+#
+#
+#   return(all(resultats$valeur_unique))
+# }
 
 valide_Cl_Drai <- function(data){
   if (!all(c("PlacetteID", "Cl_Drai") %in% names(data))) {
