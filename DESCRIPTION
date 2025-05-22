@@ -18,6 +18,7 @@ Depends:
     doFuture,
     doRNG,
     gbm,
+    data.table,
     iterators,
     mgcv,
     miceadds,
