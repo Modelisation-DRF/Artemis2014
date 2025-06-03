@@ -1,4 +1,5 @@
 #' Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.
+#' Modèles gam du package mgcv
 #'
 #'
 #'
@@ -43,12 +44,12 @@ AccroissementGAM<-function(Accrois,ClimatGAM,Models,t){
 
   #Calcul des accroissements en cm2/an  avec le bon modele pour la bonne espece
   table(EssGrGAM$Ess_regroupe)
-  Input$Bai_mod <- ifelse(Input$Ess_regroupe=="BOP", (exp(predict(Models[[1]], newdata=Input))*1.065403)-1, # smearing backtransfo exp(pred)*exp(1/2*mse)
-                          ifelse(Input$Ess_regroupe=="EPB", (exp(predict(Models[[2]], newdata=Input))*1.107761)-1, # le -1 est-il à la bonne place?
-                                 ifelse(Input$Ess_regroupe=="EPN", (exp(predict(Models[[3]], newdata=Input))*1.074767)-1,
-                                        ifelse(Input$Ess_regroupe=="PIG", (exp(predict(Models[[4]], newdata=Input))*1.061282)-1,
-                                               ifelse(Input$Ess_regroupe=="PET", (exp(predict(Models[[5]], newdata=Input))*1.066181)-1,
-                                                      (exp(predict(Models[[6]], newdata=Input))*1.079217)-1))))) #SAB
+  Input$Bai_mod <- ifelse(Input$Ess_regroupe=="BOP", (exp(mgcv::predict.gam(Models[[1]], newdata=Input))*1.065403)-1, # smearing backtransfo exp(pred)*exp(1/2*mse)
+                          ifelse(Input$Ess_regroupe=="EPB", (exp(mgcv::predict.gam(Models[[2]], newdata=Input))*1.107761)-1, # le -1 est-il à la bonne place?
+                                 ifelse(Input$Ess_regroupe=="EPN", (exp(mgcv::predict.gam(Models[[3]], newdata=Input))*1.074767)-1,
+                                        ifelse(Input$Ess_regroupe=="PIG", (exp(mgcv::predict.gam(Models[[4]], newdata=Input))*1.061282)-1,
+                                               ifelse(Input$Ess_regroupe=="PET", (exp(mgcv::predict.gam(Models[[5]], newdata=Input))*1.066181)-1,
+                                                      (exp(mgcv::predict.gam(Models[[6]], newdata=Input))*1.079217)-1))))) #SAB
 
 
 

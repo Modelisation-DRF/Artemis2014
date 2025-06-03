@@ -18,22 +18,18 @@ License: LGPL-3 + file LICENSE
 Depends:
     doFuture,
     doRNG,
-    gbm,
     data.table,
-    iterators,
-    mgcv,
-    miceadds,
     R (>= 4.2),
-    readxl,
-    sf,
-    stringr,
     tidyverse
 Imports:
+    gbm,
+    mgcv,
+    iterators,
     Billonage,
     BioSIM (>= 1.0.5),
+    ExtractMap,
     J4R (>= 1.2.3),
-    OutilsDRF,
-    ExtractMap
+    OutilsDRF
 Suggests: 
     testthat (>= 3.0.0)
 Remotes:

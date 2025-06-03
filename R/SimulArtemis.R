@@ -80,8 +80,8 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     stop("Les valeurs permises pour l'argument Residuel sont 0 ou 1")
   }
 
-  if(!MortModif %in% c("ORI","BRT")){
-    stop("Les valeurs permises pour l'argument MortModif sont ORI ou BRT")
+  if(!MortModif %in% c("ORI","QUE")){
+    stop("Les valeurs permises pour l'argument MortModif sont ORI ou QUE")
   }
 
   if(!AccModif %in% c("ORI","GAM","BRT")){
@@ -141,7 +141,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   list_plot <- unique(Data$PlacetteID)
 
   Final<- bind_rows(
-    foreach(x = iter(list_plot), .packages = c("gbm"))  %dorng%
+    foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models)}

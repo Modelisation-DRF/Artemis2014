@@ -78,7 +78,7 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
 #' @param data fichier des arbres
 #'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Nombre <- function(data){
 
   if(!"Nombre" %in% names(data)){
@@ -103,7 +103,7 @@ valide_Nombre <- function(data){
 #' @param data fichier des arbres
 #'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_espece <- function(data){
 
   if(!"Espece" %in% names(data)){
@@ -137,7 +137,7 @@ valide_espece <- function(data){
 #' @param data fichier des arbres
 #'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Etat <- function(data){
 
   if(!"Etat" %in% names(data)){
@@ -161,7 +161,7 @@ valide_Etat <- function(data){
 #' @param data fichier des arbres
 #'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_DHPcm <- function(data){
 
   if(!"DHPcm" %in% names(data)){
@@ -183,6 +183,7 @@ valide_DHPcm <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Latitude' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Latitude <- function(data){
 
   if(!all(c("PlacetteID", "Latitude") %in% names(data))){
@@ -210,6 +211,7 @@ valide_Latitude <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Longitude' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Longitude <- function(data){
 
   if(!all(c("PlacetteID", "Longitude") %in% names(data))){
@@ -237,6 +239,7 @@ valide_Longitude <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Altitude' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Altitude <- function(data){
 
   if(!all(c("PlacetteID", "Altitude") %in% names(data))){
@@ -262,6 +265,7 @@ valide_Altitude <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Ptot' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Ptot <- function(data){
   if(!all(c("PlacetteID", "Ptot") %in% names(data))|| any(is.na(data$Ptot))){
     return (FALSE)
@@ -282,6 +286,7 @@ valide_Ptot <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'cec_015cm' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_cec <- function(data) {
   if(!all(c("PlacetteID", "cec_015cm") %in% names(data)) || any(is.na(data$cec_015cm))) {
     return(FALSE)
@@ -300,6 +305,7 @@ valide_cec <- function(data) {
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'sand_015cm' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_sand <- function(data) {
   if(!all(c("PlacetteID", "sand_015cm") %in% names(data)) || any(is.na(data$sand_015cm))) {
     return(FALSE)
@@ -319,7 +325,7 @@ valide_sand <- function(data) {
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Tmoy' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Tmoy <- function(data){
   if(!all(c("PlacetteID", "Tmoy") %in% names(data))|| any(is.na(data$Tmoy))){
     return (FALSE)
@@ -342,7 +348,7 @@ valide_Tmoy <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Type_Eco' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Type_Eco <- function(data){
 
   if (!all(c("PlacetteID", "Type_Eco") %in% names(data))) {
@@ -392,7 +398,7 @@ valide_Type_Eco <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Reg_Eco' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Reg_Eco <- function(data){
   if (!all(c("PlacetteID", "Reg_Eco") %in% names(data))) {
     return(FALSE)
@@ -428,7 +434,7 @@ valide_Reg_Eco <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Pente' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Pente <- function(data){
   if (!all(c("PlacetteID", "Pente") %in% names(data))) {
     return(TRUE)
@@ -453,7 +459,7 @@ valide_Pente <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'GrwDays' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_GrwDays <- function(data){
   if(!all(c("GrwDays","PlacetteID") %in% names(data))|| any(is.na(data$GrwDays))){
     return (FALSE)
@@ -476,7 +482,7 @@ valide_GrwDays <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Dom_Bio' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Dom_Bio <- function(data){
   if (!all(c("PlacetteID", "Dom_Bio") %in% names(data))) {
     return(TRUE)
@@ -527,7 +533,7 @@ valide_Dom_Bio <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Cl_Drai' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Cl_Drai <- function(data){
   if (!all(c("PlacetteID", "Cl_Drai") %in% names(data))) {
     return(FALSE)
@@ -558,7 +564,7 @@ valide_Cl_Drai <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Veg_Pot' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Veg_Pot <- function(data){
   if (!all(c("PlacetteID", "Veg_Pot") %in% names(data))) {
     return(FALSE)
@@ -589,7 +595,7 @@ valide_Veg_Pot <- function(data){
 #' @param Mort_Modif à ajouter
 #' @param Acc_Modif à ajouter
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 
   if(Mort_Modif=="QUE" || Mort_Modif=="BRT" || Acc_Modif=="GAM"){
@@ -620,7 +626,7 @@ valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Exposition' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#'
+#' @export
 valide_Exposition <- function(data){
   if(!all(c("Exposition","PlacetteID") %in% names(data))|| any(is.na(data$Exposition))){
     return (TRUE)
@@ -642,7 +648,7 @@ valide_Exposition <- function(data){
 #' Fonction pour vérifier que chaque arbres est unique dans chaque placette
 #' @param data fichier des arbres
 #' @return Retourne vrai ou faux s'il y a des arbres qui se répètent.
-#'
+#' @export
 verifier_arbre_uniques_par_placette <- function(data) {
 
 

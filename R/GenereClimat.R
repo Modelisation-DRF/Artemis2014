@@ -33,12 +33,12 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
     AnneeDep <- ifelse(AnneeDep > 1991, 1991, AnneeDep)###1991 pour période climat historique 1981-2010
 
-    QcAn <- as.data.frame(generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
+    QcAn <- as.data.frame(BioSIM::generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
       rep = 5, repModel = 1, rcp = RCP, climModel = "GCM4"
     ))
 
-    CMIMois <- as.data.frame(generateWeather("Climate_Moisture_Index_Monthly", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
+    CMIMois <- as.data.frame(BioSIM::generateWeather("Climate_Moisture_Index_Monthly", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
       rep = 5, repModel = 1, rcp = RCP, climModel = "GCM4"
     ))
@@ -96,7 +96,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
         summarise()
     )
 
-    QcAn <- as.data.frame(generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
+    QcAn <- as.data.frame(BioSIM::generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
       rep = 1, repModel = 1, rcp = RCP, climModel = "GCM4"
     ))

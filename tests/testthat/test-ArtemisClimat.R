@@ -1,5 +1,5 @@
 
-test_that("multiplication works", {
+test_that("La fonctionne ArtemisClimat fonctionne comme attendu avec les parametres de base", {
 
   set.seed(NULL)
   set.seed(3)

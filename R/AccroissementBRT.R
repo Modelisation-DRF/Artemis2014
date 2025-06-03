@@ -1,5 +1,5 @@
 #'Fonction qui estime l'accroissement en diamètre des arbres pour 1 interval de croissance.
-#'La fonction utilise les modèles Boosted Regression Trees (BRT) de Wang et al. 2023
+#'La fonction utilise les modèles Boosted Regression Trees (BRT) de Wang et al. 2023 du package gbm
 #'
 #' @param Accrois Un dataframe contenant l'information à l'échelle de l'arbre.
 #'
@@ -35,12 +35,12 @@ AccroissementBRT<-function(Accrois,ClimatBRT, Models, sum_st_ha, t){
 
   #Calcul des accroissements en cm2/an AVEC changements climat avec le bon modele pour la bonne espece
 
-  Input$Bai_mod <- ifelse(Input$Ess_regroupe=="BOP",exp(predict(Models[[1]], newdata=Input, n.tree=1000))-1,
-                          ifelse(Input$Ess_regroupe=="EPB", exp(predict(Models[[2]], newdata=Input,n.tree=1000))-1,
-                                 ifelse(Input$Ess_regroupe=="EPN", exp(predict(Models[[3]], newdata=Input, n.tree=1000))-1,
-                                        ifelse(Input$Ess_regroupe=="PIG", exp(predict(Models[[4]], newdata=Input, n.tree=2000))-1,
-                                               ifelse(Input$Ess_regroupe=="PET", exp(predict(Models[[5]], newdata=Input, n.tree=1200))-1,
-                                                      exp(predict(Models[[6]], newdata=Input, n.tree=1000))-1)))))###n.trees materiel supplémentaire Wang et al. 2022 PNAS
+  Input$Bai_mod <- ifelse(Input$Ess_regroupe=="BOP",exp(gbm::predict.gbm(Models[[1]], newdata=Input, n.tree=1000))-1,
+                          ifelse(Input$Ess_regroupe=="EPB", exp(gbm::predict.gbm(Models[[2]], newdata=Input,n.tree=1000))-1,
+                                 ifelse(Input$Ess_regroupe=="EPN", exp(gbm::predict.gbm(Models[[3]], newdata=Input, n.tree=1000))-1,
+                                        ifelse(Input$Ess_regroupe=="PIG", exp(gbm::predict.gbm(Models[[4]], newdata=Input, n.tree=2000))-1,
+                                               ifelse(Input$Ess_regroupe=="PET", exp(gbm::predict.gbm(Models[[5]], newdata=Input, n.tree=1200))-1,
+                                                      exp(gbm::predict.gbm(Models[[6]], newdata=Input, n.tree=1000))-1)))))###n.trees materiel supplémentaire Wang et al. 2022 PNAS
 
 
 
