@@ -39,10 +39,6 @@
 #' @return Retourne un dataframe avec une colonne origTreeID et une colonne avec la
 #'          probabilité de mortalité pour la période de simulation en cours.
 #'
-#' @examples
-#' result <- mortQUE(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
-#'
-#' print(result)
 #' @export
 #'
 mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t){

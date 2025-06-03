@@ -17,7 +17,3 @@ Retourne la prévision d'accroissement diamétrale en cm de l'arbre
 \description{
 Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis-2014
 }
-\examples{
-result <- map(data,accrois)
-print(result)
-}

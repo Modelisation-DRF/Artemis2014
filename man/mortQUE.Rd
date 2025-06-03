@@ -61,8 +61,3 @@ Retourne un dataframe avec une colonne origTreeID et une colonne avec la
 Fonction de prévision de la probabilité de mortalité basée sur les équations
 de mortalité de Power et al. 2025.
 }
-\examples{
-result <- mortQUE(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
-
-print(result)
-}

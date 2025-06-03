@@ -19,9 +19,9 @@ Le dataframe peut être une liste d'arbres ou une liste de placettes.}
 
 \item{AnneeDep}{Année de départ de la simulation à effectuer dans Artémis}
 
-\item{RCP}{Scenario climatique choisi pour la simulation soit "RCP45"  ou "RCP85"}
+\item{AnneeFin}{Année de fin de la simulation à effectuer dans Artémis}
 
-\item{Horizon}{durée de la période de simulation souhaitée en décennies}
+\item{RCP}{Scenario climatique choisi pour la simulation soit "RCP45"  ou "RCP85"}
 }
 \value{
 La fonction retourne une liste de deux dataframe, le premier contenant
@@ -35,8 +35,4 @@ répétition du modèle et moyenne les prévisions. La fonction retourne une lis
 deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 à l'échelle mensuelle. La fonction peut-être longue à exécuter (environ 0.5 seconde par placette
 et par période de simulation de 10 ans)
-}
-\examples{
-result<-GenereClimat(Intrant_Test,AnneeDep=2025,AnneeFin=2100)
-print(result)
 }

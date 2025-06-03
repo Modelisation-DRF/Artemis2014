@@ -19,17 +19,6 @@
 #'   \item Retourner le dataframe avec les noms de colonnes mis à jour.
 #' }
 #'
-#' @examples
-#' \dontrun{
-#' # Supposons que nous ayons un dataframe `data` avec les colonnes suivantes :
-#' # "Sdom_Bio","Veg_Pot","Latitude","Longitude","Altitude","Pente","PTot","TMoy",
-#' # "GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition","Age_moy","sand_015cm","cec_015cm"
-#' # Appel de la fonction
-#' data_renomme <- renommer_les_colonnes(data)
-#'
-#' # Le dataframe `data_renomme` aura les colonnes renommées et réorganisées selon `ColOrdre`.
-#' }
-#'
 #' @export
 
 renommer_les_colonnes <- function(data){
@@ -54,19 +43,18 @@ renommer_les_colonnes <- function(data){
 
 
 
-
-
 #' Vérifier la présence des colonnes obligatoires dans le fichier d'arbres
 #'
 #' La fonction \code{trouver_noms_absents} vérifie si toutes les colonnes obligatoires
 #' sont présentes dans un dataframe représentant le fichier d'arbres. Elle retourne une liste
 #' des noms des colonnes manquantes, le cas échéant.
 #'
-#' @param data Un dataframe représentant le fichier d'arbres.
+#' @param Data Un dataframe représentant le fichier d'arbres.
+#' @param Mort_Modif à ajouter
+#' @param Acc_Modif à ajouter
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
-#' @examples noms_absents_data<-trouver_noms_absents (Data, Mort_Modif,Acc_Modif)
 #'
 #' @export
 #'
@@ -109,11 +97,10 @@ trouver_noms_absents <- function(Data, Mort_Modif,Acc_Modif) {
 #' sont présentes dans un dataframe représentant le fichier climat mensuel. Elle retourne une liste
 #' des noms des colonnes manquantes, le cas échéant.
 #'
-#' @param data Un dataframe représentant le fichier climat mensuel.
+#' @param Data Un dataframe représentant le fichier climat mensuel.
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
-#' @examples noms_absents_ClimMois<-trouver_noms_absents_Climat_mensuel(Data)
 #'
 #' @export
 #'
@@ -142,15 +129,6 @@ trouver_noms_absents_Climat_mensuel <- function(Data) {
 #'
 #' @param data Un dataframe, représentant le fichier des climats mensuels, dont les colonnes doivent être renommées et réorganisées.
 #'
-#' @examples
-#' \dontrun{
-#' # Supposons que nous ayons un dataframe `data` avec les colonnes suivantes :
-#' # "PlacetteID","Annee","Mois","rcp","Ptot","Tmin","Tmax"
-#' # Appel de la fonction
-#' data_renomme <- renommer_les_colonnes_climat_mensuel(data)
-#'
-#' # Le dataframe `data_renomme` aura les colonnes renommées et réorganisées selon `ColOrdre`.
-#' }
 #'
 #' @export
 
@@ -184,11 +162,10 @@ renommer_les_colonnes_climat_mensuel <- function(data){
 #' sont présentes dans un dataframe représentant le fichier climat annuel. Elle retourne une liste
 #' des noms des colonnes manquantes, le cas échéant.
 #'
-#' @param data Un dataframe représentant le fichier climat annuel
+#' @param Data Un dataframe représentant le fichier climat annuel
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
-#' @examples noms_absents_ClimAn<-trouver_noms_absents_Climat_annuel(Data)
 #'
 #' @export
 #'
@@ -216,16 +193,6 @@ trouver_noms_absents_Climat_annuel <- function(Data) {
 #' La fonction \code{renommer_les_colonnes_climat_annuel} renomme les colonnes d'un dataframe
 #'
 #' @param data Un dataframe, représentant le fichier des climats annuel, dont les colonnes doivent être renommées et réorganisées.
-#'
-#' @examples
-#' \dontrun{
-#' # Supposons que nous ayons un dataframe `data` avec les colonnes suivantes :
-#' # "PlacetteID","Annee","rcp","Aridity","CMI","DD","FFP","PTot","Tmax_yr","TMoy"
-#' # Appel de la fonction
-#' data_renomme <- renommer_les_colonnes_climat_annuel(data)
-#'
-#' # Le dataframe `data_renomme` aura les colonnes renommées et réorganisées selon `ColOrdre`.
-#' }
 #'
 #' @export
 

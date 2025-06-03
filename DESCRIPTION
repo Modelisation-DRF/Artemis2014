@@ -4,8 +4,9 @@ Title: Simulateur de croissance Artémis-2014
 Version: 4.3.0
 Authors@R: c(
     person("Huges", "Power", , "hugues.power@mrnf.gouv.qc.ca", role = c("aut", "cre")),
-    person("Junior", "Peumi", , "junior.peumi@mrnf.gouv.qc.ca", role = "ctb")
+    person("Junior", "Peumi", , role = "ctb")
   )
+Maintainer: Hugues Power <hugues.power@mrnf.gouv.qc.ca>
 Description: Simulateur de croissance à l'échelle de l'arbre pour les
     forêts du Québec.  Le simulateur Artémis-2014 prévoit la mortalité,
     l'accroissement et le recrutement d'arbres marchands dans des
@@ -25,12 +26,8 @@ Depends:
     R (>= 4.2),
     readxl,
     sf,
-    tidyverse,
-    OutilsDRF,
-    Billonage,
-    BioSIM,
-    J4R,
-    ExtractMap
+    stringr,
+    tidyverse
 Imports:
     Billonage,
     BioSIM (>= 1.0.5),

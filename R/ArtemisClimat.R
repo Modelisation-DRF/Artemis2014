@@ -45,11 +45,6 @@
 #' @return Retourne un dataframe contenant la liste d'arbres vivants de la
 #'         placette simulée avec leur DHP pour chaque période de simulation.
 #'
-#' @examples
-#' result <- ArtemisClimat(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel,
-#'                             Clim, ClimAn, EvolClim, AccModif, MortModif, RCP, Models)
-#'
-#' print(result)
 #' @export
 #'
 ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models){
@@ -399,9 +394,9 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (n_Test>5000 | St_Test >60){
 
-      write(paste(Predictions$PlacetteID[1]," ",St_Test," m2/ha ",n_Test, " ti/ha Annee ",Predictions$Annee[1]),
-            paste("P:/F1272/CPF/Artémis/RArtemis2014/Log/Log_",Predictions$PlacetteID[1],"_",AccModif,
-                  "_",RCP,"_",EvolClim,".txt"), append=TRUE)
+      # write(paste(Predictions$PlacetteID[1]," ",St_Test," m2/ha ",n_Test, " ti/ha Annee ",Predictions$Annee[1]),
+      #       paste("P:/F1272/CPF/Artémis/RArtemis2014/Log/Log_",Predictions$PlacetteID[1],"_",AccModif,
+      #             "_",RCP,"_",EvolClim,".txt"), append=TRUE)
 
       break
     }######Arrete simulation et écris les valeurs dans un fichier log

@@ -24,7 +24,3 @@ Fonction qui structure un dataframe de sortie dont chaque ligne correspond
 du feuillage, des branches et la biomasse totale est rapportée à l'aide des équations
 de Lambert et al. 2005.
 }
-\examples{
-resultat <- SortieBiomasse(SimulHtVol)
-print(resultat)
-}

@@ -19,8 +19,3 @@ retourne un vecteur avec le nombre de recrue, leur DHP et la variance
 Fonction qui prévoie le nombre de recrues de plus de 9,1 cm pour chacune des étapes
 de simulation
 }
-\examples{
-result <- fctrecrue(EspecesFinal)
-
-print(result)
-}

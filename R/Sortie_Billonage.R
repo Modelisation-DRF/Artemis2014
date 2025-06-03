@@ -1,5 +1,15 @@
-
-
+#' Sortie Billonnage Petro
+#'
+#'
+#' @param Data Un dataframe représentant le fichier d'arbres.
+#' @param Type "DHP" pour utiliser les équations régionalisées basées seulement sur le DHP
+#'             "DHP2015" pour utiliser les équations de 2015 basées seulement sur le DHP
+#'
+#'
+#' @return Une liste des noms des colonnes manquantes.
+#'
+#' @export
+#'
 SortieBillonage <- function(Data, Type ){
 
   # Data=fic; Type="DHP2015"

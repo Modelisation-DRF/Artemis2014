@@ -10,10 +10,6 @@
 #'         'st_ha_cumul_gt' qui rapporte la surface terrière des arbres de plus grand
 #'         diamètre de chacun des arbres.
 #'
-#'@examples
-#' result <- BAL(Data,FacHa)
-#'
-#' print(result)
 #'@export
 #'
 

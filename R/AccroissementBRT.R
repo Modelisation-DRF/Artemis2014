@@ -14,10 +14,6 @@
 #' @return Retourne un dataframe incluant le numéro d'arbre et la prévision
 #'        d'accroissement diamétrale  en cm.
 #'
-#'
-#' @examples
-#' result <- AccroissementBRT(Accrois,ClimatBRT, Models, sum_st_ha, t)
-#' print(result)
 #' @export
 #'
 AccroissementBRT<-function(Accrois,ClimatBRT, Models, sum_st_ha, t){

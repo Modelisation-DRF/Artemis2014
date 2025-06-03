@@ -7,10 +7,6 @@
 #'@return Retourne la liste d'arbre initiale avec les données météo ajoutée si
 #'        elles sont absentes
 #'
-#'@examples
-#' result <- vevifier_variable_meteo(data)
-#'
-#' print(result)
 #'@export
 #'
 #'
@@ -80,10 +76,6 @@ vevifier_variable_meteo <- function(data){
 #'@return Retourne la liste d'arbres initiale avec les données de sol ajoutées si
 #'        elles sont absentes.
 #'
-#'@examples
-#' result <- vevifier_variable_meteo(data)
-#'
-#' print(result)
 #'@export
 #'
 #'
@@ -154,15 +146,9 @@ vevifier_variable_Sol <- function(data){
 #'@return Retourne la liste d'arbres initiale avec les données de station ajoutées si
 #'        elles sont absentes.
 #'
-#'@examples
-#' result <- vevifier_variable_meteo(data)
-#'
-#' print(result)
 #'@export
 #'
 #'
-
-
 vevifier_variable_Sation <- function(data){
 
   select=dplyr::select

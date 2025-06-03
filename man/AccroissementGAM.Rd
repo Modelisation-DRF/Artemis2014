@@ -25,7 +25,3 @@ Retourne un dataframe incluant le numéro d'arbre et la prévision
 \description{
 Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.
 }
-\examples{
-result <- AccroissementGAM(Accrois,ClimatGAM,Models,t)
-print(result)
-}

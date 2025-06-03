@@ -16,8 +16,3 @@ Retourne la probabilité de mortalité pour la période de simulation en cours.
 \description{
 Fonction pour calculer la probabilité de mortalité. Fonction de base d'Artémis-2014.
 }
-\examples{
-result <- mort(Mort)
-
-print(result)
-}

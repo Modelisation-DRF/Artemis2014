@@ -16,12 +16,8 @@
 #' @return Retourne un dataframe incluant le numéro d'arbre et la prévision
 #'        d'accroissement diamétrale  en cm.
 #'
-#' @examples
-#' result <- AccroissementGAM(Accrois,ClimatGAM,Models,t)
-#' print(result)
 #' @export
 #'
-
 AccroissementGAM<-function(Accrois,ClimatGAM,Models,t){
 
 

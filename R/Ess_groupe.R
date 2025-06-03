@@ -22,10 +22,6 @@
 #' @return Retourne un dataframe dans lequel chacun des arbres se voient associer
 #'          un groupe d'essence.
 #'
-#' @examples
-#' result <- Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp)
-#'
-#' print(result)
 #' @export
 #'
 Ess_groupe<-function(Data, SpInd, ListeVp, SpGroups, Sp){

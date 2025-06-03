@@ -8,10 +8,6 @@
 #'
 #'@return retourne un vecteur avec le nombre de recrue, leur DHP et la variance
 #'
-#'@examples
-#' result <- fctrecrue(EspecesFinal)
-#'
-#' print(result)
 #'@export
 #'
 #'

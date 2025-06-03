@@ -40,11 +40,17 @@
 #'         leur hauteur et leur volume pour chaque placette
 #'
 #' @examples
-#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+#' \dontrun{
+#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0,
+#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
 #' print(result)
 #'
-#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT', MortModif='QUE', RCP='RCP45' )
+#' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple,
+#' ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT',
+#' MortModif='QUE', RCP='RCP45' )
 #' print(result)
+#' }
+#'
 #' @export
 #'
 
@@ -53,17 +59,17 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
 
   if (!exists("Data_ori")){
-    stop("Un data frame contenant l'inventaire de départ doit être passé à l'arguement Data_ori" )
+    stop("Un data frame contenant l'inventaire de d\u00E9part doit \u00EAtre pass\u00E9 \u00E0 l'argument Data_ori" )
   }
 
   if (!exists("Horizon")|Horizon==0){
-    stop("Une valuere plus grande que 0 doit être passée à l'argument Horizon " )
+    stop("Une valeur plus grande que 0 doit \u00EAtre pass\u00E9e \u00E0 l'argument Horizon " )
   }
 
   if ((is.null(ClimMois)|is.null(ClimAn))&(EvolClim==1|AccModif!="ORI"|MortModif!="ORI")){
-    stop("L'argument ClimAn et ClimMois ne peuvent pas être null
-    lorsque EvolClim=1 ou que AccModif n'est pas égal à ORI
-    ou que MortModif n'est pas égal à ORI" )
+    stop("L'argument ClimAn et ClimMois ne peuvent pas \u00EAtre null
+    lorsque EvolClim=1 ou que AccModif n'est pas \u00E9gal \u00E0 ORI
+    ou que MortModif n'est pas \u00E9gal  ORI" )
   }
 
   if(!Tendance %in% c(0,1)){

@@ -19,9 +19,6 @@
 #' @return Retourne un objet ggplot qui est un graphique.
 #'
 #'
-#' @examples Graphique<-Graph(Data=SimulTot,Espece="TOT", Variable='ST_HA',listePlacette)
-#' print(Graphique)
-#'
 #' @export
 #'
 #'
@@ -58,35 +55,35 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
 
   if (Espece == "TOT") {Essence="Toutes essences"}
   if (Espece == "AUT") {Essence = "Autres essences"}
-  if (Espece == "BOG") {Essence = "Feuillus intolérants"}
+  if (Espece == "BOG") {Essence = "Feuillus intol\u00E9rants"}
   if (Espece == "BOJ") {Essence = "Bouleau jaune"}
-  if (Espece == "BOP") {Essence = "Feuillus intolérants"}
+  if (Espece == "BOP") {Essence = "Feuillus intol\u00E9rants"}
   if (Espece == "CET") {Essence = "Feuillus noble"}
   if (Espece == "CHX") {Essence = "Feuillus noble"}
-  if (Espece == "EPX") {Essence = "Épinettes"}
+  if (Espece == "EPX") {Essence = "\u00C9pinettes"}
   if (Espece == "ERP") {Essence = "Feuillus non commercial"}
-  if (Espece == "ERR") {Essence = "Érable rouge"}
-  if (Espece == "ERS") {Essence = "Érable à sucre"}
+  if (Espece == "ERR") {Essence = "\u00C9rable rouge"}
+  if (Espece == "ERS") {Essence = "\u00C9rable \u00E0 sucre"}
   if (Espece == "F0R") {Essence = "Autres essences"}
   if (Espece == "FEU") {Essence = "Autres essences"}
   if (Espece == "FRA") {Essence = "Feuillus noble"}
   if (Espece == "FRN") {Essence = "Feuillus noble"}
   if (Espece == "F_0") {Essence = "Feuillus noble"}
-  if (Espece == "F_1") {Essence = "Feuillus intolérants"}
-  if (Espece == "HEG") {Essence = "Hètre à grandes feuilles"}
-  if (Espece == "MEL") {Essence = "Résineux"}
+  if (Espece == "F_1") {Essence = "Feuillus intol\u00E9rants"}
+  if (Espece == "HEG") {Essence = "H\uE8tre \u00E0 grandes feuilles"}
+  if (Espece == "MEL") {Essence = "R\uE9sineux"}
   if (Espece == "ORA") {Essence = "Feuillus noble"}
   if (Espece == "OSV") {Essence = "Feuillus noble"}
-  if (Espece == "PEU") {Essence = "Feuillus intolérants"}
-  if (Espece == "PIG") {Essence = "Résineux"}
-  if (Espece == "PIN") {Essence = "Résineux"}
+  if (Espece == "PEU") {Essence = "Feuillus intol\u00E9rants"}
+  if (Espece == "PIG") {Essence = "R\uE9sineux"}
+  if (Espece == "PIN") {Essence = "R\uE9sineux"}
   if (Espece == "PRP") {Essence = "Feuillus non commercial"}
-  if (Espece == "PRU") {Essence = "Résineux"}
-  if (Espece == "RES") {Essence = "Résineux"}
+  if (Espece == "PRU") {Essence = "R\uE9sineux"}
+  if (Espece == "RES") {Essence = "R\uE9sineux"}
   if (Espece == "SAB") {Essence = "Sapin baumier"}
   if (Espece == "SAL") {Essence = "Feuillus non commercial"}
   if (Espece == "SOA") {Essence = "Feuillus non commercial"}
-  if (Espece == "THO") {Essence = "Résineux"}
+  if (Espece == "THO") {Essence = "R\uE9sineux"}
   if (Espece == "TIL") {Essence = "Feuillus noble"}
 
 

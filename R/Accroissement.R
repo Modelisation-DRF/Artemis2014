@@ -7,14 +7,8 @@
 #' @return Retourne la prévision d'accroissement diamétrale en cm de l'arbre
 #'         pour un interval de croissance.
 #'
-#'
-#' @examples
-#' result <- map(data,accrois)
-#' print(result)
 #' @export
 #'
-
-
 accrois<-function(Accrois){
 
   # table avec une colonne avec le nom des effets et une colonne avec la valeur de la variable explicative correspondante

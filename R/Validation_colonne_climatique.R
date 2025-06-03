@@ -1,5 +1,12 @@
-
-
+#' Vérifier les noms de colonnes des variables climatiques
+#'
+#'
+#' @param data Un dataframe représentant le fichier d'arbres.
+#'
+#' @return Une liste des noms des colonnes manquantes.
+#'
+#' @export
+#'
 verifier_colonnes_ClimAn <- function(data) {
 
   data<- renommer_les_colonnes_climat_annuel(data)
@@ -28,14 +35,22 @@ verifier_colonnes_ClimAn <- function(data) {
         erreurs[[col]] <- paste(col, "type incorrect :", "Attendu :", type_attendu, "mais obtenu :", type_actuel)
       }
     } else {
-      erreurs[[col]] <- paste(col, "est manquant dans les données")
+      erreurs[[col]] <- paste(col, "est manquant dans les donn\u00E9es")
     }
   }
  return(erreurs)
 }
 
 
-
+#' Vérifier les noms de colonnes des variables climatiques
+#'
+#'
+#' @param data Un dataframe représentant le fichier d'arbres.
+#'
+#' @return Une liste des noms des colonnes manquantes.
+#'
+#' @export
+#'
 verifier_colonnes_Clim <- function(data) {
 
   data<- renommer_les_colonnes_climat_mensuel(data)
@@ -55,7 +70,7 @@ verifier_colonnes_Clim <- function(data) {
   for (col in names(specs)) {
 
     if (specs[[col]]$obligatoire && !(col %in% names(data))) {
-      erreurs[[col]] <- paste(col, "est manquant dans les données")
+      erreurs[[col]] <- paste(col, "est manquant dans les donn\u00E9es")
       next
     }
 
@@ -68,7 +83,7 @@ verifier_colonnes_Clim <- function(data) {
 
 
       if (!is.null(specs[[col]]$valeurs_possibles) && any(!data[[col]] %in% specs[[col]]$valeurs_possibles)) {
-        erreurs[[col]] <- paste(col, "contient des valeurs en dehors de la plage autorisée :", paste(specs[[col]]$valeurs_possibles, collapse = ", "))
+        erreurs[[col]] <- paste(col, "contient des valeurs en dehors de la plage autoris\u00E9e :", paste(specs[[col]]$valeurs_possibles, collapse = ", "))
       }
     }
   }

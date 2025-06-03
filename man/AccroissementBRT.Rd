@@ -26,7 +26,3 @@ Retourne un dataframe incluant le numéro d'arbre et la prévision
 Fonction qui estime l'accroissement en diamètre des arbres pour 1 interval de croissance.
 La fonction utilise les modèles Boosted Regression Trees (BRT) de Wang et al. 2023
 }
-\examples{
-result <- AccroissementBRT(Accrois,ClimatBRT, Models, sum_st_ha, t)
-print(result)
-}
