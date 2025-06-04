@@ -74,8 +74,8 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     stop("Les valeurs permises pour l'argument Residuel sont 0 ou 1")
   }
 
-  if(!MortModif %in% c("ORI","BRT")){
-    stop("Les valeurs permises pour l'argument MortModif sont ORI ou BRT")
+  if(!MortModif %in% c("ORI","QUE")){
+    stop("Les valeurs permises pour l'argument MortModif sont ORI ou QUE")
   }
 
   if(!AccModif %in% c("ORI","GAM","BRT")){
