@@ -4,18 +4,10 @@
 #' le fichier des arbres et retourne une liste des erreurs trouvées.
 #'
 #' @param data Un dataframe représentant le fichier des arbres.
+#' @param Mort_Modif à ajouter
+#' @param Acc_Modif à ajouter
 #'
 #' @return Une liste des erreurs trouvées dans le fichier des arbres.
-#'
-#' @examples
-#' \dontrun{
-#' # Supposons que nous ayons un dataframe `data` représentant le fichier des arbres
-#'
-#' # Appel de la fonction
-#' erreurs <- valide_data(data)
-#'
-#' # La fonction retournera une liste des erreurs trouvées dans le dataframe `data`
-#' }
 #'
 #' @export
 
@@ -23,30 +15,30 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
   data <- renommer_les_colonnes(data)
 
   validations <- list(
-    valide_espece = " Code d'essence à l'extérieur de la plage de valeurs possibles",
-    valide_Etat = "Code d'état à l'extérieur de la plage de valeurs possibles",
+    valide_espece = " Code d'essence \u00E0 l'ext\u00E9rieur de la plage de valeurs possibles",
+    valide_Etat = "Code d'\u00E9tat \u00E0 l'ext\u00E9rieur de la plage de valeurs possibles",
     valide_DHPcm = "Valeurs de DHP non permise (>9.0 et <160)",
-    valide_Nombre = "valeur de nombre non numèrique",
-    valide_Latitude = "Latitude à l'extérieur de la plage de valeurs possibles (>45 et <52,5)",
-    valide_Longitude = " Longitude à l'extérieur de la plage de valeurs possibles (>-79.75 et <-57.0)",
-    valide_Altitude = " Altitude à l'extérieur de la plage de valeurs possibles (<1500)",
+    valide_Nombre = "valeur de nombre non num\u00E9rique",
+    valide_Latitude = "Latitude \u00E0 l'ext\u00E9rieur de la plage de valeurs possibles (>45 et <52,5)",
+    valide_Longitude = " Longitude \u00E0 l'ext\u00E9rieur de la plage de valeurs possibles (>-79.75 et <-57.0)",
+    valide_Altitude = " Altitude \u00E0 l'ext\u00E9rieur de la plage de valeurs possibles (<1500)",
    # verifier_arbre_uniques_par_placette = "plusieurs noarbre identiques pour la même placette ",
     # valide_Ptot = "Ptot non valide",
     # valide_Tmoy = "Tmoy non valide",
-    valide_Type_Eco = "Type écologique requis",
-    valide_Reg_Eco = "Valeure non permise pour Reg_Eco",
+    valide_Type_Eco = "Type \u00E9cologique requis",
+    valide_Reg_Eco = "Valeur non permise pour Reg_Eco",
     #valide_Pente = "Pente à l'extérieur de la plage de valeurs permises (0>= et <=100)",
     #valide_sand = "sand_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<100)",
     #valide_cec = "cec_015cm à l'extérieur de la plage de valeurs possibles (>=0 et =<20)",
-    valide_Dom_Bio = " Valeure non permise pour Sdom_Bio",
-    valide_Sdom_Bio = "Valeure non permise pour Sdom_Bio",
-    valide_Cl_Drai = "Valeure non permise pour classe de rainage",
-    valide_Veg_Pot = "Valeure non permise pour Veg_Pot"
+    #valide_Dom_Bio = " Valeure non permise pour Dom_Bio",
+    #valide_Sdom_Bio = "Valeure non permise pour Sdom_Bio",
+    valide_Cl_Drai = "Valeur non permise pour classe de rainage",
+    valide_Veg_Pot = "Valeur non permise pour Veg_Pot"
     # valide_GrwDays = "GrwDays non valide"
   )
 
   validations_2 <- list(
-    valide_Age_moy = "Age moyen de la placette requis pour les modules de mortalité QUE ou BRT et pour le module d'accroissement BRT"
+    valide_Age_moy = "Age moyen de la placette requis pour les modules de mortalit\u00E9 QUE ou BRT et pour le module d'accroissement BRT"
 
   )
 
@@ -84,20 +76,9 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'nombre' sont correctes.
 #' @param data fichier des arbres
+#'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'  # Exemple avec un dataframe valide
-#' valide_Nombre(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Nombre' manquante)
-#' valide_Nombre(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs négatives)
-#' valide_Nombre(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Nombre(data) # Devrait retourner FALSE
-
+#' @export
 valide_Nombre <- function(data){
 
   if(!"Nombre" %in% names(data)){
@@ -120,21 +101,9 @@ valide_Nombre <- function(data){
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Espece' sont correctes.
 #' @param data fichier des arbres
+#'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_espece(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Espece' manquante)
-#' valide_espece(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées)
-#' valide_espece(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_espece(data) # Devrait retourner FALSE
-
+#' @export
 valide_espece <- function(data){
 
   if(!"Espece" %in% names(data)){
@@ -166,20 +135,9 @@ valide_espece <- function(data){
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Etat' sont correctes.
 #' @param data fichier des arbres
+#'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#' # Exemple avec un dataframe valide
-#' valide_Etat(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Etat' manquante)
-#' valide_Etat(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées)
-#' valide_Etat(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Etat(data) # Devrait retourner FALSE
-
+#' @export
 valide_Etat <- function(data){
 
   if(!"Etat" %in% names(data)){
@@ -201,21 +159,9 @@ valide_Etat <- function(data){
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'DHPcm' sont correctes.
 #' @param data fichier des arbres
+#'
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_DHPcm(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'DHPcm' manquante)
-#' valide_DHPcm(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs supérieures à 160 cm)
-#' valide_DHPcm(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_DHPcm(data) # Devrait retourner FALSE
-
+#' @export
 valide_DHPcm <- function(data){
 
   if(!"DHPcm" %in% names(data)){
@@ -237,23 +183,7 @@ valide_DHPcm <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Latitude' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_Latitude(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Latitude' manquante)
-#' valide_Latitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Latitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Latitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Latitude' par 'Placette')
-#' valide_Latitude(data) # Devrait retourner FALSE
-
+#' @export
 valide_Latitude <- function(data){
 
   if(!all(c("PlacetteID", "Latitude") %in% names(data))){
@@ -281,23 +211,7 @@ valide_Latitude <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Longitude' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_Longitude(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Longitude' manquante)
-#' valide_Longitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Longitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Longitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Longitude' par 'Placette')
-#' valide_Longitude(data) # Devrait retourner FALSE
-
+#' @export
 valide_Longitude <- function(data){
 
   if(!all(c("PlacetteID", "Longitude") %in% names(data))){
@@ -325,23 +239,7 @@ valide_Longitude <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Altitude' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#'# Exemple avec un dataframe valide
-#' valide_Altitude(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Altitude' manquante)
-#' valide_Altitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Altitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Altitude(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Altitude' par 'Placette')
-#' valide_Altitude(data) # Devrait retourner FALSE
-
+#' @export
 valide_Altitude <- function(data){
 
   if(!all(c("PlacetteID", "Altitude") %in% names(data))){
@@ -367,23 +265,7 @@ valide_Altitude <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Ptot' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#' # Exemple avec un dataframe valide
-#' valide_Ptot(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Ptot' manquante)
-#' valide_Ptot(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Ptot(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Ptot(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Ptot' par 'Placette')
-#' valide_Ptot(data) # Devrait retourner FALSE
-#'
+#' @export
 valide_Ptot <- function(data){
   if(!all(c("PlacetteID", "Ptot") %in% names(data))|| any(is.na(data$Ptot))){
     return (FALSE)
@@ -401,7 +283,10 @@ valide_Ptot <- function(data){
 
 
 
-
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'cec_015cm' sont correctes.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_cec <- function(data) {
   if(!all(c("PlacetteID", "cec_015cm") %in% names(data)) || any(is.na(data$cec_015cm))) {
     return(FALSE)
@@ -417,6 +302,10 @@ valide_cec <- function(data) {
 }
 
 
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'sand_015cm' sont correctes.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_sand <- function(data) {
   if(!all(c("PlacetteID", "sand_015cm") %in% names(data)) || any(is.na(data$sand_015cm))) {
     return(FALSE)
@@ -436,23 +325,7 @@ valide_sand <- function(data) {
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Tmoy' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'
-#' # Exemple avec un dataframe valide
-#' valide_Tmoy(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Tmoy' manquante)
-#' valide_Tmoy(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Tmoy(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Tmoy(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Tmoy' par 'Placette')
-#' valide_Tmoy(data) # Devrait retourner FALSE
-#'
+#' @export
 valide_Tmoy <- function(data){
   if(!all(c("PlacetteID", "Tmoy") %in% names(data))|| any(is.na(data$Tmoy))){
     return (FALSE)
@@ -475,22 +348,7 @@ valide_Tmoy <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Type_Eco' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'# Exemple avec un dataframe valide
-#' valide_Type_Eco(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Type_Eco' manquante)
-#' valide_Type_Eco(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées)
-#' valide_Type_Eco(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Type_Eco(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Type_Eco' par 'Placette')
-#' valide_Type_Eco(data) # Devrait retourner FALSE
-#'
+#' @export
 valide_Type_Eco <- function(data){
 
   if (!all(c("PlacetteID", "Type_Eco") %in% names(data))) {
@@ -540,22 +398,7 @@ valide_Type_Eco <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Reg_Eco' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'# Exemple avec un dataframe valide
-#' valide_Reg_Eco(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Reg_Eco' manquante)
-#' valide_Reg_Eco(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs non autorisées)
-#' valide_Reg_Eco(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Reg_Eco(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Reg_Eco' par 'Placette')
-#' valide_Reg_Eco(data) # Devrait retourner FALSE
-#'
+#' @export
 valide_Reg_Eco <- function(data){
   if (!all(c("PlacetteID", "Reg_Eco") %in% names(data))) {
     return(FALSE)
@@ -591,22 +434,7 @@ valide_Reg_Eco <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Pente' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#'# Exemple avec un dataframe valide
-#' valide_Pente(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'Pente' manquante)
-#' valide_Pente(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_Pente(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_Pente(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'Pente' par 'Placette')
-#' valide_Pente(data) # Devrait retourner FALSE
-#'
+#' @export
 valide_Pente <- function(data){
   if (!all(c("PlacetteID", "Pente") %in% names(data))) {
     return(TRUE)
@@ -631,22 +459,7 @@ valide_Pente <- function(data){
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'GrwDays' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.
-#' @examples
-#' # Exemple avec un dataframe valide
-#' valide_GrwDays(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'GrwDays' manquante)
-#' valide_GrwDays(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs en dehors de l'intervalle)
-#' valide_GrwDays(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA)
-#' valide_GrwDays(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (plusieurs valeurs différentes pour 'GrwDays' par 'Placette')
-#' valide_GrwDays(data) # Devrait retourner FALSE
-#'
+#' @export
 valide_GrwDays <- function(data){
   if(!all(c("GrwDays","PlacetteID") %in% names(data))|| any(is.na(data$GrwDays))){
     return (FALSE)
@@ -666,7 +479,10 @@ valide_GrwDays <- function(data){
 
 
 
-
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Dom_Bio' sont correctes.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Dom_Bio <- function(data){
   if (!all(c("PlacetteID", "Dom_Bio") %in% names(data))) {
     return(TRUE)
@@ -688,32 +504,36 @@ valide_Dom_Bio <- function(data){
 
 
 
-valide_Sdom_Bio <- function(data) {
+# valide_Sdom_Bio <- function(data) {
+#
+#   if (!all(c("PlacetteID", "Sdom_Bio") %in% names(data))) {
+#     return(TRUE)
+#   }
+#
+#
+#   if (nrow(data) == 0 || any(is.na(data$Sdom_Bio))) {
+#     return(FALSE)
+#   }
+#
+#
+#   valeurs_autorisees <- c('1', '2E', '2O', '3E', '3O', '4E', '4O', '5E', '5O', '6E', '6O', '7E', NA)
+#
+#
+#   resultats <- data %>%
+#     group_by(PlacetteID) %>%
+#     summarize(
+#       valeur_unique = n_distinct(Sdom_Bio) == 1 & all(Sdom_Bio %in% valeurs_autorisees),
+#       .groups = 'drop'
+#     )
+#
+#
+#   return(all(resultats$valeur_unique))
+# }
 
-  if (!all(c("PlacetteID", "Sdom_Bio") %in% names(data))) {
-    return(TRUE)
-  }
-
-
-  if (nrow(data) == 0 || any(is.na(data$Sdom_Bio))) {
-    return(FALSE)
-  }
-
-
-  valeurs_autorisees <- c('1', '2E', '2O', '3E', '3O', '4E', '4O', '5E', '5O', '6E', '6O', '7E', NA)
-
-
-  resultats <- data %>%
-    group_by(PlacetteID) %>%
-    summarize(
-      valeur_unique = n_distinct(Sdom_Bio) == 1 & all(Sdom_Bio %in% valeurs_autorisees),
-      .groups = 'drop'
-    )
-
-
-  return(all(resultats$valeur_unique))
-}
-
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Cl_Drai' sont correctes.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Cl_Drai <- function(data){
   if (!all(c("PlacetteID", "Cl_Drai") %in% names(data))) {
     return(FALSE)
@@ -741,8 +561,10 @@ valide_Cl_Drai <- function(data){
   return(all(resultats$valeur_unique))
 }
 
-
-
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Veg_Pot' sont correctes.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Veg_Pot <- function(data){
   if (!all(c("PlacetteID", "Veg_Pot") %in% names(data))) {
     return(FALSE)
@@ -768,8 +590,12 @@ valide_Veg_Pot <- function(data){
   return(all(resultats$valeur_unique))
 }
 
-
-
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Age_moy' sont correctes.
+#' @param data fichier des arbres
+#' @param Mort_Modif à ajouter
+#' @param Acc_Modif à ajouter
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 
   if(Mort_Modif=="QUE" || Mort_Modif=="BRT" || Acc_Modif=="GAM"){
@@ -797,6 +623,10 @@ valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 }
 
 
+#' Fonction pour vérifier que les valeurs saisies dans la colonne 'Exposition' sont correctes.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
 valide_Exposition <- function(data){
   if(!all(c("Exposition","PlacetteID") %in% names(data))|| any(is.na(data$Exposition))){
     return (TRUE)
@@ -818,19 +648,7 @@ valide_Exposition <- function(data){
 #' Fonction pour vérifier que chaque arbres est unique dans chaque placette
 #' @param data fichier des arbres
 #' @return Retourne vrai ou faux s'il y a des arbres qui se répètent.
-#' @examples
-#'  # Exemple avec un dataframe valide
-#' verifier_arbre_uniques_par_placette(data) # Devrait retourner TRUE
-#'
-#' # Exemple avec un dataframe invalide (colonne 'NoArbre' manquante)
-#' verifier_arbre_uniques_par_placette(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (valeurs NA dans 'Placette' ou 'NoArbre')
-#' verifier_arbre_uniques_par_placette(data) # Devrait retourner FALSE
-#'
-#' # Exemple avec un dataframe invalide (arbres non uniques dans une placette)
-#' verifier_arbre_uniques_par_placette(data) # Devrait retourner FALSE
-#'
+#' @export
 verifier_arbre_uniques_par_placette <- function(data) {
 
 

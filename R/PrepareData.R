@@ -50,10 +50,6 @@
 #'        les modèles BRT ou GAM lorsqu'ils doivent être utilisés et les deux dataframes
 #'        de données climatiques.
 #'
-#'@examples
-#' result <- PrepareData(Data, Clim_tous, ClimAn_tous, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
-#'
-#' print(result)
 #'@export
 #'
 PrepareData <- function(Data, Clim_tous, ClimAn_tous, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {

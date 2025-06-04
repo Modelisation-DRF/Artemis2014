@@ -29,7 +29,3 @@ Fonction qui charge les modèles d'accroissement en diamètre et de mortalité
 nécecssaires à la simulation. Les modèles sélectionnés dependent des valeures entrées
 aux arguments ACCModif et MortModif.
 }
-\examples{
-result <- ChargeModeles(AccModif, MortModif)
-print(result)
-}

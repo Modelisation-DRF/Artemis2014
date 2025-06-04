@@ -22,8 +22,3 @@ retourne le dataframe fourni initialement avec une colonne supplémentaire
 Fonction qui calcule la surface terrière des arbres de diamètre plus grand
 que l'arbre ciblé par le calcul
 }
-\examples{
-result <- BAL(Data,FacHa)
-
-print(result)
-}

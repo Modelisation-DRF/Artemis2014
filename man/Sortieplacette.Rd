@@ -24,7 +24,3 @@ Retourne un dataframe contenant le nombre de tiges par hectare, la surface terri
 Fonction qui structure un dataframe de sortie dont chaque ligne correspond
 à un groupe d'espèce par placette et par année avec une ligne présentant le total.
 }
-\examples{
-#resultat <- Sortieplacette(SimulHtVol ,simplifier=FALSE)
-print(resultat)
-}

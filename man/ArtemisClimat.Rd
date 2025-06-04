@@ -74,9 +74,3 @@ l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement
 une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètres pour la placette à
 chacune des périodes de simulation.
 }
-\examples{
-result <- ArtemisClimat(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel,
-                            Clim, ClimAn, EvolClim, AccModif, MortModif, RCP, Models)
-
-print(result)
-}

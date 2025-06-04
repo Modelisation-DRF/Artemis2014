@@ -7,10 +7,6 @@
 #'@return Retourne la liste d'arbre initiale avec les données météo ajoutée si
 #'        elles sont absentes
 #'
-#'@examples
-#' result <- vevifier_variable_meteo(data)
-#'
-#' print(result)
 #'@export
 #'
 #'
@@ -52,7 +48,7 @@ vevifier_variable_meteo <- function(data){
   if(!is_empty(variables_non_trouvees)){
     variables_a_extraire <- map_noms_variables[variables_non_trouvees]
 
-    data <- extract_map_plot(file=data, liste_raster="cartes_climat", variable=variables_a_extraire)
+    data <- ExtractMap::extract_map_plot(file=data, liste_raster="cartes_climat", variable=variables_a_extraire)
 
     if('tmean' %in% variables_a_extraire) {
       data <- rename(data, TMoy = tmean)
@@ -80,10 +76,6 @@ vevifier_variable_meteo <- function(data){
 #'@return Retourne la liste d'arbres initiale avec les données de sol ajoutées si
 #'        elles sont absentes.
 #'
-#'@examples
-#' result <- vevifier_variable_meteo(data)
-#'
-#' print(result)
 #'@export
 #'
 #'
@@ -125,7 +117,7 @@ vevifier_variable_Sol <- function(data){
   if(!is_empty(variables_non_trouvees)){
     variables_a_extraire <- map_noms_variables[variables_non_trouvees]
 
-    data <- extract_map_plot(file=data, liste_raster="cartes_sol", variable=variables_a_extraire, profondeur = 2)
+    data <- ExtractMap::extract_map_plot(file=data, liste_raster="cartes_sol", variable=variables_a_extraire, profondeur = 2)
 
 
     if('sable' %in% variables_a_extraire) {
@@ -154,15 +146,9 @@ vevifier_variable_Sol <- function(data){
 #'@return Retourne la liste d'arbres initiale avec les données de station ajoutées si
 #'        elles sont absentes.
 #'
-#'@examples
-#' result <- vevifier_variable_meteo(data)
-#'
-#' print(result)
 #'@export
 #'
 #'
-
-
 vevifier_variable_Sation <- function(data){
 
   select=dplyr::select
@@ -200,7 +186,7 @@ vevifier_variable_Sation <- function(data){
   if(!is_empty(variables_non_trouvees)){
     variables_a_extraire <- map_noms_variables[variables_non_trouvees]
 
-    data <- extract_map_plot(file=data, liste_raster="cartes_station", variable=variables_a_extraire)
+    data <- ExtractMap::extract_map_plot(file=data, liste_raster="cartes_station", variable=variables_a_extraire)
 
 
     if('pente' %in% variables_a_extraire) {

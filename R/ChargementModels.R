@@ -17,10 +17,6 @@
 #'
 #' @return Retourne une liste incluant des modele .rds et des fichiers nécessaires à
 #'        l'Utilisation des modèles.
-#'
-#' @examples
-#' result <- ChargeModeles(AccModif, MortModif)
-#' print(result)
 #' @export
 #'
 ChargeModeles<- function(AccModif, MortModif){

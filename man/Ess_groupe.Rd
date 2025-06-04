@@ -33,8 +33,3 @@ Retourne un dataframe dans lequel chacun des arbres se voient associer
 Fonction qui associe un groupe d'essence a chacun des arbres des données
 initiales. Les groupes d'essences sont ceux d'Artémis-2014.
 }
-\examples{
-result <- Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp)
-
-print(result)
-}

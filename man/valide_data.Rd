@@ -8,6 +8,10 @@ valide_data(data, Mort_Modif, Acc_Modif)
 }
 \arguments{
 \item{data}{Un dataframe représentant le fichier des arbres.}
+
+\item{Mort_Modif}{à ajouter}
+
+\item{Acc_Modif}{à ajouter}
 }
 \value{
 Une liste des erreurs trouvées dans le fichier des arbres.
@@ -15,15 +19,4 @@ Une liste des erreurs trouvées dans le fichier des arbres.
 \description{
 La fonction \code{valide_data} vérifie la validité des données dans un dataframe représentant
 le fichier des arbres et retourne une liste des erreurs trouvées.
-}
-\examples{
-\dontrun{
-# Supposons que nous ayons un dataframe `data` représentant le fichier des arbres
-
-# Appel de la fonction
-erreurs <- valide_data(data)
-
-# La fonction retournera une liste des erreurs trouvées dans le dataframe `data`
-}
-
 }

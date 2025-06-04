@@ -2,7 +2,8 @@
 % Please edit documentation in R/AccroissementGAM.R
 \name{AccroissementGAM}
 \alias{AccroissementGAM}
-\title{Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.}
+\title{Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.
+Modèles gam du package mgcv}
 \usage{
 AccroissementGAM(Accrois, ClimatGAM, Models, t)
 }
@@ -24,8 +25,5 @@ Retourne un dataframe incluant le numéro d'arbre et la prévision
 }
 \description{
 Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.
-}
-\examples{
-result <- AccroissementGAM(Accrois,ClimatGAM,Models,t)
-print(result)
+Modèles gam du package mgcv
 }

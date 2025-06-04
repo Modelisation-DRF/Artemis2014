@@ -10,9 +10,6 @@
 #'
 #' @return  Retourne un dataframe contenant l'ensemble des arbres pour chacune des
 #'          placettes, années avec leur prévisions de biomasse.
-#' @examples
-#' resultat <- SortieBiomasse(SimulHtVol)
-#' print(resultat)
 #' @export
 
 SortieBiomasse<-function (SimulHtVol){

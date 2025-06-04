@@ -44,8 +44,3 @@ Fonction qui extrait les variables climatiques de la période de simulation en c
 Elle permet de produire les variables climatiques nécessaires aux modules de mortalité,
 de croissance et de recrutement sensibles au climat.
 }
-\examples{
-result <- ClimatBiosim(Placettes, Annee, t, rcp, Clim, ClimAn, EvolClim, AccModif)
-
-print(result)
-}

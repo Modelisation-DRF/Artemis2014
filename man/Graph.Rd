@@ -29,8 +29,3 @@ Retourne un objet ggplot qui est un graphique.
 \description{
 Fonction qui permet de produire des graphiques des résultats de simulation.
 }
-\examples{
-Graphique<-Graph(Data=SimulTot,Espece="TOT", Variable='ST_HA',listePlacette)
-print(Graphique)
-
-}

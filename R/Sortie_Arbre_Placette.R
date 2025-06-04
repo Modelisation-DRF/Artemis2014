@@ -1,6 +1,3 @@
-
-
-
 #' Fonction qui structure un dataframe de sortie dont chaque ligne correspond
 #' à chacun des arbres par placette et par année.
 #'
@@ -11,12 +8,7 @@
 #'                  que la première et la dernière année de la simulation. Par défaut, \code{FALSE}.
 #' @return  Retourne un dataframe contenant l'ensemble des arbres pour chacune des
 #'          placettes, années.
-#' @examples
-#' #resultat <- SortieArbre(SimulHtVol ,simplifier=FALSE)
-#' print(resultat)
 #' @export
-
-
 SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
 
   select=dplyr::select
@@ -59,13 +51,7 @@ SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
 #' @return  Retourne un dataframe contenant le nombre de tiges par hectare, la surface terrière par hectare,
 #'          le diamètre moyen quadratique, le volume marchand brut par hectare, la hauteur dominante et la hauteur moyenne
 #'          par placette, groupe d'espèce et année.
-#' @examples
-#' #resultat <- Sortieplacette(SimulHtVol ,simplifier=FALSE)
-#' print(resultat)
 #' @export
-
-
-
 Sortieplacette <- function(SimulHtVol ,simplifier=FALSE){
 
   select=dplyr::select

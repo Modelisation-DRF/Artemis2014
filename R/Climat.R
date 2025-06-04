@@ -32,10 +32,6 @@
 #' @return Retourne un dataframe avec l'identifiant de la placette et les données
 #'          climatiques formatées pour la période de simulation en cours.
 #'
-#' @examples
-#' result <- ClimatBiosim(Placettes, Annee, t, rcp, Clim, ClimAn, EvolClim, AccModif)
-#'
-#' print(result)
 #' @export
 #'
 ClimatBiosim<-function (Placettes, Annee, t, RCP, ClimMois, ClimAn, EvolClim, AccModif){

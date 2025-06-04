@@ -6,10 +6,6 @@
 #'
 #' @return Retourne la probabilité de mortalité pour la période de simulation en cours.
 #'
-#' @examples
-#' result <- mort(Mort)
-#'
-#' print(result)
 #' @export
 #'
 mort<-function (Mort){

@@ -72,8 +72,3 @@ La fonction retourne une liste comprenant le dataframe de données mis en forme,
 Fonction qui prépare les données en vue d'effectuer
 une simulation avec le package Artémis-2014.
 }
-\examples{
-result <- PrepareData(Data, Clim_tous, ClimAn_tous, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
-
-print(result)
-}
