@@ -164,7 +164,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   # Renommage des colonnes Sybille
   setnames(Sybille, c("cl_drai", "ALTITUDE", "veg_pot", "dhpcm", "HAUTEUR_M", "st_ha"),
-           c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"))
+           c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"), skip_absent = TRUE)
 
   # On obtient Petro
   Petro <- SortieBillonage(Data, Type)
