@@ -146,6 +146,16 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 
   merged_data[, c("PropEPB", "HT_REELLE_M", "DHP_Ae", "essence", "ht", "nbTi_ha") := NULL]
 
+  colonnes_finales <- c("PlacetteID", "origTreeID", "Annee", "grade_bille",
+                        "vol_bille_dm3", "diam_fb_cm", "long_bille_pied",
+                        "Cl_Drai", "Altitude", "Veg_Pot", "DHPcm",
+                        "hauteur_pred", "st_ha", "Espece", "GrEspece",
+                        "Etat", "Nombre", "sdom_bio")
+
+  # Garder seulement les colonnes qui existent
+  colonnes_finales <- intersect(colonnes_finales, names(merged_data))
+  merged_data <- merged_data[, ..colonnes_finales]
+
   return(merged_data)
 
 }

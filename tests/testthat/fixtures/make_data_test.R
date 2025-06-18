@@ -2,11 +2,16 @@
 
 # Fichier pour les tests du simulateur Artemis Module d’accroissement Original et Module de mortalité Original
 
-saveRDS(expect_test_for_Artemis_AccModif_ORI_MortModif_ORI, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds")
+saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds")
 
 # Fichier pour les tests du simulateur Artemis Module d’accroissement BRT et Module de mortalité Original
 
-saveRDS(expect_test_for_Artemis_AccModif_BRT_MortModif_ORI, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds")
+saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds")
+
+# Fichier pour les tests du simulateur Artemis Module d’accroissement BRT et Module de mortalité Original
+
+saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_GAM_MortModif_QUE.rds")
+
 
 
 #  Fichier des arbres sur lequel on applique la fonction de d'Accroissement

@@ -20,7 +20,8 @@ Depends:
     doRNG,
     data.table,
     R (>= 4.2),
-    tidyverse
+    tidyverse,
+    OutilsDRF
 Imports:
     gbm,
     mgcv,
@@ -28,8 +29,7 @@ Imports:
     Billonage,
     BioSIM (>= 1.0.5),
     ExtractMap,
-    J4R (>= 1.2.3),
-    OutilsDRF
+    J4R (>= 1.2.3)
 Suggests: 
     testthat (>= 3.0.0)
 Remotes:

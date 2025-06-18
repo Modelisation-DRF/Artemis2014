@@ -3,6 +3,8 @@
 test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés, Coupe partielle réalisée depuis moins de 10 ans
           , Module d’accroissement Original et Module de mortalité Original et sans Données climatiques ", {
 
+            set.seed(NULL)
+            set.seed(3)
 
 
 
@@ -29,8 +31,8 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
 
 
 
-test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés, Coupe partielle réalisée depuis moins de 10 ans
-          , Module d’accroissement BRT et Module de mortalité Original et sans Données climatiques ", {
+test_that("La fonction simulateurArtemis(),  Coupe partielle réalisée depuis moins de 10 ans
+          , Module d’accroissement BRT et Module de mortalité Original ", {
 
             set.seed(NULL)
             set.seed(3)
@@ -57,4 +59,28 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
             expect_equal(Result, expect_test_for_Artemis_AccModif_BRT_MortModif_ORI, tolerance = 1e-6)
 
 })
+
+
+test_that("La fonction simulateurArtemis(), Module d’accroissement GAM et Module de mortalité Quebec et Évolution du climat ", {
+
+            set.seed(NULL)
+            set.seed(3)
+
+
+            Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='GAM',MortModif='QUE', EvolClim=1, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test)
+            Result<-Result %>% select(-Cl_Drai)#Enlevé drainage car rajouté après
+
+            set.seed(NULL)
+
+
+            Result<-Result %>%
+              arrange(PlacetteID,origTreeID,Annee)
+
+            expect_test_for_Artemis_AccModif_GAM_MortModif_QUE <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_GAM_MortModif_QUE.rds"))%>%
+              arrange(PlacetteID,origTreeID,Annee)
+
+
+            expect_equal(Result, expect_test_for_Artemis_AccModif_GAM_MortModif_QUE, tolerance = 1e-6)
+
+          })
 
