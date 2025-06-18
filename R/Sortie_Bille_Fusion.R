@@ -202,4 +202,4 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
-result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+#result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
