@@ -52,7 +52,7 @@ SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
 #'          le diamètre moyen quadratique, le volume marchand brut par hectare, la hauteur dominante et la hauteur moyenne
 #'          par placette, groupe d'espèce et année.
 #' @export
-Sortieplacette <- function(SimulHtVol ,simplifier=FALSE){
+SortiePlacette <- function(SimulHtVol ,simplifier=FALSE){
 
   select=dplyr::select
 

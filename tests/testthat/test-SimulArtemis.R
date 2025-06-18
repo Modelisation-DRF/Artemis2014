@@ -3,13 +3,12 @@
 test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés, Coupe partielle réalisée depuis moins de 10 ans
           , Module d’accroissement Original et Module de mortalité Original et sans Données climatiques ", {
 
-  set.seed(NULL)
-  set.seed(3)
+
 
 
   Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
             arrange(PlacetteID,origTreeID,Annee) %>%
-            select(-Cl_Drai)#Enlevé drainage car rajouté après
+            select(-Cl_Drai)
 
 
   set.seed(NULL)
