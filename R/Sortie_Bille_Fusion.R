@@ -160,11 +160,11 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   # On obtient Sybille
   Sybille <- SortieSybille(Data, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
-                           nom_grade3, long_grade3, diam_grade3)
+                               nom_grade3, long_grade3, diam_grade3)
 
   # Renommage des colonnes Sybille
   setnames(Sybille, c("cl_drai", "ALTITUDE", "veg_pot", "dhpcm", "HAUTEUR_M", "st_ha"),
-           c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"), skip_absent = TRUE)
+           c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"))
 
   # On obtient Petro
   Petro <- SortieBillonage(Data, Type)
@@ -202,4 +202,4 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
-#result1 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)

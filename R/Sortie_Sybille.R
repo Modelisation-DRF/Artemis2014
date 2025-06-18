@@ -74,7 +74,6 @@
 SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, diam_grade1 = NA, nom_grade2 = NA, long_grade2 = NA, diam_grade2 = NA,
                           nom_grade3 = NA, long_grade3 = NA, diam_grade3 = NA) {
 
-  # Préparer toutes les colonnes pour utilisation de Sybille
   setDT(Data)
 
   # Calculer nbTi_ha et st_ha et inclure dans Data
@@ -105,7 +104,7 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 
   # Renommer les colonnes pour préparer le Data dans Sybille
   setnames(Data_temp, c("Veg_Pot", "PlacetteID", "DHPcm", "Altitude", "hauteur_pred", "origTreeID", "EssenceFinale", "Cl_Drai"),
-             c("veg_pot", "id_pe", "DHP_Ae", "ALTITUDE", "HAUTEUR_M", "no_arbre", "essence", "cl_drai"))
+           c("veg_pot", "id_pe", "DHP_Ae", "ALTITUDE", "HAUTEUR_M", "no_arbre", "essence", "cl_drai"))
 
   # Ajouter les colonnes manquantes et effectuer les traitements de préparation de données
   Data_temp[, HT_REELLE_M := 0]
@@ -145,16 +144,6 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
                        all = TRUE)
 
   merged_data[, c("PropEPB", "HT_REELLE_M", "DHP_Ae", "essence", "ht", "nbTi_ha") := NULL]
-
-  colonnes_finales <- c("PlacetteID", "origTreeID", "Annee", "grade_bille",
-                        "vol_bille_dm3", "diam_fb_cm", "long_bille_pied",
-                        "Cl_Drai", "Altitude", "Veg_Pot", "DHPcm",
-                        "hauteur_pred", "st_ha", "Espece", "GrEspece",
-                        "Etat", "Nombre", "sdom_bio")
-
-  # Garder seulement les colonnes qui existent
-  colonnes_finales <- intersect(colonnes_finales, names(merged_data))
-  merged_data <- merged_data[, ..colonnes_finales]
 
   return(merged_data)
 
