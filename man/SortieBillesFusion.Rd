@@ -58,20 +58,7 @@ SortieBillesFusion(
 \item{diam_grade3}{Diamètre minimal au fin bout de la troisième bille en cm.(si besoin)}
 }
 \value{
-Un data.table fusionné contenant:
-\itemize{
-  \item PlacetteID - Identifiant de la placette
-  \item Annee - Année de l'arbre
-  \item origTreeID - Identifiant original de l'arbre
-  \item grade_bille - Grade de la bille (DER, F1, F2, F3, F4, P, ou grades Sybille
-  \item vol_bille_dm3 - Volume de la bille en dm³
-  \item Cl_Drai - Classe de drainage
-  \item Altitude - Altitude du site
-  \item Veg_Pot - Végétation potentielle
-  \item DHPcm - Diamètre à hauteur de poitrine en cm
-  \item hauteur_pred - Hauteur prédite en mètres
-  \item Stm2ha - Surface terrière en m²/ha
-}
+Un data.table fusionné contenant toutes les colonnes d'Artémis et les colonnes pour le billonage (grade_type et vol_bille_dm3)
 }
 \description{
 Cette fonction combine les résultats des fonctions SortieSybille et SortieBillonage

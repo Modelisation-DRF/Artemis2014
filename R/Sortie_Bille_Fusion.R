@@ -29,20 +29,7 @@
 #' @param diam_grade2 Diamètre minimal au fin bout de la deuxième bille en cm.(si besoin)
 #' @param diam_grade3 Diamètre minimal au fin bout de la troisième bille en cm.(si besoin)
 #'
-#' @return Un data.table fusionné contenant:
-#' \itemize{
-#'   \item PlacetteID - Identifiant de la placette
-#'   \item Annee - Année de l'arbre
-#'   \item origTreeID - Identifiant original de l'arbre
-#'   \item grade_bille - Grade de la bille (DER, F1, F2, F3, F4, P, ou grades Sybille
-#'   \item vol_bille_dm3 - Volume de la bille en dm³
-#'   \item Cl_Drai - Classe de drainage
-#'   \item Altitude - Altitude du site
-#'   \item Veg_Pot - Végétation potentielle
-#'   \item DHPcm - Diamètre à hauteur de poitrine en cm
-#'   \item hauteur_pred - Hauteur prédite en mètres
-#'   \item Stm2ha - Surface terrière en m²/ha
-#' }
+#' @return Un data.table fusionné contenant toutes les colonnes d'Artémis et les colonnes pour le billonage (grade_type et vol_bille_dm3)
 #'
 #' @details
 #' La fonction effectue les opérations suivantes:
@@ -75,85 +62,6 @@
 #'
 #' @seealso \code{\link{SortieSybille}}, \code{\link{SortieBillonage}}
 #' @export
-#'
-#' Fusion des sorties Sybille et Petro
-#'
-#' Cette fonction combine les résultats des fonctions SortieSybille et SortieBillonage
-#' pour produire une table fusionnée des données avec les volumes par grade.
-#'
-#' @param Data Un data.frame ou data.table contenant les données d'inventaire forestier avec les colonnes suivantes:
-#'   \itemize{
-#'     \item Veg_Pot - Code de végétation potentielle, ex: "MS2"
-#'     \item PlacetteID - Identifiant de la placette
-#'     \item DHPcm - Diamètre à hauteur de poitrine en cm
-#'     \item Altitude - Altitude en mètres
-#'     \item hauteur_pred - Hauteur prédite de l'arbre en mètres
-#'     \item origTreeID - Numéro de l'arbre
-#'     \item Espece - Code d'essence de l'arbre, ex: "SAB"
-#'     \item Cl_Drai - Classe de drainage ex: "2"
-#'     \item Etat - État de l'arbre ("vivant", "mort", "recrue")
-#'     \item Nombre - Nombre d'arbres représentés par cette observation dans une placette de 400 m2
-#'     \item sdom_bio - Sous-domaine bioclimatique. ex: "1", "2E", "4O"
-#'   }
-#' @param Type Le type de billonage à utiliser pour la fonction SortieBillonage
-#' @param dhs Hauteur de souche standard en mètres (point de départ des mesures), initialisée à 0.15(15 cm)
-#' @param nom_grade1 Nom du premier type de bille.
-#' @param nom_grade2 Nom du deuxième type de bille.(si besoin)
-#' @param nom_grade3 Nom du troisième type de bille.(si besoin)
-#' @param long_grade1 Longueur de la première bille en pieds(multiple de 2 pieds).
-#' @param long_grade2 Longueur de la deuxième bille en pieds.(multiple de 2 pieds)(si besoin)
-#' @param long_grade3 Longueur de la troisième bille en pieds.(multiple de 2 pieds)(si besoin)
-#' @param diam_grade1 Diamètre minimal au fin bout de la première bille en cm.
-#' @param diam_grade2 Diamètre minimal au fin bout de la deuxième bille en cm.(si besoin)
-#' @param diam_grade3 Diamètre minimal au fin bout de la troisième bille en cm.(si besoin)
-#'
-#' @return Un data.table fusionné contenant:
-#' \itemize{
-#'   \item PlacetteID - Identifiant de la placette
-#'   \item Annee - Année de l'arbre
-#'   \item origTreeID - Identifiant original de l'arbre
-#'   \item grade_bille - Grade de la bille (DER, F1, F2, F3, F4, P, ou grades Sybille
-#'   \item vol_bille_dm3 - Volume de la bille en dm³
-#'   \item Cl_Drai - Classe de drainage
-#'   \item Altitude - Altitude du site
-#'   \item Veg_Pot - Végétation potentielle
-#'   \item DHPcm - Diamètre à hauteur de poitrine en cm
-#'   \item hauteur_pred - Hauteur prédite en mètres
-#'   \item Stm2ha - Surface terrière en m²/ha
-#' }
-#'
-#' @details
-#' La fonction effectue les opérations suivantes:
-#' \itemize{
-#'   \item Appelle SortieSybille avec les paramètres de grades spécifiés
-#'   \item Standardise les noms de colonnes de Sybille
-#'   \item Appelle SortieBillonage avec le type spécifié
-#'   \item Transpose les données Petro pour avoir une ligne par coupe
-#'   \item Fusionne les deux tables avec rbind
-#'   \item Supprime les colonnes non nécessaires
-#'   \item Remplace les valeurs NA de volume par 0.0
-#'   \item Trie les données par PlacetteID, Annee, et origTreeID
-#' }
-#'
-#' @examples
-#' \dontrun{
-#' # Exemple d'utilisation basique
-#' resultat <- SortieBillesFusion(mes_donnees, "TypeA", nom_grade1 = "Sciage long",  long_grade1 = 4, diam_grade1 = 8)
-#'
-#' # Avec paramètres de grades personnalisés
-#' resultat <- SortieBillesFusion(
-#'   mes_donnees,
-#'   "TypeB",
-#'   dhs = 0.20,
-#'   nom_grade1 = "Sciage long",
-#'   long_grade1 = 4,
-#'   diam_grade1 = 8
-#' )
-#' }
-#'
-#' @seealso \code{\link{SortieSybille}}, \code{\link{SortieBillonage}}
-#' @export
-#'
 SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, diam_grade1 = NA, nom_grade2 = NA, long_grade2 = NA, diam_grade2 = NA,
                                nom_grade3 = NA, long_grade3 = NA, diam_grade3 = NA) {
   setDT(Data)
@@ -178,6 +86,15 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   Fusion_complete <- merge(Data, Fusion,
                           by = c("PlacetteID", "Annee", "origTreeID"),
                           all.x = TRUE)
+
+  #Pas le choix de définir les colonnes à garder pour la sortie puisque le fichier du simulateur a beaucoup plus de colonnes
+  colonnes_finales <- c("PlacetteID", "Annee", "origTreeID", "Veg_Pot", "Espece",
+                        "Etat", "Nombre", "DHPcm", "Type_Eco", "reg_eco", "Altitude",
+                        "PTot", "TMoy", "Cl_Drai", "hauteur_pred", "milieu", "sdom_bio",
+                        "GrEspece", "vol_dm3", "nbTi_ha", "st_ha", "grade_bille",
+                        "vol_bille_dm3")
+
+  Fusion_complete <- Fusion_complete[, ..colonnes_finales]
 
   return(Fusion_complete)
 }

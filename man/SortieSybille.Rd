@@ -59,12 +59,9 @@ Un data.table contenant les résultats du calcul des volumes de billes avec les 
   \itemize{
     \item id_pe - Identifiant de la placette
     \item no_arbre - Numéro de l'arbre
-    \item dhpcm - Diamètre à hauteur de poitrine en cm
-    \item ht - Hauteur de l'arbre en m
     \item vol_bille_dm3 - Volume de la bille en dm³
     \item grade_bille - Type de la bille
-    \item diam_fb_cm - Diamètre au fin bout en cm
-    \item long_bille_pied - Longueur de la bille en pieds
+    \item Annee - Annee de la simulation pour l'arbre
   }
 }
 \description{
