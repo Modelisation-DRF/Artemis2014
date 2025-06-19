@@ -40,17 +40,20 @@ SortieBillonage <- function(Data, Type ){
   final <- final %>%
     mutate(across(c(DER, F1, F2, F3, F4, P), ~ .x * 1000))
 
-   #Transformer sdom_bio pour correspondre au format Sybille
-  final <- final %>%
-    mutate(sdom_bio = ifelse(
-      substr(sdom_bio, 2, 2) == "E",
-      paste0(substr(sdom_bio, 1, 1), "EST"),
-      ifelse(
-        substr(sdom_bio, 2, 2) == "O",
-        paste0(substr(sdom_bio, 1, 1), "OUEST"),
-        sdom_bio
-      )
-    ))
+  #On transpose les colonnes de Petro pour avoir la colonne grade_bille avec les valeurs
+  billonage_cols <- c("DER", "F1", "F2", "F3", "F4", "P")
+  existing_cols <- intersect(billonage_cols, colnames(final))
 
-    return(final)
-  }
+  final_transpo <- final %>%
+    pivot_longer(cols = all_of(existing_cols),
+                 names_to = "grade_bille",
+                 values_to = "vol_bille_dm3") %>%
+    select(PlacetteID, Annee, origTreeID, grade_bille, vol_bille_dm3)
+
+  #On enleve les possibles erreurs de fichiers en mettant le fichier en data.table
+  final_transpo <- suppressMessages(setDT(final_transpo))
+
+  return(final_transpo)
+}
+
+#result6 <- SortieBillonage(Result, "DHP")

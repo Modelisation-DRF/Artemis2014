@@ -162,46 +162,24 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   Sybille <- SortieSybille(Data, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
                                nom_grade3, long_grade3, diam_grade3)
 
-  # Renommage des colonnes Sybille
-  setnames(Sybille, c("cl_drai", "ALTITUDE", "veg_pot", "dhpcm", "HAUTEUR_M", "st_ha"),
-           c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"))
-
   # On obtient Petro
   Petro <- SortieBillonage(Data, Type)
 
-  # Vérification simple et fix si nécessaire
-  billonage_cols <- c("DER", "F1", "F2", "F3", "F4", "P")
-  existing_cols <- intersect(billonage_cols, colnames(Petro))
+  #On fusionne les 2
+  Fusion <- rbind(Petro, Sybille, fill = TRUE)
 
-  #On transpose les colonnes de billonage en une seule
-  Petro_transpo <- melt(Petro,
-                        measure.vars = existing_cols,
-                        variable.name = "grade_bille")
-
-  setnames(Petro_transpo, c("value"), c("vol_bille_dm3"))
-  Fusion <- rbind(Petro_transpo, Sybille, fill = TRUE)
-
-  # Nettoyer les colonnes non-nécessaires
-  cols_to_remove <- intersect(c("diam_fb_cm", "long_bille_pied","st_ha", "nbTi_ha", "type"),
-                              colnames(Fusion))
-  if(length(cols_to_remove) > 0) {
-    Fusion[, (cols_to_remove) := NULL]
-  }
+  setDT(Fusion)
 
   #On remplace les NA par 0
   Fusion[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
   setorder(Fusion, PlacetteID, Annee, origTreeID)
 
-  #On garde seulement ces colonnes pour la sortie Fusion dans Shiny, ceci s'assure du bon résultat
-  colonnes_finales <- c("Veg_Pot", "PlacetteID", "origTreeID", "Etat", "Nombre", "DHPcm",
-                        "Type_Eco", "reg_eco", "Altitude", "TMoy", "PTot", "Cl_Drai",
-                        "hauteur_pred", "milieu", "sdom_bio", "GrEspece", "vol_dm3",
-                        "Espece", "Annee", "grade_bille", "vol_bille_dm3", "Stm2ha")
+  #On merge le Data de base avec notre fichier de billons
+  Fusion_complete <- merge(Data, Fusion,
+                          by = c("PlacetteID", "Annee", "origTreeID"),
+                          all.x = TRUE)
 
-  # Garder seulement les colonnes qui existent
-  colonnes_existantes <- intersect(colonnes_finales, names(Fusion))
-  Fusion <- Fusion[, ..colonnes_existantes]
-  return(Fusion)
+  return(Fusion_complete)
 }
 
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%

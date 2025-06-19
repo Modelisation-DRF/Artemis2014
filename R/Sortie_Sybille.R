@@ -31,12 +31,9 @@
 #'   \itemize{
 #'     \item id_pe - Identifiant de la placette
 #'     \item no_arbre - Numéro de l'arbre
-#'     \item dhpcm - Diamètre à hauteur de poitrine en cm
-#'     \item ht - Hauteur de l'arbre en m
 #'     \item vol_bille_dm3 - Volume de la bille en dm³
 #'     \item grade_bille - Type de la bille
-#'     \item diam_fb_cm - Diamètre au fin bout en cm
-#'     \item long_bille_pied - Longueur de la bille en pieds
+#'     \item Annee - Annee de la simulation pour l'arbre
 #'   }
 #'
 #' @details
@@ -131,21 +128,14 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   Data_calculated <- OutilsDRF::calcul_vol_bille(Data_treated, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
                                                  nom_grade3, long_grade3, diam_grade3)
 
-  # Probablement remettre toutes les autres colonnes pour le traitement fusion
-  # Rechanger les noms de colonnes de la table de base, car on a changé selon la référence
-  setnames(Data, c("id_pe", "no_arbre"),
-           c("PlacetteID", "origTreeID"))
-
+  #On renomme les colonnes pour matcher avec Artemis
   setnames(Data_calculated, c("id_pe", "no_arbre"),
            c("PlacetteID", "origTreeID"))
 
-  merged_data <- merge(Data, Data_calculated,
-                       by = c("PlacetteID", "origTreeID", "Annee"),
-                       all = TRUE)
+  #On garde que les colonnes nécessaires
+  Data_calculated <- Data_calculated[, .(PlacetteID, origTreeID, Annee, grade_bille, vol_bille_dm3)]
 
-  merged_data[, c("PropEPB", "HT_REELLE_M", "DHP_Ae", "essence", "ht", "nbTi_ha") := NULL]
-
-  return(merged_data)
+  return(Data_calculated)
 
 }
 
