@@ -162,6 +162,8 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   Sybille <- SortieSybille(Data, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
                                nom_grade3, long_grade3, diam_grade3)
 
+  print(Sybille)
+
   # Renommage des colonnes Sybille
   setnames(Sybille, c("cl_drai", "ALTITUDE", "veg_pot", "dhpcm", "HAUTEUR_M", "st_ha"),
            c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"))
@@ -197,9 +199,18 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   Fusion[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
   setorder(Fusion, PlacetteID, Annee, origTreeID)
+
+  colonnes_finales <- c("Veg_Pot", "PlacetteID", "origTreeID", "Etat", "Nombre", "DHPcm",
+                        "Type_Eco", "reg_eco", "Altitude", "TMoy", "PTot", "Cl_Drai",
+                        "hauteur_pred", "milieu", "sdom_bio", "GrEspece", "vol_dm3",
+                        "Espece", "Annee", "grade_bille", "vol_bille_dm3", "Stm2ha")
+
+  # Garder seulement les colonnes qui existent
+  colonnes_existantes <- intersect(colonnes_finales, names(Fusion))
+  Fusion <- Fusion[, ..colonnes_existantes]
   return(Fusion)
 }
 
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
-#result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
