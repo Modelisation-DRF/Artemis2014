@@ -29,13 +29,17 @@ SortieBillonage <- function(Data, Type ){
   }
   data1 <- data %>% mutate(bilonID = seq_len(nrow(data)))
   billo <- Billonage::SIMBillonnageABCD_DHP(data1, Type)
+
   final <- left_join(data1, billo, by = "bilonID") %>%
     dplyr::select(-Espece) %>%
     rename(Espece = Espece_original) %>%
     arrange(PlacetteID, Annee, GrEspece)
+
   final <- final %>% select(-bilonID)
+
   final <- final %>%
     mutate(across(c(DER, F1, F2, F3, F4, P), ~ .x * 1000))
+
    #Transformer sdom_bio pour correspondre au format Sybille
   final <- final %>%
     mutate(sdom_bio = ifelse(

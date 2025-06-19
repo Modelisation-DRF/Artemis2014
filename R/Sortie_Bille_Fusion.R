@@ -162,8 +162,6 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   Sybille <- SortieSybille(Data, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
                                nom_grade3, long_grade3, diam_grade3)
 
-  print(Sybille)
-
   # Renommage des colonnes Sybille
   setnames(Sybille, c("cl_drai", "ALTITUDE", "veg_pot", "dhpcm", "HAUTEUR_M", "st_ha"),
            c("Cl_Drai", "Altitude", "Veg_Pot", "DHPcm", "hauteur_pred", "Stm2ha"))
@@ -175,14 +173,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   billonage_cols <- c("DER", "F1", "F2", "F3", "F4", "P")
   existing_cols <- intersect(billonage_cols, colnames(Petro))
 
-  if(length(existing_cols) == 0) {
-    # Si aucune colonne billonage, retourner juste Sybille
-    cat("Aucune colonne billonage trouvée, retour Sybille seulement\n")
-    Sybille[, c("st_ha", "nbTi_ha") := NULL]
-    return(Sybille)
-  }
-
-  # Votre code existant avec les colonnes qui existent
+  #On transpose les colonnes de billonage en une seule
   Petro_transpo <- melt(Petro,
                         measure.vars = existing_cols,
                         variable.name = "grade_bille")
@@ -190,16 +181,18 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   setnames(Petro_transpo, c("value"), c("vol_bille_dm3"))
   Fusion <- rbind(Petro_transpo, Sybille, fill = TRUE)
 
-  # Nettoyer
+  # Nettoyer les colonnes non-nécessaires
   cols_to_remove <- intersect(c("diam_fb_cm", "long_bille_pied","st_ha", "nbTi_ha", "type"),
                               colnames(Fusion))
   if(length(cols_to_remove) > 0) {
     Fusion[, (cols_to_remove) := NULL]
   }
 
+  #On remplace les NA par 0
   Fusion[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
   setorder(Fusion, PlacetteID, Annee, origTreeID)
 
+  #On garde seulement ces colonnes pour la sortie Fusion dans Shiny, ceci s'assure du bon résultat
   colonnes_finales <- c("Veg_Pot", "PlacetteID", "origTreeID", "Etat", "Nombre", "DHPcm",
                         "Type_Eco", "reg_eco", "Altitude", "TMoy", "PTot", "Cl_Drai",
                         "hauteur_pred", "milieu", "sdom_bio", "GrEspece", "vol_dm3",
@@ -213,4 +206,4 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
-result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+#result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
