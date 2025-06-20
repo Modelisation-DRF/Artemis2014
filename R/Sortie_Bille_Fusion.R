@@ -88,6 +88,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
                           all.x = TRUE)
 
   #Pas le choix de définir les colonnes à garder pour la sortie puisque le fichier du simulateur a beaucoup plus de colonnes
+  #à retirer
   colonnes_finales <- c("PlacetteID", "Annee", "origTreeID", "Veg_Pot", "Espece",
                         "Etat", "Nombre", "DHPcm", "Type_Eco", "reg_eco", "Altitude",
                         "PTot", "TMoy", "Cl_Drai", "hauteur_pred", "milieu", "sdom_bio",
@@ -99,6 +100,6 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   return(Fusion_complete)
 }
 
-#Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
+#Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 2,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
-#result2 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+#result3 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12, nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0)

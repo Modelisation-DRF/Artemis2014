@@ -29,7 +29,7 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
   }
 
 
- Data <-Sortieplacette(Data) %>%
+ Data <-SortiePlacette(Data) %>%
         filter(GrEspece==Espece & PlacetteID %in% listePlacette)
 
   if (Variable=='ST_HA'){
