@@ -415,6 +415,8 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     arrange(Annee,origTreeID)
   } else{
     outputTot<-outputTot %>%
+      select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
+             Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai) %>%
       bind_rows(PlacOri) %>%
       arrange(Annee,origTreeID)
   }
