@@ -341,7 +341,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
 
     if (AccModif!="ORI" | MortModif=="QUE") {
-      # Separer recrues EPX entre EPN et EPB
+      # Séparer recrues EPX entre EPN et EPB
       PropEPB<-Models[[8]]
       PropEPB<-PropEPB$PropEPB[which(PropEPB$VEG_POT==Veg_Pot)]
 
@@ -354,7 +354,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
                  origTreeID=max(Accrois$origTreeID)+nrow(PredRecrue)+1) %>%
           rbind(PredRecrue) %>%
           mutate(Espece=ifelse(GrEspece=="EPX" & is.na(Espece==TRUE),"EPN",Espece)) %>%
-          mutate(Nombre=ifelse(is.na(Espece==FALSE), Nombre, ifelse(Espece=="EPN",Nombre-(Nombre*PropEPB),Nombre))) %>%
+          mutate(ifelse(Espece=="EPN",Nombre-(Nombre*PropEPB),Nombre)) %>%
           filter(Nombre>0)
       }else {
         PredRecrue <- PredRecrue %>%
@@ -362,25 +362,24 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       }
     # on ajoute les variables a l'echelle de la placette aux recrues
       output3 <- left_join(PredRecrue,info_plac, by="PlacetteID") %>%
-        mutate(Espece=ifelse(GrEspece=="EPX",Espece,ifelse(GrEspece%in% c("AUT","F0R","FEU","F_0","F_1","RES"),NA,GrEspece)),
-               Moist=ifelse(Plac$Cl_Drai[1] %in% c(0,10,11),"X",
-                            ifelse(Plac$Cl_Drai[1] %in% c(50,51,60,61),"H","M")),
-               Age_moy=Accrois$Age_moy[1])
+                 mutate(Moist=ifelse(Plac$Cl_Drai[1] %in% c(0,10,11),"X",
+                              ifelse(Plac$Cl_Drai[1] %in% c(50,51,60,61),"H","M")),
+                 Age_moy=Accrois$Age_moy[1])
     }else {
 
-      output3 <- left_join(PredRecrue, info_plac, by="PlacetteID") %>%
-        mutate(Espece=ifelse(GrEspece %in% c("AUT","EPX","F0R","FEU","F_0","F_1","RES"),NA,GrEspece))
-
+      output3 <- left_join(PredRecrue, info_plac, by="PlacetteID")
     }
-       ######################################### fin recrue ##################
+
+
+    ######################################### fin recrue ##################
 
 
     # on ajoute les recrues aux arbres de la placette
     Predictions <- bind_rows(Accrois, output3) %>%   ####J'ai garde juste les vivants (pas mis output)
-      arrange(PlacetteID, origTreeID) %>%
-      mutate(Annee = AnneeDep+(t*k)) %>%
-      mutate(Age_moy=Age_moy+t) %>%
-      select(-pred_acc, -ST_m2, -st_ha_cumul_gt)
+                   arrange(PlacetteID, origTreeID) %>%
+                   mutate(Annee = AnneeDep+(t*k)) %>%
+                   mutate(Age_moy=Age_moy+t) %>%
+                   select(-pred_acc, -ST_m2, -st_ha_cumul_gt)
 
     Predictions$Cl_Drai<-PlacOri$Cl_Drai[1]  #####Ajouté pour suivre cette variable
 
@@ -394,12 +393,9 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (n_Test>5000 | St_Test >60){
 
-      # write(paste(Predictions$PlacetteID[1]," ",St_Test," m2/ha ",n_Test, " ti/ha Annee ",Predictions$Annee[1]),
-      #       paste("P:/F1272/CPF/Artémis/RArtemis2014/Log/Log_",Predictions$PlacetteID[1],"_",AccModif,
-      #             "_",RCP,"_",EvolClim,".txt"), append=TRUE)
-
       break
-    }######Arrete simulation et écris les valeurs dans un fichier log
+
+       }######Arrete simulation si les valeurs limites sont dépassées
 
     # on ajoute le donnees du pas de simulation en cours aux autres pas de simulation pour la placette
     outputTot <- bind_rows(outputTot, Predictions)

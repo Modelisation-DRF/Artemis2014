@@ -1,5 +1,5 @@
 
-test_that("La fonctionne ArtemisClimat fonctionne comme attendu avec les parametres de base", {
+test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametres de base", {
 
   set.seed(NULL)
   set.seed(3)
@@ -23,7 +23,7 @@ test_that("La fonctionne ArtemisClimat fonctionne comme attendu avec les paramet
                 AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, Clim=Clim, ClimAn =ClimAn,
                 EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models)
 
-  result<-result %>% select(-Cl_Drai)#Enlevé drainage car rajouté après
+
   set.seed(NULL)
   expect_result_for_ArtemisClimat <- readRDS(test_path("fixtures", "expect_result_for_ArtemisClimat.rds"))
 

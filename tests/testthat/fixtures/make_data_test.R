@@ -40,7 +40,7 @@ saveRDS(expect_test_for_Artemis_Mortalite , "tests/testthat/fixtures/expect_test
 
 saveRDS(placcette_ArtemisClim , "tests/testthat/fixtures/placcette_ArtemisClim.rds")
 
-saveRDS(expect_result_for_ArtemisClimat , "tests/testthat/fixtures/expect_result_for_ArtemisClimat.rds")
+saveRDS(result , "tests/testthat/fixtures/expect_result_for_ArtemisClimat.rds")
 
 
 # fichier des arbres de la placette pour appliquer le module d'accroissement
