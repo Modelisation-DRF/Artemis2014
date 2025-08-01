@@ -16,7 +16,10 @@ simulateurArtemis(
   EvolClim = 0,
   AccModif = "ORI",
   MortModif = "ORI",
-  RCP = "RCP45"
+  RCP = "RCP45",
+  Coupe_ON = NULL,
+  Coupe_modif = NULL,
+  TBE = NULL
 )
 }
 \arguments{
@@ -30,9 +33,9 @@ simulateurArtemis(
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 
-\item{ClimMois}{Donnees climatiques mensuelles. Si abscente laisser vide}
+\item{ClimMois}{Donnees climatiques mensuelles. Si absente laisser vide}
 
-\item{ClimAn}{Donnees climatiques annuelles. Si abscente laisser vide}
+\item{ClimAn}{Donnees climatiques annuelles. Si absente laisser vide}
 
 \item{Tendance}{Si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
 potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se terminant après 1998}
@@ -52,6 +55,24 @@ Valeure par defaut de 0}
 "QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025}
 
 \item{RCP}{Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1}
+
+\item{Coupe_ON}{Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
+décennie à simuler. Le nombre d'éléments doit être égal à Horizon.
+Utiliser NA pour les décennies sans coupe. Par défaut = NULL (pas de coupe).}
+
+\item{Coupe_modif}{Une liste de data.frames et/ou de nombres contenant les modificateurs
+de probabilité de coupe. Par défaut = NULL (pas de modificateurs).
+La liste doit avoir la même longueur que le nombre de périodes (Horizon).
+Chaque élément peut être:
+- Un nombre unique (s'applique à toutes les essences)
+- Un data.frame avec colonnes 'essence' et 'modifier'
+- NA (pas de modification pour cette période)}
+
+\item{TBE}{Vecteur contenant les valeurs 0 ou 1 pour indiquer les décennies avec
+un effet de TBE (Tordeuse des bourgeons de l'épinette).
+Le nombre d'éléments doit être égal à Horizon.
+1 = effet TBE présent, 0 = pas d'effet TBE.
+Par défaut = NULL (pas de TBE).}
 }
 \value{
 Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
@@ -67,9 +88,23 @@ result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 
 FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
 print(result)
 
-result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple,
-ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT',
-MortModif='QUE', RCP='RCP45' )
+# Avec effet TBE
+result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 4,
+TBE = c(1, 1, 1, 1), Tendance = 0, Residuel = 0,
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+print(result)
+
+# Avec traitement de coupe
+result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 6,
+Coupe_ON = c(3, NA, NA, NA, NA, 8), Tendance = 0, Residuel = 0,
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+print(result)
+
+# Avec modificateurs de coupe
+result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 4,
+Coupe_ON = c(3, NA, NA, 8),
+Coupe_modif = list(80, NA, NA, 0), Tendance = 0, Residuel = 0,
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
 print(result)
 }
 

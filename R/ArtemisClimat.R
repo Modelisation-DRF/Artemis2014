@@ -1,5 +1,5 @@
-#' Fonction qui éffectue la simulation d'Artemis. Elle procède pour chacune des placettes à
-#' l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simumulation
+#' Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à
+#' l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simulation
 #' une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètres pour la placette à
 #' chacune des périodes de simulation.
 #'
@@ -42,12 +42,23 @@
 #'@param Models Liste dans laquelle les modèles d'accroissement et de moratlité
 #'               (à l'exception des modele d'Artémis-2014) sont inclus.
 #'
+#'@param Coupe_ON Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
+#'              décennie à simuler. Utiliser NA pour les décennies sans coupe.
+#'
+#'@param Coupe_modif Une liste de data.frames et/ou de nombres contenant les modificateurs
+#'                    de probabilité de coupe. Chaque élément peut être un nombre unique
+#'                    ou un data.frame avec colonnes 'essence' et 'modifier'.
+#'
+#'@param TBE Vecteur contenant les valeurs 0 ou 1 pour indiquer les décennies avec
+#'            un effet de TBE (Tordeuse des bourgeons de l'épinette).
+#'
 #' @return Retourne un dataframe contenant la liste d'arbres vivants de la
 #'         placette simulée avec leur DHP pour chaque période de simulation.
 #'
 #' @export
 #'
-ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models){
+ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models,
+                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
 
 
   #Longueur d'un pas de simulation
@@ -71,13 +82,14 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Initialiser l'annee de depart et la correction du biais
   Plac <- Data %>%
     filter(Etat %in% c(10,12,40,42,30,32,20,22)) %>%
-    mutate(Annee = AnneeDep, Variance = 0, Etat="vivant")
+    mutate(Annee = AnneeDep, Variance = 0, Etat="vivant",
+           Residuel = Residuel)
 
   #Création placette origine
-  PlacOri<-Plac %>%
+  PlacOri <- Plac %>%
     mutate(ArbreID=origTreeID) %>%
     select(Annee,PlacetteID, origTreeID,Espece,GrEspece,
-           Etat, Nombre, DHPcm,Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai)
+           Etat, Nombre, DHPcm,Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, Residuel)
 
   # info placette
   info_plac <- Plac[1,] %>% select(-Nombre, -DHPcm, -Variance, -Etat, -origTreeID, -GrEspece, -Espece)
@@ -98,22 +110,12 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Selection de la correction pour le biais selon la vp
   Cor<-ListeCor$Cor[which(ListeCor$Veg_Pot==Veg_Pot)]
 
-  # Effet des coupes partielles à 0
-  Coupe0 <-ifelse(Residuel[1]==1,1,0)
-  Coupe <-0
-  Coupe1<-0
-
   # Variables climatiques de la placette
   PTot <- Plac$PTot[1]
   TMoy <- Plac$TMoy[1]
 
   # Variable Region Ouest
   RegionOuest<-ifelse(Plac$Reg_Eco[1] %in% c("1a","2b","2c","3d","4f","4h","4g","5i","5h"),0,1)
-
-
-  # Effet TBE a 0
-  tbe <- 0
-  tbe1 <- 0
 
   # Liste des especes des groupes d'especes de la vp de la placette
   EspecesVp <- ListeSpVp[which(ListeSpVp$VegPotName==Veg_Pot),]
@@ -137,41 +139,95 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     ClimPe<-ClimMois %>% filter(PlacetteID==info_plac$PlacetteID)
     ClimAnPe<-ClimAn %>% filter(PlacetteID==info_plac$PlacetteID)
 
-  # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
+    # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
 
-      ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
+    ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
   }
 
-   # Initialisation du fichier qui contiendra les résultats de simulation de la placette
+  # Initialisation du fichier qui contiendra les résultats de simulation de la placette et variables
   outputTot <- c()
 
+  all_plac_coupe <- data.frame()
+
+  tbe <- 0
+  tbe1 <- 0
+
+  Coupe0 <- 0
+  Coupe <- 0
+  Coupe1 <- 0
 
   ######################### boucle pour les k decennies a simuler ##########################
   for (k in 1:Horizon) {
 
+    Plac_apres_coupe <- data.frame()
+
+    if (!is.null(TBE) && length(TBE) >= k) {
+      tbe1 <- tbe  # Sauvegarde ancienne valeur(10 ans)
+      tbe <- TBE[k]  # Nouvelle valeur
+    }
 
     ###################################### Mise a jour des variables a l'echelle de la placette #######################
-
-
     # Si premier pas de simulation, on utilise le fichier de depart de la placette
     if   (k==1) {
       Plac <- Plac %>%
         mutate(ArbreID=origTreeID)
-      Annee <-AnneeDep
-
-
+      Annee <- AnneeDep
     }  else {                            # Si 2e pas de simulation ou plus, on prend le fichier qui contient les simulations et on garde seulement le dernier pas
       Plac <- outputTot %>%
         filter(Annee == AnneeDep+((k-1)*t) & Etat=="vivant") #IA: j'ai changé le 10 pour t
+      }
+    Annee<-Plac$Annee[1]
 
-      Annee<-Plac$Annee[1]
+    #Mise à jour coupes
+    Coupe1<-ifelse(Coupe==1,1,0)
+    Coupe<-ifelse(Coupe0==1,1,0)
+    Coupe0<-0
+    Plac<-BAL(Plac,FacHa=FacHa)
+    # calcul variable echelle placette
+    sum_st_ha <- sum(Plac$ST_m2[which(Plac$Etat=="vivant")])
+    n_arbre_ha <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])*FacHa
+    n_arbre <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])
+    mq_DHPcm <- sqrt(sum_st_ha/n_arbre_ha*40000/3.1416)
 
-      #Mise à jour coupes
-      Coupe1<-ifelse(Coupe==1,1,0)
-      Coupe<-ifelse(Coupe0==1,1,0)
-      Coupe0<-0
+    # Utiliser le simulateur de coupe si pas NA à la position k de Coupe_ON
+    if (!is.null(Coupe_ON) && length(Coupe_ON) >= k && !is.na(Coupe_ON[k])) {
+      # Préparer les données pour prob_coupe
+      data_for_coupe <- Plac %>%
+        rename(id_pe = PlacetteID,
+               no_arbre = origTreeID,
+               dhpcm = DHPcm,
+               essence = GrEspece) %>%
+        mutate(nbTi_ha = n_arbre_ha,
+               st_ha = sum_st_ha)
+      # Déterminer le modificateur pour cette période
+      modifier_k <- NULL
+      if (!is.null(Coupe_modif) && length(Coupe_modif) >= k) {
+        elem <- Coupe_modif[[k]]
+        if (!is.null(elem)) {
+          if (length(elem) == 1 && is.na(elem)) {
+            #si NA, on passe
+          } else {
+            modifier_k <- elem
+          }
+        }
+      }
+      # Appliquer prob_coupe en mode déterministe
+      resultat_coupe <- prob_coupe(data_tree = data_for_coupe,
+                                   trt_coupe = Coupe_ON[k],
+                                   mode_simul = "DET",
+                                   modifier = modifier_k)
+      # Mettre à jour Coupe0=1
+      Coupe0 <- 1
+      # Recalculer la colonne Nombre
+      Plac <- Plac %>%
+        left_join(resultat_coupe %>% select(no_arbre, prob_coupe),
+                  by = c("origTreeID" = "no_arbre")) %>%
+        mutate(Nombre = Nombre * ifelse(is.na(prob_coupe), 1, (1 - prob_coupe)),
+               Residuel = 1) %>%
+        select(-prob_coupe)
 
-
+      #On garde le df après coupe puisque fichier retourne "avant_coupe"
+      Plac_apres_coupe <- Plac
     }
 
     # Ajout des donnees CO2 de la période si nécessaire
@@ -184,19 +240,9 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       }
     }
 
-
     #Variable anc
 
     anc<-ifelse(Plac$Annee[1]<2008,1,0)
-
-    Plac<-BAL(Plac,FacHa=FacHa)
-
-    # calcul variable echelle placette
-    sum_st_ha <- sum(Plac$ST_m2[which(Plac$Etat=="vivant")])
-    n_arbre_ha <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])*FacHa
-    n_arbre <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])
-    mq_DHPcm <- sqrt(sum_st_ha/n_arbre_ha*40000/3.1416)
-
     # Données Climatiques de la période si on utilise pas la version originale
 
     if (EvolClim==1){
@@ -205,9 +251,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     }
 
-
     ################################################ Mortalite ###############################################
-
     # fichier des arbres de la placette pour appliquer le module de mortalite
     Mort <- Plac
 
@@ -217,20 +261,20 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       # Modification des TMoy et PTot
       if (EvolClim==1){
         Mort<-Mort %>%
-              mutate(PTot=ClimatModif$PTotPeriode, TMoy=ClimatModif$TMoyPeriode)
+          mutate(PTot=ClimatModif$PTotPeriode, TMoy=ClimatModif$TMoyPeriode)
       }
 
-    # on applique la fonction de mortalite sur chacun des arbres avec la fonction nest()
+      # on applique la fonction de mortalite sur chacun des arbres avec la fonction nest()
 
-     PredMort <- Mort %>%
-           mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
-             PTot=PTot,RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
-             Veg_Pot=Veg_Pot, TMoy=TMoy) %>%
-      group_by(origTreeID) %>%
-      nest() %>%
-      mutate(pred_mort = map(data,mort)) %>%
-      unnest(pred_mort) %>%
-      select(-data) # contient 2 variables: origTreeID et pred_mort
+      PredMort <- Mort %>%
+        mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
+               PTot=PTot,RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
+               Veg_Pot=Veg_Pot, TMoy=TMoy) %>%
+        group_by(origTreeID) %>%
+        nest() %>%
+        mutate(pred_mort = map(data,mort)) %>%
+        unnest(pred_mort) %>%
+        select(-data) # contient 2 variables: origTreeID et pred_mort
 
     }
 
@@ -255,15 +299,15 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     # on applique la fonction d'accroissement sur chacun des arbres avec la fonction nest()
     if (AccModif=="ORI"){
-    PredAcc <- Accrois %>%
-      mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
-             PTot=PTot,RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage, Veg_Pot=Veg_Pot) %>%
-      group_by(origTreeID) %>%
-      nest() %>%
-      mutate(pred_acc = map(data,accrois)) %>%
-      unnest(pred_acc) %>%
-      mutate(pred_acc=round(ifelse(pred_acc<0,0,(exp(pred_acc+Cor)-1))*10)/10)%>%
-      select(-data)
+      PredAcc <- Accrois %>%
+        mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
+               PTot=PTot,RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage, Veg_Pot=Veg_Pot) %>%
+        group_by(origTreeID) %>%
+        nest() %>%
+        mutate(pred_acc = map(data,accrois)) %>%
+        unnest(pred_acc) %>%
+        mutate(pred_acc=round(ifelse(pred_acc<0,0,(exp(pred_acc+Cor)-1))*10)/10)%>%
+        select(-data)
     }
 
     #########################Accroissement avec modèles BRT##################################
@@ -274,13 +318,13 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       PredAcc<-AccroissementBRT(Accrois,ClimatBRT,Models, sum_st_ha, t)
 
       rm(ClimatBRT)
-      }
+    }
 
     #########################Accroissement avec modèles GAM##################################
     if (AccModif=="GAM"){
       Accrois<-Accrois %>%
         mutate(BA=sum_st_ha,
-              # Age_moy=ifelse(k==1,Age_moy,Age_moy+10),
+               # Age_moy=ifelse(k==1,Age_moy,Age_moy+10),
                stand_stage=ifelse(Age_moy <=70,"immature",ifelse(Age_moy<=100,"mature","old")))
 
       if (EvolClim==0){ClimatGAM=ClimatHisto} else {ClimatGAM=ClimatModif}
@@ -303,7 +347,6 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       arrange(origTreeID) %>%
       select(-pred_mort)
 
-
     #################################################Recrutement################################
     ###########################################################################################
 
@@ -319,7 +362,6 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       mutate_at(vars(nbtiges_ess:St_ha_ess), ~replace(., is.na(.), 0)) %>%
       mutate(groupe=GrEspece) # il faut une copie de la variable pour utiliser nest()
 
-
     # on applique la fonction de recrutement sur chacun des groupes d'Especes avec la fonction nest()
     PredRecrue <- EspecesFinal %>%
       mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
@@ -328,8 +370,13 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       group_by(GrEspece) %>%
       nest() %>%
       mutate(pred=map(data,fctrecrue)) %>%
-      unnest(pred) %>%
-      separate(pred, c("Nombre", "DHPcm", "Variance"), sep=" ") %>%
+      unnest(pred)
+
+    # Continue with the pipe
+    PredRecrue <- PredRecrue %>%
+      separate(pred, c("Nombre", "DHPcm", "Variance"), sep=" ")
+
+    PredRecrue <- PredRecrue %>%
       mutate(PlacetteID=as.character(info_plac[1,1]), Etat="vivant", origTreeID = last(Accrois$origTreeID),
              Nombre = as.numeric(Nombre), DHPcm = as.numeric(DHPcm), Variance = as.numeric(Variance),
              Espece=ifelse(GrEspece %in% c("AUT","F_0","F_1","CHX","EPX","F0R","PEU","PIN","RES","FEU"),NA,GrEspece)) %>%
@@ -360,19 +407,17 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         PredRecrue <- PredRecrue %>%
           mutate(Espece=ifelse(GrEspece=="EPX","EPN",Espece))
       }
-    # on ajoute les variables a l'echelle de la placette aux recrues
+      # on ajoute les variables a l'echelle de la placette aux recrues
       output3 <- left_join(PredRecrue,info_plac, by="PlacetteID") %>%
-                 mutate(Moist=ifelse(Plac$Cl_Drai[1] %in% c(0,10,11),"X",
-                              ifelse(Plac$Cl_Drai[1] %in% c(50,51,60,61),"H","M")),
-                 Age_moy=Accrois$Age_moy[1])
+        mutate(Moist=ifelse(Plac$Cl_Drai[1] %in% c(0,10,11),"X",
+                            ifelse(Plac$Cl_Drai[1] %in% c(50,51,60,61),"H","M")),
+               Age_moy=Accrois$Age_moy[1])
     }else {
 
       output3 <- left_join(PredRecrue, info_plac, by="PlacetteID")
     }
 
-
     ######################################### fin recrue ##################
-
 
     # on ajoute les recrues aux arbres de la placette
     Predictions <- bind_rows(Accrois, output3) %>%   ####J'ai garde juste les vivants (pas mis output)
@@ -382,41 +427,42 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
                    select(-pred_acc, -ST_m2, -st_ha_cumul_gt)
 
     Predictions$Cl_Drai<-PlacOri$Cl_Drai[1]  #####Ajouté pour suivre cette variable
-
     Test<-BAL( Predictions,FacHa=FacHa)
-
-
     # calcul variable echelle placette
-    St_Test <- sum(Test$ST_m2[which(Test$Etat=="vivant")])
-    n_Test <- sum(Test$Nombre[which(Test$Etat=="vivant")])*FacHa
+    St_Test <- sum(Test$ST_m2[which(Test$Etat=="vivant")], na.rm = TRUE)
+    n_Test <- sum(Test$Nombre[which(Test$Etat=="vivant")], na.rm = TRUE) * FacHa
 
+    if(!is.null(Plac_apres_coupe) && nrow(Plac_apres_coupe) > 0){
+      all_plac_coupe <- bind_rows(all_plac_coupe, Plac_apres_coupe)
+
+      all_plac_coupe <- all_plac_coupe %>%
+        select(Annee,PlacetteID,origTreeID,Espece, GrEspece, Etat,
+               Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, any_of("Residuel"))
+    }
 
     if (n_Test>5000 | St_Test >60){
 
       break
+    }######Arrete simulation si les valeurs limites sont dépassées
 
-       }######Arrete simulation si les valeurs limites sont dépassées
 
     # on ajoute le donnees du pas de simulation en cours aux autres pas de simulation pour la placette
     outputTot <- bind_rows(outputTot, Predictions)
-
-
   }  # fin de la boucle d'un pas de simulation
 
   if (k>1){
-  outputTot<-outputTot %>%
-    select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
-           Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai) %>%
-    bind_rows(PlacOri) %>%
-    arrange(Annee,origTreeID)
+    outputTot<-outputTot %>%
+      select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
+             Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, any_of("Residuel")) %>%
+      bind_rows(PlacOri) %>% bind_rows(all_plac_coupe) %>%
+      arrange(PlacetteID,Annee,origTreeID, desc(Nombre))
   } else{
     outputTot<-outputTot %>%
       select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
-             Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai) %>%
-      bind_rows(PlacOri) %>%
-      arrange(Annee,origTreeID)
+             Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, any_of("Residuel")) %>%
+      bind_rows(PlacOri) %>% bind_rows(all_plac_coupe) %>%
+      arrange(PlacetteID, Annee,origTreeID, desc(Nombre))
   }
-
 
   return(outputTot)
 

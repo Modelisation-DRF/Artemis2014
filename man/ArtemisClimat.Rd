@@ -2,8 +2,8 @@
 % Please edit documentation in R/ArtemisClimat.R
 \name{ArtemisClimat}
 \alias{ArtemisClimat}
-\title{Fonction qui éffectue la simulation d'Artemis. Elle procède pour chacune des placettes à
-l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simumulation
+\title{Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à
+l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simulation
 une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètres pour la placette à
 chacune des périodes de simulation.}
 \usage{
@@ -21,7 +21,10 @@ ArtemisClimat(
   AccModif,
   MortModif,
   RCP,
-  Models
+  Models,
+  Coupe_ON = NULL,
+  Coupe_modif = NULL,
+  TBE = NULL
 )
 }
 \arguments{
@@ -63,14 +66,24 @@ Ce paramètre est seulement utilisé si le paramètre EvolClim=1.}
 
 \item{Models}{Liste dans laquelle les modèles d'accroissement et de moratlité
 (à l'exception des modele d'Artémis-2014) sont inclus.}
+
+\item{Coupe_ON}{Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
+décennie à simuler. Utiliser NA pour les décennies sans coupe.}
+
+\item{Coupe_modif}{Une liste de data.frames et/ou de nombres contenant les modificateurs
+de probabilité de coupe. Chaque élément peut être un nombre unique
+ou un data.frame avec colonnes 'essence' et 'modifier'.}
+
+\item{TBE}{Vecteur contenant les valeurs 0 ou 1 pour indiquer les décennies avec
+un effet de TBE (Tordeuse des bourgeons de l'épinette).}
 }
 \value{
 Retourne un dataframe contenant la liste d'arbres vivants de la
         placette simulée avec leur DHP pour chaque période de simulation.
 }
 \description{
-Fonction qui éffectue la simulation d'Artemis. Elle procède pour chacune des placettes à
-l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simumulation
+Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à
+l'estimation de la mortalité, de l'accroissement en diamètre et du recrutement pour chacque périodes de simulation
 une à la suite de l'autre. Elle retourne un dataframe contenant les arbres vivants avec leur diamètres pour la placette à
 chacune des périodes de simulation.
 }
