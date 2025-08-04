@@ -171,9 +171,9 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
       }
       # Handle data frames or lists with multiple elements
       else if (is.data.frame(elem)) {
-        if (!all(c("essence", "modifier") %in% names(elem))) {
+        if (!all(c("ess_ind", "modifier") %in% names(elem))) {
           stop(paste("Le data.frame à la position", i,
-                     "doit contenir les colonnes 'essence' et 'modifier'"))
+                     "doit contenir les colonnes 'ess_ind' et 'modifier'"))
         }
         if (any(elem$modifier < -80 | elem$modifier > 160)) {
           stop(paste("Tous les modificateurs dans le data.frame à la position", i,
@@ -242,7 +242,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
   registerDoFuture()
   options(future.globals.maxSize= 891289600)###Monte la tolérence à 850 megs pour les éléments passés dans do futur
-  #plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
+  plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
   #plan(multisession)
   #plan(sequential) #temporaire
 
@@ -302,15 +302,14 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
 #chemin <- "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/Artemis2014/data-raw/Intrant_Test.csv"
 #head_data <- read.csv(chemin, sep = ";", nrows = 10)
-#vec_Coupe_ON <- c(10, 4, 1)
+#vec_Coupe_ON <- c(1, NA, NA)
 #test_ess <- data.frame(
-#  essence = c("CHX"),
-#  modifier = c(20))
-#vec_coupeModifier <- list(10, 30, -20)
+#  ess_ind = c("CHR"),
+#  modifier = c(50))
+#vec_coupeModifier <- list(test_ess, NA, NA)
 #TBE <- c(1, 1 ,1)
-
-#Result33 <- suppressMessages(simulateurArtemis(Data_ori = head_data, Horizon = 5, ClimMois = NULL, ClimAn = NULL, AccModif='ORI', MortModif='ORI', RCP='RCP45')) %>% arrange(PlacetteID, origTreeID, Annee)
-#Result4 <- suppressMessages(simulateurArtemis(Data_ori = head_data ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
+##Result33 <- suppressMessages(simulateurArtemis(Data_ori = head_data, Horizon = 5, ClimMois = NULL, ClimAn = NULL, AccModif='ORI', MortModif='ORI', RCP='RCP45')) %>% arrange(PlacetteID, origTreeID, Annee)
+#Result8 <- suppressMessages(simulateurArtemis(Data_ori = head_data ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
 #                                            Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
 
 

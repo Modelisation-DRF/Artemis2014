@@ -196,7 +196,8 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         rename(id_pe = PlacetteID,
                no_arbre = origTreeID,
                dhpcm = DHPcm,
-               essence = GrEspece) %>%
+               essence = GrEspece,
+               ess_ind = Espece) %>%
         mutate(nbTi_ha = n_arbre_ha,
                st_ha = sum_st_ha)
       # Déterminer le modificateur pour cette période
@@ -432,6 +433,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     St_Test <- sum(Test$ST_m2[which(Test$Etat=="vivant")], na.rm = TRUE)
     n_Test <- sum(Test$Nombre[which(Test$Etat=="vivant")], na.rm = TRUE) * FacHa
 
+    # On crée all_plac_coupe qui contiendra toutes les lignes des coupes, on va les ajouter à la fin
     if(!is.null(Plac_apres_coupe) && nrow(Plac_apres_coupe) > 0){
       all_plac_coupe <- bind_rows(all_plac_coupe, Plac_apres_coupe)
 
