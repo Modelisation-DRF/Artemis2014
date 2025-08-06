@@ -21,10 +21,10 @@ SortieArbre <- function(SimulHtVol ,simplifier=FALSE){
 
           ) %>%
     select(PlacetteID, Annee,origTreeID, Nombre, GrEspece, Espece,
-           Etat, DHPcm, hauteur_pred, vol_dm3, Stm2) %>%
+           Etat, DHPcm, hauteur_pred, vol_dm3, Stm2, Residuel) %>%
     rename(ST_m2=Stm2, Vol_dm3=vol_dm3, Hautm=hauteur_pred) %>%
     relocate(PlacetteID,Annee,origTreeID, Espece,GrEspece, Etat, Nombre,DHPcm,Hautm,
-             ST_m2,Vol_dm3) %>%
+             ST_m2,Vol_dm3, Residuel) %>%
     arrange(PlacetteID,Annee,origTreeID)
 
 

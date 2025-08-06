@@ -19,14 +19,21 @@ SortieBillonage <- function(Data, Type ){
   Data <- Data %>%
     filter(DHPcm > 23) %>%
     mutate(Espece_original = Espece,
-           Espece = ifelse(GrEspece %in% c("CHR","CHG","CHB","CHE","CHX"), "CHR", GrEspece),
-           Espece = ifelse(is.na(Espece), Espece_original, Espece))
+           Espece = ifelse(Espece %in% c("CHR","CHG","CHB","CHE","CHX"), "CHR", Espece))
+           #Espece = ifelse(is.na(Espece), Espece_original, Espece)
   # essences billonnage: BOJ ERR ERS HEG CHR BOP
   data <- Data %>% filter(Espece %in% c("ERS", "BOJ", "ERR", "BOP", "HEG", "CHR"))
   if (nrow(data) == 0) {
-    Data <- Data_ori %>% mutate(erreur = "Code d'essence a l'exterieur de la plage de valeurs possibles pour billonage")
-    return(Data)
+    # Copier la structure des colonnes nécessaires depuis Data
+    cols_needed <- c("PlacetteID", "Annee", "origTreeID")
+    final_transpo <- Data[0, ..cols_needed]
+
+    # Ajouter les colonnes supplémentaires avec les types forcés
+    final_transpo[, grade_bille := character(0)]
+    final_transpo[, vol_bille_dm3 := numeric(0)]
+    return(final_transpo)
   }
+
   data1 <- data %>% mutate(bilonID = seq_len(nrow(data)))
   billo <- Billonage::SIMBillonnageABCD_DHP(data1, Type)
 
@@ -55,5 +62,6 @@ SortieBillonage <- function(Data, Type ){
 
   return(final_transpo)
 }
+#Result <- Result[, Espece := "HHH"]
 
 #result6 <- SortieBillonage(Result, "DHP")

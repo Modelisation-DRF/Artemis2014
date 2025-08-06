@@ -28,6 +28,7 @@
 #' @param diam_grade1 Diamètre minimal au fin bout de la première bille en cm.
 #' @param diam_grade2 Diamètre minimal au fin bout de la deuxième bille en cm.(si besoin)
 #' @param diam_grade3 Diamètre minimal au fin bout de la troisième bille en cm.(si besoin)
+#' @param Simplifier Initialisé à FALSE. If TRUE, on garde que la première et dernière année de la simulation
 #'
 #' @return Un data.table fusionné contenant toutes les colonnes d'Artémis et les colonnes pour le billonage (grade_type et vol_bille_dm3)
 #'
@@ -63,12 +64,16 @@
 #' @seealso \code{\link{SortieSybille}}, \code{\link{SortieBillonage}}
 #' @export
 SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, diam_grade1 = NA, nom_grade2 = NA, long_grade2 = NA, diam_grade2 = NA,
-                               nom_grade3 = NA, long_grade3 = NA, diam_grade3 = NA) {
+                               nom_grade3 = NA, long_grade3 = NA, diam_grade3 = NA, Simplifier = FALSE) {
   setDT(Data)
 
   # On obtient Sybille
   Sybille <- SortieSybille(Data, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
                                nom_grade3, long_grade3, diam_grade3)
+
+  Sybille <- Sybille[!is.na(grade_bille)]
+
+  Data_Arbre <- SortieArbre(Data)
 
   # On obtient Petro
   Petro <- SortieBillonage(Data, Type)
@@ -83,23 +88,31 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   setorder(Fusion, PlacetteID, Annee, origTreeID)
 
   #On merge le Data de base avec notre fichier de billons
-  Fusion_complete <- merge(Data, Fusion,
+  Fusion_complete <- merge(Data_Arbre, Fusion,
                           by = c("PlacetteID", "Annee", "origTreeID"),
                           all.x = TRUE)
 
-  #Pas le choix de définir les colonnes à garder pour la sortie puisque le fichier du simulateur a beaucoup plus de colonnes
-  #à retirer
-  colonnes_finales <- c("PlacetteID", "Annee", "origTreeID", "Veg_Pot", "Espece",
-                        "Etat", "Nombre", "DHPcm", "Type_Eco", "reg_eco", "Altitude",
-                        "PTot", "TMoy", "Cl_Drai", "hauteur_pred", "milieu", "sdom_bio",
-                        "GrEspece", "vol_dm3", "nbTi_ha", "st_ha", "grade_bille",
-                        "vol_bille_dm3")
+  #Pour paramètre simplifier
+  MinAnnee = min(Fusion_complete$Annee)
+  MaxAnnee = max(Fusion_complete$Annee)
 
-  Fusion_complete <- Fusion_complete[, ..colonnes_finales]
+  if(Simplifier == TRUE){
+    Data_min <-Fusion_complete %>% filter(Annee==MinAnnee )
+    Data_max <-Fusion_complete %>% filter(Annee==MaxAnnee )
+    Fusion_complete <-rbind(Data_min, Data_max) %>%  arrange(PlacetteID,Annee,origTreeID)
+
+  }
 
   return(Fusion_complete)
 }
 
-#Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 2,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
- #arrange(PlacetteID,origTreeID,Annee)
-#result3 <- SortieBillesFusion(Result, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12, nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0)
+#vec_Coupe_ON <- c(1, NA, NA)
+#test_ess <- data.frame(
+#  ess_ind = c("CHR"),
+#  modifier = c(50))
+#vec_coupeModifier <- list(test_ess, NA, NA)
+#Result1 <- suppressMessages(simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
+#                                              Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
+
+#result4 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
+  #nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0, Simplifier = TRUE)
