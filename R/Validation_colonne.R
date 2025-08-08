@@ -150,8 +150,8 @@ valide_Etat <- function(data){
     return (FALSE)
   }
 
-  valeurs_autorisees<-c(10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27,
-                        28, 29, 30, 32, 34, 36, 40, 42, 43, 44, 46, 50, 52, 54, 56 )
+  valeurs_autorisees<-c(10, 11, 12,  14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26,
+                        29, 30, 32, 34, 35, 36, 40, 42, 44, 45, 46, 50, 52, 54, 55, 56)
 
   return(all(data$Etat %in% valeurs_autorisees))
 
