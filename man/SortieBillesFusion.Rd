@@ -16,7 +16,8 @@ SortieBillesFusion(
   diam_grade2 = NA,
   nom_grade3 = NA,
   long_grade3 = NA,
-  diam_grade3 = NA
+  diam_grade3 = NA,
+  Simplifier = FALSE
 )
 }
 \arguments{
@@ -56,6 +57,8 @@ SortieBillesFusion(
 \item{long_grade3}{Longueur de la troisième bille en pieds.(multiple de 2 pieds)(si besoin)}
 
 \item{diam_grade3}{Diamètre minimal au fin bout de la troisième bille en cm.(si besoin)}
+
+\item{Simplifier}{Initialisé à FALSE. If TRUE, on garde que la première et dernière année de la simulation}
 }
 \value{
 Un data.table fusionné contenant toutes les colonnes d'Artémis et les colonnes pour le billonage (grade_type et vol_bille_dm3)

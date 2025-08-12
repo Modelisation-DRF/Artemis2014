@@ -73,7 +73,8 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   Sybille <- Sybille[!is.na(grade_bille)]
 
-  Data_Arbre <- SortieArbre(Data)
+  #If simplifier true, on garde que la première et dernière année de simulation
+  Data_Arbre <- SortieArbre(Data, simplifier = Simplifier)
 
   # On obtient Petro
   Petro <- SortieBillonage(Data, Type)
@@ -83,25 +84,14 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   setDT(Fusion)
 
-  #On remplace les NA par 0
-  Fusion[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
-  setorder(Fusion, PlacetteID, Annee, origTreeID)
-
   #On merge le Data de base avec notre fichier de billons
   Fusion_complete <- merge(Data_Arbre, Fusion,
                           by = c("PlacetteID", "Annee", "origTreeID"),
                           all.x = TRUE)
 
-  #Pour paramètre simplifier
-  MinAnnee = min(Fusion_complete$Annee)
-  MaxAnnee = max(Fusion_complete$Annee)
-
-  if(Simplifier == TRUE){
-    Data_min <-Fusion_complete %>% filter(Annee==MinAnnee )
-    Data_max <-Fusion_complete %>% filter(Annee==MaxAnnee )
-    Fusion_complete <-rbind(Data_min, Data_max) %>%  arrange(PlacetteID,Annee,origTreeID)
-
-  }
+  #On remplace les NA par 0
+  Fusion_complete[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
+  setorder(Fusion, PlacetteID, Annee, origTreeID)
 
   return(Fusion_complete)
 }
@@ -111,8 +101,10 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 #  ess_ind = c("CHR"),
 #  modifier = c(50))
 #vec_coupeModifier <- list(test_ess, NA, NA)
+#TBE <- c(1,1,1)
 #Result1 <- suppressMessages(simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
 #                                              Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
-
 #result4 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
-  #nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0, Simplifier = TRUE)
+#  nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0, Simplifier = TRUE)
+#result44 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
+#                              nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0)
