@@ -81,7 +81,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
   # Initialiser l'annee de depart et la correction du biais
   Plac <- Data %>%
-    filter(Etat %in% c(10,12,40,42,30,32,20,22)) %>%
+    filter(Etat %in% c(10, 12, 29, 30, 32, 40, 42, 50, 52)) %>%
     mutate(Annee = AnneeDep, Variance = 0, Etat="vivant",
            Residuel = Residuel)
 

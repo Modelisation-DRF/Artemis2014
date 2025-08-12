@@ -95,7 +95,7 @@ ClimAn_Test<-read_delim("data-raw/ClimAn_test.csv", delim=";")
 ClimMois_Test<-read_delim("data-raw/ClimMois_test.csv", delim=";")
 Intrant_Test<-read_delim("data-raw/Intrant_test.csv", delim=";")
 ClimAn_Exemple<-read_delim("data-raw/ClimAn_Exemple.csv", delim=";")
-ClimMois_Exemple<-read_delim("data-raw/ClimMois_Exemple.csv", delim=";")
+ClimMois_Exemple<-read_delim("data-raw/ClimMois_Exemple.csv", delim=",")
 Donnees_Exemple<-read_delim("data-raw/Donnees_Exemple.csv", delim=";")
 
 

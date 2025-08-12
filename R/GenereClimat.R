@@ -1,6 +1,6 @@
 #' Fonction qi permet de générer des données climatiques pour le fichier de données
 #' initiales. Les données climatiques sont générées avec l'API BioSIM et sont
-#' basées sur les prévisions du modèle climatique global GCM4. La fonction utilise 5
+#' basées sur les prévisions du modèle climatique global RCM4. La fonction utilise 5
 #' répétition du modèle et moyenne les prévisions. La fonction retourne une liste de
 #' deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 #' à l'échelle mensuelle. La fonction peut-être longue à exécuter (environ 0.5 seconde par placette
@@ -35,12 +35,12 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
     QcAn <- as.data.frame(BioSIM::generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
-      rep = 5, repModel = 1, rcp = RCP, climModel = "GCM4"
+      rep = 5, repModel = 1, rcp = RCP, climModel = "RCM4"
     ))
 
     CMIMois <- as.data.frame(BioSIM::generateWeather("Climate_Moisture_Index_Monthly", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
-      rep = 5, repModel = 1, rcp = RCP, climModel = "GCM4"
+      rep = 5, repModel = 1, rcp = RCP, climModel = "RCM4"
     ))
 
     suppressMessages(
@@ -59,14 +59,14 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
     )
 
     ClimMois <- CMIMois[, c(1, 6, 7, 8, 9, 10)]
-    names(ClimMois) <- c("PlacetteID", "Annee", "Mois", "Tmin", "Tmax", "PTot")
+    names(ClimMois) <- c("PlacetteID", "Annee", "Mois", "Tmax",  "Tmin", "PTot")
     ClimMois$rcp <- RCP
     ClimMois <- ClimMois[, c(1, 7, 2:6)]
 
     suppressMessages(
       ClimMois <- ClimMois %>%
         group_by(PlacetteID, rcp, Annee, Mois) %>%
-        summarise(Tmin = mean(Tmin), Tmax = mean(Tmax), PTot = mean(PTot))
+        summarise(Tmin = mean(Tmin), Tmax = mean(Tmax), PTot = mean(PTot)*10)#####Conversion des précipitations de cm en mm
     )
 
     CMI <- CMIMois[, c(1, 6, 7, 12)]
@@ -83,7 +83,8 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
     suppressMessages(
       ClimAn <- ClimAn %>%
-        left_join(CMI)
+        left_join(CMI) %>%
+          mutate(CMI=CMI*10)#####Conversion CMI cm en CMI en mm
     )
 
     rm(QcAn, CMIMois, CMI)
@@ -98,7 +99,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
     QcAn <- as.data.frame(BioSIM::generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
       Placettes$Longitude, Placettes$Altitude,
-      rep = 1, repModel = 1, rcp = RCP, climModel = "GCM4"
+      rep = 1, repModel = 1, rcp = RCP, climModel = "RCM4"
     ))
 
     suppressMessages(
