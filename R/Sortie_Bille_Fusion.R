@@ -84,7 +84,14 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   setDT(Fusion)
 
-  print(Data_Arbre)
+  #Arrondissement des valeurs à 6 décimales pour précision
+  cols_to_round_data <- c("Nombre", "DHPcm", "Hautm", "ST_m2", "Vol_dm3")
+  Data_Arbre[, (cols_to_round_data) := lapply(.SD, function(x) round(x, 6)), .SDcols = cols_to_round_data]
+
+  Fusion[, vol_bille_dm3 := round(vol_bille_dm3, 6)]
+
+  Fusion <- unique(Fusion)
+
   #On merge le Data de base avec notre fichier de billons
   Fusion_complete <- merge(Data_Arbre, Fusion,
                           by = c("PlacetteID", "Annee", "origTreeID"),
@@ -94,12 +101,10 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   Fusion_complete[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
   setorder(Fusion, PlacetteID, Annee, origTreeID)
 
-  #Arrondissement des valeurs à 6 décimales pour précision
-  cols_to_round <- c("Nombre", "DHPcm", "Hautm", "ST_m2", "Vol_dm3", "vol_bille_dm3")
-  Fusion_complete[, (cols_to_round) := lapply(.SD, function(x) round(x, 6)), .SDcols = cols_to_round]
 
-  # Maintenant appliquer unique()
-  Fusion_complete <- unique(Fusion_complete)
+#
+  ## Maintenant appliquer unique()
+  #Fusion_complete <- unique(Fusion_complete)
 
   return(Fusion_complete)
 }
