@@ -73,6 +73,9 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 
   setDT(Data)
 
+  #On doit garder Residuel pour pas avoir de problème au merge plus tard
+  original_data <- Data[, .(PlacetteID, origTreeID, Annee, Residuel)]
+
   # Calculer nbTi_ha et st_ha et inclure dans Data
   Data[Etat != 'mort', `:=`(
     nbTi_ha = sum(Nombre/0.04),
@@ -122,7 +125,7 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   )]
 
   # Garder que les colonnes nécessaires pour utiliser Sybille
-  Data_treated <- Data_temp[, .(essence, id_pe, no_arbre, sdom_bio, cl_drai, veg_pot, DHP_Ae, HT_REELLE_M, HAUTEUR_M, nbTi_ha, st_ha, ALTITUDE, Annee)]
+  Data_treated <- Data_temp[, .(essence, id_pe, no_arbre, sdom_bio, cl_drai, veg_pot, DHP_Ae, HT_REELLE_M, HAUTEUR_M, nbTi_ha, st_ha, ALTITUDE, Annee, Residuel)]
 
   # Application de Sybille sur les données
   Data_calculated <- OutilsDRF::calcul_vol_bille(Data_treated, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
@@ -132,8 +135,12 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   setnames(Data_calculated, c("id_pe", "no_arbre"),
            c("PlacetteID", "origTreeID"))
 
+  Data_calculated <- merge(Data_calculated, original_data,
+                           by = c("PlacetteID", "origTreeID", "Annee"),
+                           all.x = TRUE)
+
   #On garde que les colonnes nécessaires
-  Data_calculated <- Data_calculated[, .(PlacetteID, origTreeID, Annee, grade_bille, vol_bille_dm3)]
+  Data_calculated <- Data_calculated[, .(PlacetteID, origTreeID, Annee, Residuel, grade_bille, vol_bille_dm3)]
 
   return(Data_calculated)
 
@@ -143,4 +150,4 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
 ##result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT', MortModif='ORI', RCP='RCP45' )
-#result4 <- SortieSybille(Result, dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+#result4 <- SortieSybille(Result77, dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)

@@ -55,7 +55,7 @@ SortieBillonage <- function(Data, Type ){
     pivot_longer(cols = all_of(existing_cols),
                  names_to = "grade_bille",
                  values_to = "vol_bille_dm3") %>%
-    select(PlacetteID, Annee, origTreeID, grade_bille, vol_bille_dm3)
+    select(PlacetteID, Annee, origTreeID, Residuel, grade_bille, vol_bille_dm3)
 
   #On enleve les possibles erreurs de fichiers en mettant le fichier en data.table
   final_transpo <- suppressMessages(setDT(final_transpo))
@@ -64,4 +64,4 @@ SortieBillonage <- function(Data, Type ){
 }
 #Result <- Result[, Espece := "HHH"]
 
-#result6 <- SortieBillonage(Result, "DHP")
+#result6 <- SortieBillonage(Result77, "DHP")
