@@ -84,6 +84,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   setDT(Fusion)
 
+  print(Data_Arbre)
   #On merge le Data de base avec notre fichier de billons
   Fusion_complete <- merge(Data_Arbre, Fusion,
                           by = c("PlacetteID", "Annee", "origTreeID"),
@@ -92,6 +93,13 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   #On remplace les NA par 0
   Fusion_complete[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
   setorder(Fusion, PlacetteID, Annee, origTreeID)
+
+  #Arrondissement des valeurs à 6 décimales pour précision
+  cols_to_round <- c("Nombre", "DHPcm", "Hautm", "ST_m2", "Vol_dm3", "vol_bille_dm3")
+  Fusion_complete[, (cols_to_round) := lapply(.SD, function(x) round(x, 6)), .SDcols = cols_to_round]
+
+  # Maintenant appliquer unique()
+  Fusion_complete <- unique(Fusion_complete)
 
   return(Fusion_complete)
 }
@@ -104,7 +112,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 #TBE <- c(1,1,1)
 #Result1 <- suppressMessages(simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
 #                                              Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
-#result4 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
-#  nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0, Simplifier = TRUE)
+#result445 <- SortieBillesFusion(Result77, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
+#  nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0, Simplifier = FALSE)
 #result44 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
 #                              nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0)
