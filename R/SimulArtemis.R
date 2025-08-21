@@ -312,5 +312,5 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 ####Result33 <- suppressMessages(simulateurArtemis(Data_ori = head_data, Horizon = 5, ClimMois = NULL, ClimAn = NULL, AccModif='ORI', MortModif='ORI', RCP='RCP45')) %>% arrange(PlacetteID, origTreeID, Annee)
 #Result77 <- suppressMessages(simulateurArtemis(Data_ori = head_data ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
 #                                            Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
-
+#write.csv(Result77, "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/OutilsDRF/data-raw/resultats_test.csv", row.names = FALSE)
 

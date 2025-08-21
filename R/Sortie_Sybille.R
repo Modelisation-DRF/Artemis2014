@@ -73,6 +73,10 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 
   setDT(Data)
 
+  #Arrondissement des valeurs à 6 décimales pour précision pour duplicate plus tard
+  cols_to_round <- c("Nombre", "DHPcm", "vol_dm3")
+  Data[, (cols_to_round) := lapply(.SD, function(x) round(x, 6)), .SDcols = cols_to_round]
+
   #On doit garder Residuel pour pas avoir de problème au merge plus tard
   original_data <- Data[, .(PlacetteID, origTreeID, Annee, Residuel)]
 
@@ -130,6 +134,12 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   # Application de Sybille sur les données
   Data_calculated <- OutilsDRF::calcul_vol_bille(Data_treated, dhs, nom_grade1, long_grade1, diam_grade1, nom_grade2, long_grade2, diam_grade2,
                                                  nom_grade3, long_grade3, diam_grade3)
+
+  #Arrondir pour précision pour enlever duplicate
+  Data_calculated[, vol_bille_dm3 := round(vol_bille_dm3, 6)]
+
+  #Problème duplicate à cause de la coupe
+  Data_calculated <- unique(Data_calculated)
 
   #On renomme les colonnes pour matcher avec Artemis
   setnames(Data_calculated, c("id_pe", "no_arbre"),

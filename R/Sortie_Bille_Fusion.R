@@ -84,16 +84,6 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   setDT(Fusion)
 
-  #Arrondissement des valeurs à 6 décimales pour précision
-  cols_to_round <- c("Nombre", "DHPcm", "Hautm", "ST_m2", "Vol_dm3")
-  Data_Arbre[, (cols_to_round) := lapply(.SD, function(x) round(x, 6)), .SDcols = cols_to_round]
-
-  Fusion[, vol_bille_dm3 := round(vol_bille_dm3, 6)]
-
-  #Enlever problème de duplicate avant le merge(peut-être fixable en gardant Residuel au travers de calcul_vol_bille OutilsDRF)
-  #Problème de key, mais va fonctionner sans bug ici
-  Fusion <- unique(Fusion)
-
   #On merge le Data de base avec notre fichier de billons
   Fusion_complete <- merge(Data_Arbre, Fusion,
                           by = c("PlacetteID", "Annee", "origTreeID", "Residuel"),
@@ -108,15 +98,15 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   return(Fusion_complete)
 }
 
-#vec_Coupe_ON <- c(1, NA, NA)
+#vec_Coupe_ON <- c(NA, NA, 10)
 #test_ess <- data.frame(
 #  ess_ind = c("CHR"),
 #  modifier = c(50))
-#vec_coupeModifier <- list(test_ess, NA, NA)
+#vec_coupeModifier <- list(NA, NA, 30)
 #TBE <- c(1,1,1)
 #Result1 <- suppressMessages(simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
 #                                              Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
-#result445 <- SortieBillesFusion(Result77, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
-#  nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0, Simplifier = FALSE)
+#result445 <- SortieBillesFusion(Result77, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 8, diam_grade1 = 20,
+#  nom_grade2 = "sciage mid", long_grade2 = 4, diam_grade2 = 8, Simplifier = FALSE)
 #result44 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
 #                              nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0)
