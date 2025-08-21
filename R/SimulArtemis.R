@@ -303,11 +303,11 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 #chemin <- "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/Artemis2014/data-raw/Intrant_Test.csv"
 #chemin <- "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/Artemis2014_Shiny/WWW/Donnees_Exemple.csv"
 #head_data <- read.csv(chemin, sep = ";")
-#vec_Coupe_ON <- c(NA, NA, 5)
+#vec_Coupe_ON <- c(NA, NA, 2)
 ###test_ess <- data.frame(
 ###  ess_ind = c("CHR"),
 ###  modifier = c(50))
-#vec_coupeModifier <- list(NA, NA, 10)
+#vec_coupeModifier <- list(NA, NA, 20)
 #TBE <- c(0, 1 ,0)
 ####Result33 <- suppressMessages(simulateurArtemis(Data_ori = head_data, Horizon = 5, ClimMois = NULL, ClimAn = NULL, AccModif='ORI', MortModif='ORI', RCP='RCP45')) %>% arrange(PlacetteID, origTreeID, Annee)
 #Result77 <- suppressMessages(simulateurArtemis(Data_ori = head_data ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',

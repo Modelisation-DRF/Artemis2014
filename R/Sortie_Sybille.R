@@ -147,7 +147,7 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 
   Data_calculated <- merge(Data_calculated, original_data,
                            by = c("PlacetteID", "origTreeID", "Annee"),
-                           all.x = TRUE)
+                           all.x = TRUE, allow.cartesian = TRUE)
 
   #On garde que les colonnes nécessaires
   Data_calculated <- Data_calculated[, .(PlacetteID, origTreeID, Annee, Residuel, grade_bille, vol_bille_dm3)]
@@ -160,4 +160,4 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
 #Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
  #arrange(PlacetteID,origTreeID,Annee)
 ##result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, ClimMois = ClimMois_Exemple ,ClimAn = ClimAn_Exemple, Tendance = 0, Residuel = 0, FacHa = 25, EvolClim = 1, AccModif='BRT', MortModif='ORI', RCP='RCP45' )
-#result4 <- SortieSybille(Result77, dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
+#result34 <- SortieSybille(Result77, dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 4, diam_grade1 = 8)
