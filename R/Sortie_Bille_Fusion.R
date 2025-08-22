@@ -106,6 +106,6 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 #Result1 <- suppressMessages(simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
 #                                              Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
 #result444 <- SortieBillesFusion(Result77, Type = "DHP", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 8, diam_grade1 = 20,
-#  nom_grade2 = "sciage mid", long_grade2 = 4, diam_grade2 = 8, Simplifier = FALSE)
+#  nom_grade2 = "pate", long_grade2 = 4, diam_grade2 = 8, Simplifier = FALSE)
 #result44 <- SortieBillesFusion(Result1, Type = "DHP2015", dhs = 0.15, nom_grade1 = "sciage long", long_grade1 = 12, diam_grade1 = 12,
 #                              nom_grade2 = "sciage mid", long_grade2 = NA, diam_grade2 = 0)

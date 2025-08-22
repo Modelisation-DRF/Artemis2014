@@ -223,12 +223,12 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       Plac <- Plac %>%
         left_join(resultat_coupe %>% select(no_arbre, prob_coupe),
                   by = c("origTreeID" = "no_arbre")) %>%
-        mutate(Nombre = Nombre * ifelse(is.na(prob_coupe), 1, (1 - prob_coupe)),
-               Residuel = 1) %>%
+        mutate(Nombre = Nombre * ifelse(is.na(prob_coupe), 1, (1 - prob_coupe))) %>%
         select(-prob_coupe)
 
       #On garde le df après coupe puisque fichier retourne "avant_coupe"
-      Plac_apres_coupe <- Plac
+      Plac_apres_coupe <- Plac %>%
+        mutate(Residuel = 1)
     }
 
     # Ajout des donnees CO2 de la période si nécessaire
