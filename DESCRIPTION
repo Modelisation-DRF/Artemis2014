@@ -1,7 +1,7 @@
 Type: Package
 Package: Artemis2014
 Title: Simulateur de croissance Artémis-2014
-Version: 4.3.0
+Version: 4.4.0
 Authors@R: c(
     person("Huges", "Power", , "hugues.power@mrnf.gouv.qc.ca", role = c("aut", "cre")),
     person("Junior", "Peumi", , role = "ctb")

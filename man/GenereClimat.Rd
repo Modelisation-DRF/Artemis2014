@@ -4,7 +4,7 @@
 \alias{GenereClimat}
 \title{Fonction qi permet de générer des données climatiques pour le fichier de données
 initiales. Les données climatiques sont générées avec l'API BioSIM et sont
-basées sur les prévisions du modèle climatique global GCM4. La fonction utilise 5
+basées sur les prévisions du modèle climatique global RCM4. La fonction utilise 5
 répétition du modèle et moyenne les prévisions. La fonction retourne une liste de
 deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 à l'échelle mensuelle. La fonction peut-être longue à exécuter (environ 0.5 seconde par placette
@@ -30,7 +30,7 @@ La fonction retourne une liste de deux dataframe, le premier contenant
 \description{
 Fonction qi permet de générer des données climatiques pour le fichier de données
 initiales. Les données climatiques sont générées avec l'API BioSIM et sont
-basées sur les prévisions du modèle climatique global GCM4. La fonction utilise 5
+basées sur les prévisions du modèle climatique global RCM4. La fonction utilise 5
 répétition du modèle et moyenne les prévisions. La fonction retourne une liste de
 deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 à l'échelle mensuelle. La fonction peut-être longue à exécuter (environ 0.5 seconde par placette
