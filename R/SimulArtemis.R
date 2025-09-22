@@ -126,25 +126,25 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
   if (!is.null(Coupe_ON)) {
     if (!is.vector(Coupe_ON) || !is.numeric(Coupe_ON)) {
-      stop("L'argument Coupe_ON doit être un vecteur numérique")
+      stop("L'argument Coupe_ON doit etre un vecteur numerique")
     }
     if (length(Coupe_ON) != Horizon) {
-      stop(paste("La longueur de Coupe_ON doit être égale à Horizon (", Horizon, ")", sep=""))
+      stop(paste("La longueur de Coupe_ON doit etre egale a Horizon (", Horizon, ")", sep=""))
     }
     # Vérifier que les valeurs sont valides (0-18 ou NA)
     valid_values <- c(0:18, NA)
     if (!all(Coupe_ON %in% valid_values)) {
-      stop("Les valeurs de Coupe_ON doivent être entre 0 et 18 ou NA")
+      stop("Les valeurs de Coupe_ON doivent etre entre 0 et 18 ou NA")
     }
   }
 
   # Validation du paramètre Coupe_modif
   if (!is.null(Coupe_modif)) {
     if (!is.list(Coupe_modif)) {
-      stop("L'argument Coupe_modif doit être une liste")
+      stop("L'argument Coupe_modif doit etre une liste")
     }
     if (length(Coupe_modif) != Horizon) {
-      stop(paste("La longueur de Coupe_modif doit être égale à Horizon (", Horizon, ")", sep=""))
+      stop(paste("La longueur de Coupe_modif doit etre egale a Horizon (", Horizon, ")", sep=""))
     }
 
     # Valider chaque élément de la liste
@@ -162,28 +162,28 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
           next  # Skip NA values
         } else if (is.numeric(elem)) {
           if (elem < -80 || elem > 160) {
-            stop(paste("Le modificateur à la position", i, "doit être entre -80 et 160"))
+            stop(paste("Le modificateur a la position", i, "doit etre entre -80 et 160"))
           }
         } else {
-          stop(paste("L'élément à la position", i,
-                     "doit être un nombre, un data.frame, NA ou NULL"))
+          stop(paste("L'element a la position", i,
+                     "doit etre un nombre, un data.frame, NA ou NULL"))
         }
       }
       # Handle data frames or lists with multiple elements
       else if (is.data.frame(elem)) {
         if (!all(c("ess_ind", "modifier") %in% names(elem))) {
-          stop(paste("Le data.frame à la position", i,
+          stop(paste("Le data.frame a la position", i,
                      "doit contenir les colonnes 'ess_ind' et 'modifier'"))
         }
         if (any(elem$modifier < -80 | elem$modifier > 160)) {
-          stop(paste("Tous les modificateurs dans le data.frame à la position", i,
-                     "doivent être entre -80 et 160"))
+          stop(paste("Tous les modificateurs dans le data.frame a la position", i,
+                     "doivent etre entre -80 et 160"))
         }
       }
       # Handle other multi-element objects
       else {
-        stop(paste("L'élément à la position", i,
-                   "doit être un nombre, un data.frame, NA ou NULL"))
+        stop(paste("L'element a la position", i,
+                   "doit etre un nombre, un data.frame, NA ou NULL"))
       }
     }
   }
@@ -191,14 +191,14 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   # Validation du paramètre TBE
   if (!is.null(TBE)) {
     if (!is.vector(TBE) || !is.numeric(TBE)) {
-      stop("L'argument TBE doit être un vecteur numérique")
+      stop("L'argument TBE doit etre un vecteur numérique")
     }
     if (length(TBE) != Horizon) {
-      stop(paste("La longueur de TBE doit être égale à Horizon (", Horizon, ")", sep=""))
+      stop(paste("La longueur de TBE doit etre égale a Horizon (", Horizon, ")", sep=""))
     }
     # Vérifier que les valeurs sont 0 ou 1
     if (!all(TBE %in% c(0, 1))) {
-      stop("Les valeurs de TBE doivent être 0 ou 1")
+      stop("Les valeurs de TBE doivent etre 0 ou 1")
     }
   }
 
@@ -240,23 +240,23 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   ClimAn <- prep_data[[4]]
   rm(prep_data)
 
-  registerDoFuture()
+  doFuture::registerDoFuture()
   options(future.globals.maxSize= 891289600)###Monte la tolérence à 850 megs pour les éléments passés dans do futur
-  plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
+  future::plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
   #plan(multisession)
   #plan(sequential) #temporaire
 
   list_plot <- unique(Data$PlacetteID)
 
   Final<- bind_rows(
-    foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
+    foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
                      TBE = TBE)}
   )
 
-  plan(sequential)
+  future::plan(sequential)
 
   if (EvolClim==1){
 
@@ -264,11 +264,11 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     PTotTMoyEvol<-ClimAn %>%
       mutate(Annee=Annee) %>%
       ungroup() %>%
-      select(PlacetteID,Annee,PTot,TMoy)########Ajuste la température et les précipitations pour le calcul de la hauteur
+      dplyr::select(PlacetteID,Annee,PTot,TMoy)########Ajuste la température et les précipitations pour le calcul de la hauteur
 
     suppressMessages(
       Final<-Final %>%
-        select(-PTot,-TMoy) %>%
+        dplyr::select(-PTot,-TMoy) %>%
         inner_join(PTotTMoyEvol))
 
     rm(PTotTMoyEvol)

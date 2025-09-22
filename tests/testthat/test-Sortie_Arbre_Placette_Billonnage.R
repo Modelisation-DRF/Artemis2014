@@ -2,7 +2,7 @@ test_that("Test la sortie Arbre et la sortie placette pour la simulation avec Ev
 
   Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
             arrange(PlacetteID,origTreeID,Annee) %>%
-            select(-Cl_Drai)
+            select(-Cl_Drai, -Residuel)
 
   ResultArbre<-SortieArbre(Result)
 
@@ -25,7 +25,7 @@ test_that("Test les sorties billonage pour la simulation avec EvolClim=0 et AccM
 
   Result <- simulateurArtemis(Data_ori = IntrantsBillons ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
     arrange(PlacetteID,origTreeID,Annee) %>%
-    select(-Cl_Drai)
+    select(-Cl_Drai, -Residuel)
 
   ResultBillon<-SortieBillonage(Result, Type="DHP")
 

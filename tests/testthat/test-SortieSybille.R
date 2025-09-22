@@ -12,7 +12,9 @@ test_that("SortieSybille fonctionne sans erreur", {
     Etat = c("vivant", "vivant"),
     Nombre = c(1, 1),
     sdom_bio = c("4E", "4O"),
-    Annee = c(2020, 2020)
+    Annee = c(2020, 2020),
+    vol_dm3 = c(235,150),
+    Residuel= c(0,0)
   )
 
   expect_error(

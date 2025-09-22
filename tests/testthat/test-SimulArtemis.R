@@ -24,8 +24,6 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
             set.seed(NULL)
             set.seed(3)
 
-
-
   Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
             arrange(PlacetteID,origTreeID,Annee) %>%
             select(-Cl_Drai)
@@ -37,9 +35,7 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
   expect_test_for_Artemis_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds"))
   # la colonne residuel n'est pas dans ce data...
 
-
   expect_test_for_Artemis_AccModif_ORI_MortModif_ORI<-as.data.table(expect_test_for_Artemis_AccModif_ORI_MortModif_ORI)
-
 
   expect_equal(Result, expect_test_for_Artemis_AccModif_ORI_MortModif_ORI , tolerance = 1e-6)
 
@@ -64,7 +60,9 @@ test_that("La fonction simulateurArtemis(),  Coupe partielle réalisée depuis m
             set.seed(NULL)
 
 
-            expect_test_for_Artemis_AccModif_BRT_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds"))
+            expect_test_for_Artemis_AccModif_BRT_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds")) %>%
+              mutate(Residuel=0) %>%
+              relocate(Residuel, .after = Cl_Drai)
 
             expect_equal(Result, expect_test_for_Artemis_AccModif_BRT_MortModif_ORI, tolerance = 1e-6)
 
@@ -84,7 +82,9 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement GAM et Modu
 
 
            expect_test_for_Artemis_AccModif_GAM_MortModif_QUE <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_GAM_MortModif_QUE.rds"))%>%
-              arrange(PlacetteID,origTreeID,Annee)
+              arrange(PlacetteID,origTreeID,Annee) %>%
+              mutate(Residuel=0) %>%
+               relocate(Residuel, .after = Cl_Drai)
 
 
             expect_equal(Result, expect_test_for_Artemis_AccModif_GAM_MortModif_QUE, tolerance = 1e-6)
