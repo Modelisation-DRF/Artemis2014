@@ -38,8 +38,8 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
       rep = 5, repModel = 1, rcp = RCP, climModel = "RCM4"
     ))
 
-    CMIMois <- as.data.frame(BioSIM::generateWeather("Climate_Moisture_Index_Monthly", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
-      Placettes$Longitude, Placettes$Altitude,
+    CMIMois <- as.data.frame(BioSIM::generateWeather(c("Climate_Moisture_Index_Monthly","VaporPressureDeficit_Monthly"), AnneeDep,
+                            AnneeFin, Placettes$PlacetteID, Placettes$Latitude, Placettes$Longitude, Placettes$Altitude,
       rep = 5, repModel = 1, rcp = RCP, climModel = "RCM4"
     ))
 
@@ -58,38 +58,45 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
         summarise(FFP = mean(FFP), PTot = mean(PTot), TMoy = mean(TMoy), Tmax_yr = mean(Tmax_yr), Aridity = mean(Aridity), DD = mean(DD))
     )
 
-    ClimMois <- CMIMois[, c(1, 6, 7, 8, 9, 10)]
-    names(ClimMois) <- c("PlacetteID", "Annee", "Mois", "Tmax",  "Tmin", "PTot")
-    ClimMois$rcp <- RCP
-    ClimMois <- ClimMois[, c(1, 7, 2:6)]
+    ClimMois_ini <- CMIMois[, c(1, 6, 7, 8, 9, 10, 12, 22)]
+    names(ClimMois_ini) <- c("PlacetteID", "Annee", "Mois", "Tmax",  "Tmin", "PTot", "CMI", "VPD")
+    ClimMois_ini$rcp <- RCP
+    ClimMois_ini <- ClimMois_ini[, c(1, 9, 2:8)]
 
     suppressMessages(
-      ClimMois <- ClimMois %>%
+      ClimMois <- ClimMois_ini %>%
         group_by(PlacetteID, rcp, Annee, Mois) %>%
         summarise(Tmin = mean(Tmin), Tmax = mean(Tmax), PTot = mean(PTot)*10)#####Conversion des précipitations de cm en mm
     )
 
-    CMI <- CMIMois[, c(1, 6, 7, 12)]
-    names(CMI) <- c("PlacetteID", "Annee", "Mois", "CMI")
 
     suppressMessages(
-      CMI <- CMI %>%
-        filter(Mois %in% c(5, 6, 7, 8, 9)) %>%
-        group_by(PlacetteID, Annee, Mois) %>%
-        summarise(CMI = mean(CMI)) %>%
-        group_by(PlacetteID, Annee) %>%
-        summarise(CMI = sum(CMI))
+      CMI <- ClimMois_ini %>%
+             filter(Mois %in% c(5, 6, 7, 8, 9)) %>%
+             group_by(PlacetteID, Annee, Mois) %>%
+             summarise(CMI = mean(CMI)) %>%
+             group_by(PlacetteID, Annee) %>%
+             summarise(CMI = sum(CMI)*10) #####Conversion CMI cm en CMI en mm
+    )
+
+
+    suppressMessages(        #CMI en cm et VPD pour Accroissement Fortin 2026
+     CMIVPD <- ClimMois_ini %>%
+               filter(Mois %in% c( 6, 7, 8)) %>%
+               group_by(PlacetteID, Annee) %>%
+               summarise(CMIcm = mean(CMI), VPD=mean(VPD))
     )
 
     suppressMessages(
       ClimAn <- ClimAn %>%
         left_join(CMI) %>%
-          mutate(CMI=CMI*10)#####Conversion CMI cm en CMI en mm
+        left_join(CMIVPD)
     )
 
     rm(QcAn, CMIMois, CMI)
 
     ClimTot <- list(ClimAn, ClimMois)
+
   } else {
     suppressMessages(
       Placettes <- Data_Ori %>%

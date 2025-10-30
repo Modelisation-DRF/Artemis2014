@@ -18,6 +18,7 @@
 #'
 #' @return Retourne un objet ggplot qui est un graphique.
 #'
+#'@import ggplot2
 #'
 #' @export
 #'
@@ -28,9 +29,16 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
     listePlacette <- unique(Data$PlacetteID)
   }
 
+Data <-SortiePlacette(Data)
 
- Data <-SortiePlacette(Data) %>%
-        filter(GrEspece==Espece & PlacetteID %in% listePlacette)
+IndexResiduel<-Data %>%
+               arrange(PlacetteID,Annee,-Residuel) %>%
+               group_by(PlacetteID,Annee) %>%
+               summarise(Residuel=first(Residuel))
+
+Data<-Data%>%
+      inner_join(IndexResiduel, by=c("PlacetteID","Annee","Residuel")) %>%
+      filter(GrEspece==Espece & PlacetteID %in% listePlacette)
 
   if (Variable=='ST_HA'){
     Data$Yvar<-Data$ST_HA
@@ -99,13 +107,13 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
 
   dernieres_valeurs <- Data %>%
     group_by(PlacetteID) %>%
-    slice(n()) %>%
+    slice_tail() %>%
     ungroup()
 
-
+suppressMessages(
   GraphEvol<-Data%>%
     ggplot(aes(x=Annee,y=Yvar,group=PlacetteID, label = PlacetteID))+
-    geom_line(aes(),show.legend=FALSE, lwd=1.25, colour="#b0cdf8")+
+    geom_line(show.legend=FALSE, lwd=1.25, colour="#b0cdf8")+
     ylim(0,ymax+5)+
     xlab(bquote(bold("Ann\uE9\u65 de la simulation")))+ ylab(paste(Etiquette))+
     scale_x_continuous(breaks = seq(AnneeDep, AnneeFin, by = 10))+
@@ -118,8 +126,8 @@ Graph <- function (Data, Espece="TOT", Variable='ST_HA',listePlacette){
       axis.text.x = element_text(angle = 45,  hjust=1),
       strip.text.x = element_text(size = 12,face="bold"),
       plot.title = element_text(hjust = 0.5,size=14,face="bold"))+
-    geom_text(data=dernieres_valeurs,aes(label = PlacetteID), hjust = 1, vjust=-0.2,size=3)
-  GraphEvol
+    geom_text(data=dernieres_valeurs,aes(label = PlacetteID), hjust = 1, vjust=-0.2,size=3))
+
 
 
   return(GraphEvol)

@@ -55,11 +55,18 @@
 #' @return Retourne un dataframe contenant la liste d'arbres vivants de la
 #'         placette simulée avec leur DHP pour chaque période de simulation.
 #'
-#' @export
+#'@importFrom OutilsDRF prob_coupe
+#'@import dplyr
+#'
+#'@export
 #'
 ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models,
                          Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
 
+
+##############################################################################
+###########################Préparation Donnees###############################
+############################################################################
 
   #Longueur d'un pas de simulation
 
@@ -156,7 +163,10 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   Coupe <- 0
   Coupe1 <- 0
 
-  ######################### boucle pour les k decennies a simuler ##########################
+################################################################################
+######################### boucle pour les k decennies a simuler ################
+################################################################################
+
   for (k in 1:Horizon) {
 
     Plac_apres_coupe <- data.frame()
@@ -213,7 +223,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         }
       }
       # Appliquer prob_coupe en mode déterministe
-      resultat_coupe <- prob_coupe(data_tree = data_for_coupe,
+      resultat_coupe <- OutilsDRF::prob_coupe(data_tree = data_for_coupe,
                                    trt_coupe = Coupe_ON[k],
                                    mode_simul = "DET",
                                    modifier = modifier_k)
@@ -335,6 +345,35 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       rm(ClimatGAM)
     }
 
+    #########################Accroissement avec modèles Fortin 2026##################################
+
+    if (AccModif=="QUE"){
+
+      if (EvolClim==0){ClimatFortin=ClimatHisto} else {ClimatFortin=ClimatModif}
+
+      PredAcc<-Accrois %>%
+        merge(EssGr_Fortin) %>%
+        mutate(species=ifelse((Veg_Pot %in% c("MF1","MJ1","MJ2","MJ2","MS1","RB1","RT1") & GrEspece=="EPX"),"EPB",species)) %>% #on attribue le type d'épinette selon la VP
+        mutate(species=ifelse(Espece %in% finalParms$speciesGr,Espece,species)) %>% # si on connait l'espèce pour les grand groupes on garde l'espece
+        mutate(
+          BAS=sum_st_ha-st_ha_cumul_gt,
+          deltaT=t,
+          VPD=ClimatFortin$VPD,
+          CMI=ClimatFortin$CMIcm,
+          DD=ClimatFortin$DD,
+          drainageClass=ifelse(Cl_Drai<20,"xeric",ifelse(Cl_Drai<40,"mesic",ifelse(Cl_Drai<50,"subhydric","hydric"))),
+          SBWoutbreak=0) %>%
+        rename(BAL=st_ha_cumul_gt, DBH=DHPcm) %>%
+        select(PlacetteID, origTreeID, species, deltaT, BAL, DBH, BAS, VPD, CMI, DD, drainageClass, SBWoutbreak) %>%
+        group_by(origTreeID) %>%
+        nest() %>%
+        mutate(Estimate = map(data,makePredictions )) %>%
+        unnest(Estimate) %>%
+        mutate(Estimate=round(Estimate*10)/10)%>%
+        rename(pred_acc=Estimate) %>%
+        select(-data)
+
+    }
 
     # on ajoute l'accroisement predit et la mortalite predite au fichier des arbres
     # on recalcule le nombre de tiges que représente l'arbre ou la classe de dhp
@@ -342,7 +381,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       inner_join(PredMort, by = "origTreeID") %>%
       mutate(Etat = "vivant",
              Nombre = Nombre * (1-pred_mort),
-             Variance = Variance + (exp(Cor)-1)*exp(2*log(pred_acc+1+Cor)+Cor),
+             Variance = Variance + (exp(Cor)-1)*exp(2*log(pred_acc+1+Cor)+Cor), ####On met la variance à 0 quand on utilise pas les équations originales
              DHPcmIni=DHPcm,
              DHPcm=ifelse((DHPcm+pred_acc)>100,100,(DHPcm+pred_acc))) %>%   #Bloc les diamètres à 100 cm pour éviter les dérapages
       arrange(origTreeID) %>%
@@ -402,7 +441,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
                  origTreeID=max(Accrois$origTreeID)+nrow(PredRecrue)+1) %>%
           rbind(PredRecrue) %>%
           mutate(Espece=ifelse(GrEspece=="EPX" & is.na(Espece==TRUE),"EPN",Espece)) %>%
-          mutate(ifelse(Espece=="EPN",Nombre-(Nombre*PropEPB),Nombre)) %>%
+          mutate(Nombre=ifelse(is.na(Espece==TRUE), Nombre, ifelse(Espece=="EPN",Nombre-(Nombre*PropEPB),Nombre))) %>%
           filter(Nombre>0)
       }else {
         PredRecrue <- PredRecrue %>%

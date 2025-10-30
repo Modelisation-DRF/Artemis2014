@@ -77,7 +77,7 @@ VarAn<-ClimAn %>%
   filter(Annee>=An & Annee<=(An+t)) %>%
        group_by(PlacetteID) %>%
        summarise(FFP=mean(FFP), PTotPeriode=mean(PTot), TMoyPeriode=mean(TMoy),
-                 Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD)) %>%
+                 Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD), CMIcm=mean(CMIcm), VPD=mean(VPD)) %>%
       mutate(Max_ST=VarMois[[2]][[1]],
               Min_WT=VarMois[[2]][[2]],
               MSP=VarMois[[2]][[3]],
@@ -108,7 +108,7 @@ suppressMessages(
     filter(Annee>=1991 & Annee<=2000) %>% #######Période de référence pour les courbes actuellement utilisées correspond au milieu de la plage de 30 ans
     group_by(PlacetteID) %>%
     summarise(FFP=mean(FFP),PTotPeriode=mean(PTot), TMoyPeriode=mean(TMoy),
-              Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD)) %>%
+              Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD), CMIcm=mean(CMIcm), VPD=mean(VPD)) %>%
     mutate(Max_ST=VarMois[[2]][[1]],
            Min_WT=VarMois[[2]][[2]],
            MSP=VarMois[[2]][[3]],

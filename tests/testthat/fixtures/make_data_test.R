@@ -8,9 +8,13 @@ saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_ORI_Mo
 
 saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_BRT_MortModif_ORI.rds")
 
-# Fichier pour les tests du simulateur Artemis Module d’accroissement BRT et Module de mortalité Original
+# Fichier pour les tests du simulateur Artemis Module d’accroissement BRT et Module de mortalité QUE
 
 saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_GAM_MortModif_QUE.rds")
+
+# Fichier pour les tests du simulateur Artemis Module d’accroissement QUE et Module de mortalité QUE
+
+saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_QUE_MortModif_QUE.rds")
 
 
 

@@ -50,7 +50,7 @@ ChargeModeles<- function(AccModif, MortModif){
 
   }
 
- if (AccModif=="ORI"){
+ if (AccModif %in% c("ORI","QUE")){
 
    mod_bop=NA
    mod_epb=NA

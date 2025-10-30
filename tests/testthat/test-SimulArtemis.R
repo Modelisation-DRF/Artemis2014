@@ -91,5 +91,28 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement GAM et Modu
 
           })
 
+test_that("La fonction simulateurArtemis(), Module d’accroissement QUE (Fortin 2026) et Module de mortalité Quebec et Évolution du climat ", {
+
+  set.seed(NULL)
+  set.seed(3)
+
+
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='QUE',MortModif='QUE', EvolClim=1, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test) %>%
+    arrange(PlacetteID,origTreeID,Annee)
+
+  set.seed(NULL)
+
+
+  expect_test_for_Artemis_AccModif_QUE_MortModif_QUE <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_QUE_MortModif_QUE.rds"))%>%
+    arrange(PlacetteID,origTreeID,Annee) %>%
+    mutate(Residuel=0) %>%
+    relocate(Residuel, .after = Cl_Drai)
+
+
+  expect_equal(Result, expect_test_for_Artemis_AccModif_QUE_MortModif_QUE, tolerance = 1e-2)#####Changé la tolérance à cause de la correction de quadrature
+                                                                                                # Gauss-Hermite qui doit générer des distributions
+
+})
+
 
 # il manque un test avec Residuel=1

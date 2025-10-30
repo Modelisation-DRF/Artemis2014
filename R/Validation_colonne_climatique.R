@@ -1,7 +1,7 @@
 #' Vérifier les noms de colonnes des variables climatiques
 #'
 #'
-#' @param data Un dataframe représentant le fichier d'arbres.
+#' @param data Un dataframe représentant les données climatiques annuelles.
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'
@@ -45,7 +45,7 @@ verifier_colonnes_ClimAn <- function(data) {
 #' Vérifier les noms de colonnes des variables climatiques
 #'
 #'
-#' @param data Un dataframe représentant le fichier d'arbres.
+#' @param data Un dataframe représentant les données climatiques mensuelles.
 #'
 #' @return Une liste des noms des colonnes manquantes.
 #'

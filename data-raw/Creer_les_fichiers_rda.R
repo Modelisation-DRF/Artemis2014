@@ -63,9 +63,14 @@ EssGrMortQUE<-read_delim("data-raw/MortQUE/EssGrMortQUE.csv", delim=";")
 ParaMortQUE<-read_delim("data-raw/MortQUE/ParaMortQUE.csv", delim=";")
 
 
+##########Accroissement Fortin 2026
+finalParms<-read_delim("data-raw/Fortin2026/finalParms.csv", delim=",")
+EssGr_Fortin<-read_delim("data-raw/Fortin2026/EssGr_Fortin.csv", delim=";")
+
+
 usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
                   ListeVp,ListeSpVp, Sp, SpGroups, SpInd, ListeSpVp, ParaBiomasse, CovParmMortQUE,
-                  EssGrMortQUE, ParaMortQUE,
+                  EssGrMortQUE, ParaMortQUE, finalParms, EssGr_Fortin,
                   internal=TRUE, overwrite = TRUE)
 
 
@@ -91,10 +96,10 @@ mod_sab_GAM<-readRDS("data-raw/GAM/mod_sab_GAM.rds")
 
 #########Exemples
 
-ClimAn_Test<-read_delim("data-raw/ClimAn_test.csv", delim=";")
+ClimAn_Test<-read_delim("data-raw/ClimAn_test.csv", delim=",")
 ClimMois_Test<-read_delim("data-raw/ClimMois_test.csv", delim=";")
 Intrant_Test<-read_delim("data-raw/Intrant_test.csv", delim=";")
-ClimAn_Exemple<-read_delim("data-raw/ClimAn_Exemple.csv", delim=";")
+ClimAn_Exemple<-read_delim("data-raw/ClimAn_Exemple.csv", delim=",")
 ClimMois_Exemple<-read_delim("data-raw/ClimMois_Exemple.csv", delim=",")
 Donnees_Exemple<-read_delim("data-raw/Donnees_Exemple.csv", delim=";")
 

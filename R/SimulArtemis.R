@@ -116,7 +116,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     stop("Les valeurs permises pour l'argument MortModif sont ORI ou QUE")
   }
 
-  if(!AccModif %in% c("ORI","GAM","BRT")){
+  if(!AccModif %in% c("ORI","GAM","BRT","QUE")){
     stop("Les valeurs permises pour l'argument AccModif sont ORI, GAM ou BRT")
   }
 
@@ -132,9 +132,9 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
       stop(paste("La longueur de Coupe_ON doit etre egale a Horizon (", Horizon, ")", sep=""))
     }
     # Vérifier que les valeurs sont valides (0-18 ou NA)
-    valid_values <- c(0:18, NA)
+    valid_values <- c(0:19, NA)
     if (!all(Coupe_ON %in% valid_values)) {
-      stop("Les valeurs de Coupe_ON doivent etre entre 0 et 18 ou NA")
+      stop("Les valeurs de Coupe_ON doivent etre entre 0 et 19 ou NA")
     }
   }
 
@@ -243,7 +243,6 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   doFuture::registerDoFuture()
   options(future.globals.maxSize= 891289600)###Monte la tolérence à 850 megs pour les éléments passés dans do futur
   future::plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
-  #plan(multisession)
   #plan(sequential) #temporaire
 
   list_plot <- unique(Data$PlacetteID)
