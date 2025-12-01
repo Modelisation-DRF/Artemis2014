@@ -39,7 +39,7 @@ Taper cette ligne dans une invite de commande pour cloner le dépôt dans un sou
 git clone https://github.com/Modelisation-DRF/Artemis2014 Artemis2014
 ```
 
-## Comment installer le package Natura3 dans R
+## Comment installer le package Artemis2014 dans R
 
 ```{r eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 require(remotes)
@@ -48,8 +48,9 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 
 ## Historique des versions
 
-| Date |  Version  | Features et bugs | Détails |
-|:-----|:---------:|:-----------------|:--------|
-| 2025-04-25 | 4.3.0 |  | Premiere version stable |
-| 2025-09-23 | 4.4.1 |Correction de la fonction GenereClimat Implementation du module de coupe | |
+| Date    |  Version  | Features et bugs  | Détails |
+|:-------:|:---------:|:-----------------:|:--------|
+| 2025-04-25 | 4.3.0 |                | Premiere version stable |
+| 2025-09-23 | 4.4.1 |Correction de la fonction GenereClimat Implementation du module de coupe |
+| 2025-12-01 | 4.4.2 |Ajustement des répétition de GenereClimat||
 
