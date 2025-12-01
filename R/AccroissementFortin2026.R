@@ -15,7 +15,7 @@
 #'
 #' Make population-averaged predictions using the mixed truncated Tobit model
 #'
-#' @param species
+#' @param species Espece selon les codes en vigueur au Québec
 #' @param deltaT Interval de temps  (années)
 #' @param BAL surface terrière (m2/ha) des arbres plus grands
 #' @param DBH diamètre à hauteur de poitrine (cm)

@@ -25,7 +25,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
   if (AnneeFin > as.numeric(format(Sys.Date(), "%Y"))) {
     suppressMessages(
-      Placettes <- Data_Ori %>%
+      PlacettesTot<- Data_Ori %>%
         group_by(PlacetteID, Latitude, Longitude, Altitude) %>%
         summarise()
     )
@@ -33,32 +33,43 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
     AnneeDep <- ifelse(AnneeDep > 1991, 1991, AnneeDep)###1991 pour période climat historique 1981-2010
 
-    QcAn <- as.data.frame(BioSIM::generateWeather("ClimaticQc_Annual", AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude,
-      Placettes$Longitude, Placettes$Altitude,
-      rep = 5, repModel = 1, rcp = RCP, climModel = "RCM4"
+    ngroupes<-(ceiling(nrow(PlacettesTot)/8))
+
+    Groupes<-rep(c(rep(1,8),rep(2,8),rep(3,8),rep(4,8),rep(5,8),rep(6,8),rep(7,8),rep(8,8)),ceiling(ngroupes/8)) ######Les groupes sont constitué de 8 répétition pour tenir compte de potentielles correlation entre les placettes situées une à la suite de l'autres dans le Df
+
+    Groupes<-Groupes[1:nrow(PlacettesTot)]
+
+    PlacettesTot$Groupes<-Groupes
+
+    ClimAnTot<-c()
+
+    ClimMoisTot<-c()
+
+    for(i in (unique(Groupes))){
+
+    Placettes<-PlacettesTot[which(PlacettesTot$Groupes==i),]
+
+     ClimQc <- as.data.frame(BioSIM::generateWeather(c("Climate_Moisture_Index_Monthly","VaporPressureDeficit_Monthly","ClimaticQc_Annual"),
+      AnneeDep, AnneeFin, Placettes$PlacetteID, Placettes$Latitude, Placettes$Longitude, Placettes$Altitude,
+      rep = 30, repModel = 1, rcp = RCP, climModel = "RCM4"
     ))
 
-    CMIMois <- as.data.frame(BioSIM::generateWeather(c("Climate_Moisture_Index_Monthly","VaporPressureDeficit_Monthly"), AnneeDep,
-                            AnneeFin, Placettes$PlacetteID, Placettes$Latitude, Placettes$Longitude, Placettes$Altitude,
-      rep = 5, repModel = 1, rcp = RCP, climModel = "RCM4"
-    ))
 
+    ClimAn <- ClimQc[, c(24, 29,28, 39, 31, 35, 36, 47, 30)]
+    names(ClimAn) <- c("PlacetteID", "Annee","Repetition", "FFP", "PTot", "TMoy", "Tmax_yr", "Aridity", "DD")
     suppressMessages(
-      shutdownClient()
+     ClimAn<-ClimAn %>%
+            group_by(PlacetteID,Annee,Repetition) %>%
+            summarise(FFP=first(FFP),PTot=first(PTot),TMoy=first(TMoy),Tmax_yr=first(Tmax_yr),Aridity=first(Aridity),DD=first(DD)) %>%
+            group_by(PlacetteID, Annee) %>%
+            summarise(FFP = mean(FFP), PTot = mean(PTot), TMoy = mean(TMoy), Tmax_yr = mean(Tmax_yr), Aridity = mean(Aridity), DD = mean(DD))
     )
 
-    ClimAn <- QcAn[, c(1, 6, 17, 8, 12, 13, 24, 7)]
-    names(ClimAn) <- c("PlacetteID", "Annee", "FFP", "PTot", "TMoy", "Tmax_yr", "Aridity", "DD")
     ClimAn$rcp <- RCP
+
     ClimAn <- ClimAn[, c(1, 9, 2:8)]
 
-    suppressMessages(
-      ClimAn <- ClimAn %>%
-        group_by(PlacetteID, rcp, Annee) %>%
-        summarise(FFP = mean(FFP), PTot = mean(PTot), TMoy = mean(TMoy), Tmax_yr = mean(Tmax_yr), Aridity = mean(Aridity), DD = mean(DD))
-    )
-
-    ClimMois_ini <- CMIMois[, c(1, 6, 7, 8, 9, 10, 12, 22)]
+    ClimMois_ini <- ClimQc[, c(1, 6, 7, 8, 9, 10, 12, 22)]
     names(ClimMois_ini) <- c("PlacetteID", "Annee", "Mois", "Tmax",  "Tmin", "PTot", "CMI", "VPD")
     ClimMois_ini$rcp <- RCP
     ClimMois_ini <- ClimMois_ini[, c(1, 9, 2:8)]
@@ -93,9 +104,15 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
         left_join(CMIVPD)
     )
 
-    rm(QcAn, CMIMois, CMI)
+    rm(ClimQc,CMIVPD,CMI)
 
-    ClimTot <- list(ClimAn, ClimMois)
+    ClimAnTot<-rbind(ClimAnTot,ClimAn)
+
+    ClimMoisTot<-rbind(ClimMoisTot,ClimMois)
+
+    }
+
+    ClimTot <- list(ClimAnTot, ClimMoisTot)
 
   } else {
     suppressMessages(

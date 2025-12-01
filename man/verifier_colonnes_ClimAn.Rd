@@ -7,7 +7,7 @@
 verifier_colonnes_ClimAn(data)
 }
 \arguments{
-\item{data}{Un dataframe représentant le fichier d'arbres.}
+\item{data}{Un dataframe représentant les données climatiques annuelles.}
 }
 \value{
 Une liste des noms des colonnes manquantes.

@@ -51,5 +51,6 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 | Date |  Version  | Features et bugs | Détails |
 |:-----|:---------:|:-----------------|:--------|
 | 2025-04-25 | 4.3.0 |  | Premiere version stable |
-| 2025-09-23 | 4.4.1 |Correction de la fonction GenereClimat Implementation du module de coupe | |
+| 2025-09-23 | 4.4.1 |Correction de la fonction GenereClimat Implementation du module de coupe |
+| 2025-12-01 | 4.4.2 |Ajustement des répétition de GenereClimat||
 
