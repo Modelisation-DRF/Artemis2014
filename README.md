@@ -52,6 +52,8 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 | Date    |  Version  | Features et bugs  | Détails |
 |:-------:|:---------:|:-----------------:|:--------|
 | 2025-04-25 | 4.3.0 |                | Premiere version stable |
-| 2025-09-23 | 4.4.1 |Correction de la fonction GenereClimat Implementation du module de coupe |
-| 2025-12-01 | 4.4.2 |Ajustement des répétition de GenereClimat||
+| 2025-09-23 | 4.4.1 |GenereClimat|Correction de la fonction GenereClimat Implementation du module de coupe |
+| 2025-12-01 | 4.4.2 |GenereClimat|Ajustement des répétition de GenereClimat|
+| 2025-12-03 | 4.4.3 |ArtemisClimat|Correction erreur sur effet Résiduel qui n'était pas appliqué|
+| 2025-12-08 | 4.4.4 |MortaliteQUE| Modifié GenereClimat pour arrèter les simulations après 2100. Augmenté le nombre de répétition des effet aléatoire de 500 à 1000, changer médiane effets aléatoires pour moyenne|
 

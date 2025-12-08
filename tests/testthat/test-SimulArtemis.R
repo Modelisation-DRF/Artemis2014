@@ -116,3 +116,25 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement QUE (Fortin
 
 
 # il manque un test avec Residuel=1
+
+test_that("La fonction simulateurArtemis(), Peuplement résduel, Module d’accroissement Original et Module de mortalité Original", {
+
+  set.seed(NULL)
+  set.seed(3)
+
+
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,Horizon = 3 ,Tendance=0 ,Residuel=1 ,AccModif='ORI',MortModif='ORI', EvolClim=0) %>%
+    arrange(PlacetteID,origTreeID,Annee)
+
+  set.seed(NULL)
+
+
+  expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI.rds"))%>%
+    arrange(PlacetteID,origTreeID,Annee)
+
+
+
+  expect_equal(Result, expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI, tolerance = 1e-2)#####Changé la tolérance à cause de la correction de quadrature
+  # Gauss-Hermite qui doit générer des distributions
+
+})

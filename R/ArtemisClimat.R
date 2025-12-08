@@ -160,7 +160,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   tbe1 <- 0
 
   Coupe0 <- 0
-  Coupe <- 0
+  Coupe <-ifelse(Residuel[1]==1,1,0)
   Coupe1 <- 0
 
 ################################################################################
@@ -183,15 +183,21 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         mutate(ArbreID=origTreeID)
       Annee <- AnneeDep
     }  else {                            # Si 2e pas de simulation ou plus, on prend le fichier qui contient les simulations et on garde seulement le dernier pas
-      Plac <- outputTot %>%
-        filter(Annee == AnneeDep+((k-1)*t) & Etat=="vivant") #IA: j'ai changé le 10 pour t
-      }
-    Annee<-Plac$Annee[1]
 
-    #Mise à jour coupes
-    Coupe1<-ifelse(Coupe==1,1,0)
-    Coupe<-ifelse(Coupe0==1,1,0)
-    Coupe0<-0
+      Plac <- outputTot %>%
+              filter(Annee == AnneeDep+((k-1)*t) & Etat=="vivant") #IA: j'ai changé le 10 pour t
+
+      Annee<-Plac$Annee[1] #Mise à jour de la variable Annee
+
+      #Mise à jour coupes faite seulement après la première étape de simulation
+      Coupe1<-ifelse(Coupe==1,1,0)
+      Coupe<-ifelse(Coupe0==1,1,0)
+      Coupe0<-0
+
+      }
+
+
+
     Plac<-BAL(Plac,FacHa=FacHa)
     # calcul variable echelle placette
     sum_st_ha <- sum(Plac$ST_m2[which(Plac$Etat=="vivant")])
@@ -227,8 +233,11 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
                                    trt_coupe = Coupe_ON[k],
                                    mode_simul = "DET",
                                    modifier = modifier_k)
-      # Mettre à jour Coupe0=1
+
+      # Mettre à jour Coupe0=1 Coupe1=0 et Coupe=0
       Coupe0 <- 1
+      Coupe <- 0
+      Coupe1 <- 0
       # Recalculer la colonne Nombre
       Plac <- Plac %>%
         left_join(resultat_coupe %>% select(no_arbre, prob_coupe),

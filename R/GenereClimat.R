@@ -33,6 +33,8 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
     AnneeDep <- ifelse(AnneeDep > 1991, 1991, AnneeDep)###1991 pour période climat historique 1981-2010
 
+    AnneeFin <- ifelse(AnneeFin > 2100, 2100, AnneeFin)###Les simulations peuvent être effectuées jusqu'à 2100
+
     ngroupes<-(ceiling(nrow(PlacettesTot)/8))
 
     Groupes<-rep(c(rep(1,8),rep(2,8),rep(3,8),rep(4,8),rep(5,8),rep(6,8),rep(7,8),rep(8,8)),ceiling(ngroupes/8)) ######Les groupes sont constitué de 8 répétition pour tenir compte de potentielles correlation entre les placettes situées une à la suite de l'autres dans le Df
@@ -62,7 +64,8 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
             group_by(PlacetteID,Annee,Repetition) %>%
             summarise(FFP=first(FFP),PTot=first(PTot),TMoy=first(TMoy),Tmax_yr=first(Tmax_yr),Aridity=first(Aridity),DD=first(DD)) %>%
             group_by(PlacetteID, Annee) %>%
-            summarise(FFP = mean(FFP), PTot = mean(PTot), TMoy = mean(TMoy), Tmax_yr = mean(Tmax_yr), Aridity = mean(Aridity), DD = mean(DD))
+            summarise(FFP = median(FFP), PTot = median(PTot), TMoy = median(TMoy), Tmax_yr = median(Tmax_yr),
+                      Aridity = median(Aridity), DD = median(DD))
     )
 
     ClimAn$rcp <- RCP
@@ -77,7 +80,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
     suppressMessages(
       ClimMois <- ClimMois_ini %>%
         group_by(PlacetteID, rcp, Annee, Mois) %>%
-        summarise(Tmin = mean(Tmin), Tmax = mean(Tmax), PTot = mean(PTot)*10)#####Conversion des précipitations de cm en mm
+        summarise(Tmin = median(Tmin), Tmax = median(Tmax), PTot = median(PTot)*10)#####Conversion des précipitations de cm en mm
     )
 
 
@@ -85,7 +88,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
       CMI <- ClimMois_ini %>%
              filter(Mois %in% c(5, 6, 7, 8, 9)) %>%
              group_by(PlacetteID, Annee, Mois) %>%
-             summarise(CMI = mean(CMI)) %>%
+             summarise(CMI = median(CMI)) %>%
              group_by(PlacetteID, Annee) %>%
              summarise(CMI = sum(CMI)*10) #####Conversion CMI cm en CMI en mm
     )
@@ -94,6 +97,8 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
     suppressMessages(        #CMI en cm et VPD pour Accroissement Fortin 2026
      CMIVPD <- ClimMois_ini %>%
                filter(Mois %in% c( 6, 7, 8)) %>%
+               group_by(PlacetteID, Annee, Mois) %>%
+               summarise(CMI = median(CMI),VPD=median(VPD)) %>%
                group_by(PlacetteID, Annee) %>%
                summarise(CMIcm = mean(CMI), VPD=mean(VPD))
     )

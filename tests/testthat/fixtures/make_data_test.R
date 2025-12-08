@@ -1,5 +1,3 @@
-
-
 # Fichier pour les tests du simulateur Artemis Module d’accroissement Original et Module de mortalité Original
 
 saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds")
@@ -16,6 +14,10 @@ saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_GAM_Mo
 
 saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_QUE_MortModif_QUE.rds")
 
+# Fichier pour les tests du simulateur Artemis avec Peuplement residuel, Module d’accroissement ORI et Module de mortalité ORI
+
+saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI.rds")
+
 
 
 #  Fichier des arbres sur lequel on applique la fonction de d'Accroissement
@@ -29,7 +31,7 @@ saveRDS(PredAcc, "tests/testthat/fixtures/PredAcc.rds")
 saveRDS(expect_test_for_Artemis_accroissement, "tests/testthat/fixtures/expect_test_for_Artemis_accroissement.rds")
 
 # Data frame résultant de la fonction d'accroissement.
-saveRDS(expect_test_for_Artemis_MortaliteQUE, "tests/testthat/fixtures/expect_test_for_Artemis_MortaliteQUE.rds")
+saveRDS(PredMort, "tests/testthat/fixtures/expect_test_for_Artemis_MortaliteQUE.rds")
 
 
 # Fichier des arbres sur lequel on applique la fonction de de Mortalité

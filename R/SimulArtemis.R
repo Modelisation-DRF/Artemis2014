@@ -265,6 +265,17 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
       ungroup() %>%
       dplyr::select(PlacetteID,Annee,PTot,TMoy)########Ajuste la température et les précipitations pour le calcul de la hauteur
 
+   if ((AnneeDep+Horizon*10)>2100){           #########Reporte les températures et les précipitations de 2100 pour les années subséquentes
+    ListePe<-data.frame("PlacetteID"=unique(PTotTMoyEvol$PlacetteID))
+    Annee<-data.frame("Annee"=seq(AnneeDep,AnneeDep+Horizon*10,1))
+    ListePeAnnee<-merge(ListePe,Annee)
+suppressMessages(
+    PTotTMoyEvol<-left_join(ListePeAnnee,PTotTMoyEvol) %>%
+                  group_by(PlacetteID) %>%
+                  mutate(PTot=ifelse(Annee>2100,PTot[which(Annee==2100)],PTot), TMoy=ifelse(Annee>2100,TMoy[which(Annee==2100)],TMoy)) %>%
+                  arrange(PlacetteID,Annee))
+   }
+
     suppressMessages(
       Final<-Final %>%
         dplyr::select(-PTot,-TMoy) %>%

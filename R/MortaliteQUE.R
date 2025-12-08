@@ -104,7 +104,7 @@ mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, 
           fctRand<-function(Data){rnorm(1,mean=0,sd=Data^0.5)} # Fonction pour créer l'effet aléatoire
           ListeEss_regroupe<-unique(Input$Ess_regroupe)
           CovParmsQUE<-CovParmsQUE %>% filter(Essence %in% ListeEss_regroupe)
-          CovParmsQUE<-CovParmsQUE[rep(seq_len(nrow(CovParmsQUE)), each = 500), ]
+          CovParmsQUE<-CovParmsQUE[rep(seq_len(nrow(CovParmsQUE)), each = 1000), ]
           CovParmsQUE$ranef<-sapply(CovParmsQUE$Variance,fctRand)
 
 
@@ -116,7 +116,7 @@ mortQUE<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, 
              left_join(CovParmsQUE, by="Essence") %>%
              mutate(pred_mort=(1-exp(-exp(pred_mort+ranef)))) %>%  #le modele de mortalite est avec un lien cloglog
              group_by(origTreeID) %>%
-             summarise(pred_mort=median(pred_mort)))
+             summarise(pred_mort=mean(pred_mort)))
 
           return (Output)
 
