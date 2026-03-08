@@ -42,7 +42,7 @@ Suggests:
     testthat (>= 3.0.0)
 Remotes:
     CWFC-CCFB/J4R,
-    Modelisation-DRF/Billonnage,
+    Modelisation-DRF/BillonnagePetro,
     Modelisation-DRF/ExtractMap,
     Modelisation-DRF/OutilsDRF,
     RNCan/BioSimClient_R
