@@ -26,7 +26,7 @@ Ce package dépends des packages suivants.
 
 - ExtractMap est disponible ici: https://github.com/Modelisation-DRF/ExtractMap
 
-- Billonage est disponible ici: https://github.com/Modelisation-DRF/Billonnage
+- BillonagePetro est disponible ici: https://github.com/Modelisation-DRF/BillonnagePetro
 
 - CWFC-CCFB/J4R est disponible ici: https://github.com/CWFC-CCFB/J4R
 
