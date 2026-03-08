@@ -33,7 +33,7 @@ Imports:
     gbm,
     mgcv,
     iterators,
-    BillonagePetro,
+    BillonnagePetro,
     BioSIM (>= 1.0.5),
     ExtractMap,
     OutilsDRF,
