@@ -4,7 +4,7 @@
 \alias{trouver_noms_absents}
 \title{Vérifier la présence des colonnes obligatoires dans le fichier d'arbres}
 \usage{
-trouver_noms_absents(Data, Mort_Modif, Acc_Modif)
+trouver_noms_absents(Data, MortModif, AccModif)
 }
 \arguments{
 \item{Data}{Un dataframe représentant le fichier d'arbres.}

@@ -88,7 +88,7 @@ Data<-Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp) #%>%
 
 
 
-if (AccModif!="ORI" | EvolClim==1 | MortModif=="QUE"){
+if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
 
   IndexPlacette<-Data %>% group_by(PlacetteID) %>% summarise()
 
