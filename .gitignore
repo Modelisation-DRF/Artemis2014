@@ -3,7 +3,9 @@
 .RData
 .Ruserdata
 /ValidArtemis/*
-/data-raw/*
+/data-raw/Fortin2026/*
+/data-raw/MortQUE/*
+/data-raw/Parametres/*
 Liste variables climatiques.xlsx
 IndexDataRaw.xlsx
 Aide application R du simulateur Art?mis 2014.docx

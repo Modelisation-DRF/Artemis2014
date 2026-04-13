@@ -7,6 +7,7 @@ initiales ainsi qu'un choix de parametres pour la simulation.}
 \usage{
 simulateurArtemis(
   Data_ori,
+  AnneeDep = NULL,
   Horizon,
   ClimMois = NULL,
   ClimAn = NULL,
@@ -29,6 +30,9 @@ simulateurArtemis(
 "Pente","PTot","TMoy","GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition",
 "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
  sur certains champs n'est pas disponible, on peut le laisser vide.}
+
+\item{AnneeDep}{Permet de ficxer l'année de départ de la simulation. Si laissé vide
+l'année courante sera utilisée.}
 
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}

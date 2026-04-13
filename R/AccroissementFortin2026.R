@@ -36,7 +36,7 @@
     BAL=Accrois$BAL
     DBH=Accrois$DBH
     BAS=Accrois$BAS
-    VPD=Accrois$VPD
+    VPD=Accrois$UtilVPD
     CMI=Accrois$CMI
     DD=Accrois$DD
     SBWoutbreak=Accrois$SBWoutbreak

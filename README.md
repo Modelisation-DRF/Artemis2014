@@ -57,4 +57,5 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 | 2025-12-03 | 4.4.3 |ArtemisClimat|Correction erreur sur effet Résiduel qui n'était pas appliqué|
 | 2025-12-08 | 4.4.4 |MortaliteQUE| Modifié GenereClimat pour arrèter les simulations après 2100. Augmenté le nombre de répétition des effet aléatoire de 500 à 1000, changer médiane effets aléatoires pour moyenne|
 | 2026-03-09 | 4.4.5 |Billonnage|Modifier les noms de packages et de fonctions pour tenir compte des modifications dans le package de billonnage|
+|2026-04-14| 4.4.6 |Ajout des équations de mortalité pour les essences de la forêt tempérée|
 

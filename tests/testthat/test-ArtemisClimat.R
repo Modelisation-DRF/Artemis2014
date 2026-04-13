@@ -6,6 +6,7 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
   Data <- readRDS(test_path("fixtures", "placcette_ArtemisClim.rds"))
+  Data$Depot<-"Tv"
   AnneeDep <- 2025
   Horizon <- 3
   FacHa <- 25

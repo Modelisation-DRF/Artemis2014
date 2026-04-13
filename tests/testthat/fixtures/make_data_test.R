@@ -14,6 +14,11 @@ saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_GAM_Mo
 
 saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_QUE_MortModif_QUE.rds")
 
+# Fichier pour les tests du simulateur Artemis Module d’accroissement QUE et Module de mortalité CANEU
+
+saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_QUE_MortModif_CANEU.rds")
+
+
 # Fichier pour les tests du simulateur Artemis avec Peuplement residuel, Module d’accroissement ORI et Module de mortalité ORI
 
 saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI.rds")
