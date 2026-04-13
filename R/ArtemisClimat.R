@@ -258,6 +258,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         mutate(Residuel = 1)
 
       #Mise à jour des valeurs placette
+
       Plac_apres_coupe<-BAL(Plac_apres_coupe,FacHa=FacHa)
       # calcul variable echelle placette
       sum_st_ha <- sum(Plac_apres_coupe$ST_m2[which(Plac_apres_coupe$Etat=="vivant")])
@@ -268,6 +269,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       mq_DHPcm <- sqrt(sum_st_ha/n_arbre_ha*40000/3.1416)
       shannon <- Shannon(Plac_apres_coupe,FacHa=FacHa)
       gini <- Gini(Plac_apres_coupe)
+
     }
 
     # Ajout des donnees CO2 de la période si nécessaire
