@@ -61,7 +61,7 @@
 #' )
 #' }
 #'
-#' @seealso \code{\link{SortieSybille}}, \code{\link{SortieBillonage}}
+#' @seealso \code{\link{SortieSybille}}, \code{\link{SortieBillonnage}}
 #' @export
 SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, diam_grade1 = NA, nom_grade2 = NA, long_grade2 = NA, diam_grade2 = NA,
                                nom_grade3 = NA, long_grade3 = NA, diam_grade3 = NA, Simplifier = FALSE) {
@@ -77,7 +77,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
   Data_Arbre <- SortieArbre(Data, simplifier = Simplifier)
 
   # On obtient Petro
-  Petro <- SortieBillonage(Data, Type)
+  Petro <- SortieBillonnage(Data, Type)
 
   #On fusionne les 2
   Fusion <- rbind(Petro, Sybille, fill = TRUE)

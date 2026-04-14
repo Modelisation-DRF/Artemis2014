@@ -98,5 +98,5 @@ resultat <- SortieBillesFusion(
 
 }
 \seealso{
-\code{\link{SortieSybille}}, \code{\link{SortieBillonage}}
+\code{\link{SortieSybille}}, \code{\link{SortieBillonnage}}
 }

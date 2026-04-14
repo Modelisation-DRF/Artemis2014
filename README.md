@@ -26,7 +26,7 @@ Ce package dépends des packages suivants.
 
 - ExtractMap est disponible ici: https://github.com/Modelisation-DRF/ExtractMap
 
-- Billonage est disponible ici: https://github.com/Modelisation-DRF/Billonnage
+- BillonagePetro est disponible ici: https://github.com/Modelisation-DRF/BillonnagePetro
 
 - CWFC-CCFB/J4R est disponible ici: https://github.com/CWFC-CCFB/J4R
 
@@ -56,4 +56,5 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 | 2025-12-01 | 4.4.2 |GenereClimat|Ajustement des répétition de GenereClimat|
 | 2025-12-03 | 4.4.3 |ArtemisClimat|Correction erreur sur effet Résiduel qui n'était pas appliqué|
 | 2025-12-08 | 4.4.4 |MortaliteQUE| Modifié GenereClimat pour arrèter les simulations après 2100. Augmenté le nombre de répétition des effet aléatoire de 500 à 1000, changer médiane effets aléatoires pour moyenne|
+| 2026-03-09 | 4.4.5 |Billonnage|Modifier les noms de packages et de fonctions pour tenir compte des modifications dans le package de billonnage|
 
