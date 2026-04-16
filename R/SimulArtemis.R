@@ -252,12 +252,14 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
 
   list_plot <- unique(Data$PlacetteID)
 
-  Final<- bind_rows(
+ suppressWarnings(
+   Final<- bind_rows(
     foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
                      TBE = TBE)}
+   )
   )
 
   future::plan(sequential)

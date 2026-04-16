@@ -36,7 +36,7 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
   expect_test_for_Artemis_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds"))
   # la colonne residuel n'est pas dans ce data...
 
-  expect_test_for_Artemis_AccModif_ORI_MortModif_ORI<-as.data.table(expect_test_for_Artemis_AccModif_ORI_MortModif_ORI)
+  expect_test_for_Artemis_AccModif_ORI_MortModif_ORI<-data.table::as.data.table(expect_test_for_Artemis_AccModif_ORI_MortModif_ORI)
 
   expect_equal(Result, expect_test_for_Artemis_AccModif_ORI_MortModif_ORI , tolerance = 1e-6)
 
@@ -164,5 +164,52 @@ test_that("La fonction simulateurArtemis(), Peuplement résduel, Module d’accr
   # Gauss-Hermite qui doit générer des distributions
 
 })
+
+test_that("La fonction simulateurArtemis(), coupe jardinage à la deuxième décennie, Module d’accroissement Original et Module de mortalité Original", {
+
+  set.seed(NULL)
+  set.seed(3)
+
+
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='ORI',
+                              Coupe_ON = c(NA,3,NA),MortModif='ORI', EvolClim=0) %>%
+            arrange(PlacetteID,origTreeID,Annee)
+
+  set.seed(NULL)
+
+
+  expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_Jardinage_AccModif_ORI_MortModif_ORI.rds"))%>%
+    arrange(PlacetteID,origTreeID,Annee)
+
+
+
+  expect_equal(Result, expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI, tolerance = 1e-2)#####Changé la tolérance à cause de la correction de quadrature
+  # Gauss-Hermite qui doit générer des distributions
+
+})
+
+test_that("La fonction simulateurArtemis(), tbe à la deuxième décennie, Module d’accroissement Original et Module de mortalité Original", {
+
+  set.seed(NULL)
+  set.seed(3)
+
+
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='ORI',
+                              TBE = c(0,1,0),MortModif='ORI', EvolClim=0) %>%
+            arrange(PlacetteID,origTreeID,Annee)
+
+  set.seed(NULL)
+
+
+  expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI <- readRDS(test_path("fixtures", "expect_test_for_Artemis_TBE_AccModif_ORI_MortModif_ORI.rds"))%>%
+    arrange(PlacetteID,origTreeID,Annee)
+
+
+
+  expect_equal(Result, expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI, tolerance = 1e-2)#####Changé la tolérance à cause de la correction de quadrature
+  # Gauss-Hermite qui doit générer des distributions
+
+})
+
 
 
