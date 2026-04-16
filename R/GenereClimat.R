@@ -57,20 +57,21 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
     ))
 
 
-    ClimAn <- ClimQc[, c(24, 29,28, 39, 31, 35, 36, 47, 30)]
-    names(ClimAn) <- c("PlacetteID", "Annee","Repetition", "FFP", "PTot", "TMoy", "Tmax_yr", "Aridity", "DD")
+    ClimAn <- ClimQc[, c(24, 29,28, 39, 31, 35, 36 ,44, 47, 30)]
+    names(ClimAn) <- c("PlacetteID", "Annee","Repetition", "FFP", "PTot", "TMoy", "Tmax_yr","TotalVPD", "Aridity", "DD")
     suppressMessages(
      ClimAn<-ClimAn %>%
             group_by(PlacetteID,Annee,Repetition) %>%
-            summarise(FFP=first(FFP),PTot=first(PTot),TMoy=first(TMoy),Tmax_yr=first(Tmax_yr),Aridity=first(Aridity),DD=first(DD)) %>%
+            summarise(FFP=first(FFP),PTot=first(PTot),TMoy=first(TMoy),Tmax_yr=first(Tmax_yr),TotalVPD=first(TotalVPD),
+                      Aridity=first(Aridity),DD=first(DD)) %>%
             group_by(PlacetteID, Annee) %>%
             summarise(FFP = median(FFP), PTot = median(PTot), TMoy = median(TMoy), Tmax_yr = median(Tmax_yr),
-                      Aridity = median(Aridity), DD = median(DD))
+                      TotalVPD=mean(TotalVPD), Aridity = median(Aridity), DD = median(DD))
     )
 
     ClimAn$rcp <- RCP
 
-    ClimAn <- ClimAn[, c(1, 9, 2:8)]
+    ClimAn <- ClimAn[, c(1, 10, 2:9)]
 
     ClimMois_ini <- ClimQc[, c(1, 6, 7, 8, 9, 10, 12, 22)]
     names(ClimMois_ini) <- c("PlacetteID", "Annee", "Mois", "Tmax",  "Tmin", "PTot", "CMI", "VPD")
@@ -100,7 +101,7 @@ GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
                group_by(PlacetteID, Annee, Mois) %>%
                summarise(CMI = median(CMI),VPD=median(VPD)) %>%
                group_by(PlacetteID, Annee) %>%
-               summarise(CMIcm = mean(CMI), VPD=mean(VPD))
+               summarise(CMIcm = mean(CMI), UtilVPD=mean(VPD))
     )
 
     suppressMessages(

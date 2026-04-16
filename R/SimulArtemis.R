@@ -32,6 +32,7 @@
 #'
 #' @param MortModif Choix de fonction de mortalité "ORI" pour les équation originales d'Artemis 2014,
 #'                 "QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025
+#'                 "CANEU"  pour les équation de mortalité basés sur les données du Canada et des États-Unis
 #'
 #' @param RCP  Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1
 #'
@@ -52,6 +53,9 @@
 #'            Le nombre d'éléments doit être égal à Horizon.
 #'            1 = effet TBE présent, 0 = pas d'effet TBE.
 #'            Par défaut = NULL (pas de TBE).
+#'
+#'@param AnneeDep Permet de ficxer l'année de départ de la simulation. Si laissé vide
+#'                l'année courante sera utilisée.
 #'
 #' @return Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
 #'         leur hauteur et leur volume pour chaque placette
@@ -86,8 +90,8 @@
 #'
 
 
-simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45', Coupe_ON = NULL,
-                          Coupe_modif = NULL, TBE = NULL){
+simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,
+                            AccModif='ORI',MortModif='ORI',RCP='RCP45', Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
 
 
   if (!exists("Data_ori")){
@@ -112,7 +116,7 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     stop("Les valeurs permises pour l'argument Residuel sont 0 ou 1")
   }
 
-  if(!MortModif %in% c("ORI","QUE")){
+  if(!MortModif %in% c("ORI","QUE","CANEU")){
     stop("Les valeurs permises pour l'argument MortModif sont ORI ou QUE")
   }
 
@@ -205,7 +209,8 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
   Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
-  AnneeDep <- as.numeric(format(Sys.Date(), "%Y"))
+
+  AnneeDep <- if (is.null (AnneeDep)) {as.numeric(format(Sys.Date(), "%Y"))}else{AnneeDep}
 
   Data_ori<-renommer_les_colonnes(Data_ori)
 
@@ -222,11 +227,11 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
     ClimAn <- ClimAn %>% mutate(PlacetteID = paste0("P", PlacetteID))
   }
 
-  Data_ori<-vevifier_variable_meteo(Data_ori)
+  Data_ori<-verifier_variable_meteo(Data_ori)
 
-  Data_ori<-vevifier_variable_Sol(Data_ori)
+  Data_ori<-verifier_variable_Sol(Data_ori)
 
-  Data_ori<-vevifier_variable_Sation(Data_ori)
+  Data_ori<-verifier_variable_Station(Data_ori)
 
   if( !"Age_moy" %in% names(Data_ori)){
 
@@ -247,12 +252,14 @@ simulateurArtemis<-function(Data_ori,Horizon,ClimMois = NULL ,ClimAn = NULL,Tend
 
   list_plot <- unique(Data$PlacetteID)
 
-  Final<- bind_rows(
+ suppressWarnings(
+   Final<- bind_rows(
     foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
                      TBE = TBE)}
+   )
   )
 
   future::plan(sequential)

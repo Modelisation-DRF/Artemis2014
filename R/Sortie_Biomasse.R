@@ -38,5 +38,5 @@ SimulHtVolTot<-rbind(SimulHtVolEss,SimulHtVolGrEss) %>%
 
 rm(ListeSp,SimulHtVolEss)
 
-return(SortieBiomasse)
+return(SimulHtVolTot)
 }

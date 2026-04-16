@@ -14,10 +14,22 @@ saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_GAM_Mo
 
 saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_QUE_MortModif_QUE.rds")
 
+# Fichier pour les tests du simulateur Artemis Module d’accroissement QUE et Module de mortalité CANEU
+
+saveRDS(Result, "tests/testthat/fixtures/expect_test_for_Artemis_AccModif_QUE_MortModif_CANEU.rds")
+
+
 # Fichier pour les tests du simulateur Artemis avec Peuplement residuel, Module d’accroissement ORI et Module de mortalité ORI
 
 saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Residuel_AccModif_ORI_MortModif_ORI.rds")
 
+# Fichier pour les tests du simulateur Artemis avec coupe jardinage, Module d’accroissement ORI et Module de mortalité ORI
+
+saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Jardinage_AccModif_ORI_MortModif_ORI.rds")
+
+# Fichier pour les tests du simulateur Artemis avec tbe, Module d’accroissement ORI et Module de mortalité ORI
+
+saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Tbe_AccModif_ORI_MortModif_ORI.rds")
 
 
 #  Fichier des arbres sur lequel on applique la fonction de d'Accroissement
@@ -89,3 +101,6 @@ saveRDS(ResultPlacette, "tests/testthat/fixtures/expect_result_for_Sortie_Placet
 # Résultats sortie billonage
 saveRDS(ResultBillon, "tests/testthat/fixtures/expect_result_for_Sortie_Billonnage_0_ORI_ORI.rds")
 saveRDS(ResultBillon2015, "tests/testthat/fixtures/expect_result_for_Sortie_Billonnage2015_0_ORI_ORI.rds")
+
+# Résultat sortie Biomasse
+saveRDS(ResultBiomasse, "tests/testthat/fixtures/expect_result_for_Sortie_Biomasse_0_ORI_ORI.rds")

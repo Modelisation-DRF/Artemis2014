@@ -74,13 +74,43 @@ ChargeModeles<- function(AccModif, MortModif){
       CovParmMortQUE<-CovParmMortQUE
     )
   }
-  else{
+
+  if (MortModif=='CANEU') {
+
+    # Parametres mortalite CANEU
+
+    suppressMessages(
+      EssGrMortQUE<-EssGrMortQUE
+    )
+    suppressMessages(
+      ParaMortQUE<-ParaMortQUE
+    )
+    suppressMessages(
+      CovParmMortQUE<-CovParmMortQUE
+    )
+
+    suppressMessages(
+      EssGrMortCANEU<-EssGrMortCANEU
+    )
+    suppressMessages(
+      ParaMort<-ParaMortCANEU
+    )
+    suppressMessages(
+      CovParmMort<-CovParmMortCANEU
+    )
+  }
+
+  if (MortModif=='ORI'){
     EssGrMortQUE=NA
     ParaMortQUE=NA
     CovParmMortQUE=NA
+    EssGrMortCANEU=NA
+    ParaMortCANEU=NA
+    CovParmMortCANEU=NA
   }
 
-  Models<-list(mod_bop,mod_epb,mod_epn,mod_pig,mod_peu,mod_sab,EssGr,PropEPX,EssGrMortQUE,ParaMortQUE,CovParmMortQUE)
+  Models<-list(mod_bop,mod_epb,mod_epn,mod_pig,mod_peu,mod_sab,EssGr,PropEPX,EssGrMortQUE,ParaMortQUE,CovParmMortQUE,
+               EssGrMortCANEU,ParaMortCANEU,CovParmMortCANEU)
 
 return(Models)
 }

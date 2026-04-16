@@ -25,7 +25,7 @@ renommer_les_colonnes <- function(data){
 
   ColOrdre <- c("PlacetteID", "origTreeID", "Espece", "DHPcm", "Nombre", "Etat", "Dom_Bio",
                 "Sdom_Bio", "Reg_Eco", "Cl_Drai", "Veg_Pot", "Type_Eco", "Latitude", "Longitude",
-                "Altitude", "PTot", "TMoy", "sand_015cm", "cec_015cm", "Age_moy", "Pente", "Exposition")
+                "Altitude", "PTot", "TMoy", "sand_015cm", "cec_015cm", "Age_moy", "Pente", "Exposition","Depot")
 
 
   noms_colonnes_existants <- tolower(names(data))
@@ -58,7 +58,7 @@ renommer_les_colonnes <- function(data){
 #'
 #' @export
 #'
-trouver_noms_absents <- function(Data, Mort_Modif,Acc_Modif) {
+trouver_noms_absents <- function(Data, MortModif,AccModif) {
 
   ColOrdre1<- c("PlacetteID", "origTreeID", "Espece", "DHPcm", "Nombre", "Etat",
                 "Reg_Eco", "Cl_Drai", "Veg_Pot", "Type_Eco", "Latitude", "Longitude",
@@ -68,7 +68,7 @@ trouver_noms_absents <- function(Data, Mort_Modif,Acc_Modif) {
                "Reg_Eco", "Cl_Drai", "Veg_Pot", "Type_Eco", "Latitude", "Longitude",
                "Altitude")
 
-  if(Mort_Modif=="QUE" || Mort_Modif=="BRT" || Acc_Modif=="GAM"){
+  if(MortModif=="QUE" || MortModif=="BRT" || AccModif=="GAM"){
 
     ColOrdre <- ColOrdre1
   }else{

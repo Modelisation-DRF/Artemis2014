@@ -58,7 +58,7 @@ SortieBillonnage <- function(Data, Type ){
     select(PlacetteID, Annee, origTreeID, Residuel, grade_bille, vol_bille_dm3)
 
   #On enleve les possibles erreurs de fichiers en mettant le fichier en data.table
-  final_transpo <- suppressMessages(setDT(final_transpo))
+  final_transpo <- suppressMessages(data.table::setDT(final_transpo))
 
   return(final_transpo)
 }

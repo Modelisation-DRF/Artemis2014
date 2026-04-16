@@ -91,7 +91,7 @@ SortieBillesFusion <- function(Data, Type, dhs = 0.15, nom_grade1 = NA, long_gra
 
   #On remplace les NA par 0
   Fusion_complete[is.na(vol_bille_dm3), vol_bille_dm3 := 0.0]
-  setorder(Fusion, PlacetteID, Annee, origTreeID)
+  data.table::setorder(Fusion, PlacetteID, Annee, origTreeID)
 
 
   return(Fusion_complete)
