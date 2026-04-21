@@ -103,13 +103,13 @@ verifier_colonnes_Clim <- function(data) {
 #'
 #' @export
 #'
-valider_Mois <- function(data) {
-    data <- renommer_les_colonnes_climat_annuel(data)
+valider_Mois <- function(data, scenario_rcp) {
+    data <- renommer_les_colonnes_climat_mensuel(data)
 
     erreurs <- list()
 
-    validation <- data %>%
-      group_by(rcp,Annee,PlacetteID ) %>%
+    validation <- data %>% filter(rcp == scenario_rcp) %>%
+      group_by(Annee,PlacetteID ) %>%
       summarise(
         nb_mois = n_distinct(Mois),
         .groups = "drop"
@@ -121,14 +121,13 @@ valider_Mois <- function(data) {
         message <- paste(
           "Nombre de mois invalide :",
           validation$nb_mois[i],
-          "mois pour rcp =", validation$rcp[i],
-          ", Annee =", validation$Annee[i],
+          "mois pour Annee =", validation$Annee[i],
           ", PlacetteID =", validation$PlacetteID[i]
         )
 
         erreurs[[paste0("Annee_", validation$Annee[i],
-                        "_Placette_", validation$PlacetteID[i],
-                        "_rcp_", validation$rcp[i])]] <- message
+                        "_Placette", validation$PlacetteID[i]
+                        )]] <- message
       }
     }
 
@@ -136,6 +135,96 @@ valider_Mois <- function(data) {
   }
 
 
+
+#' Validation des données climatiques annuelles
+#'
+#'
+#' @param data Un dataframe représentant les données
+#' @param data_annuel Un dataframe représentant les données climatiques annuelles
+#' @param scenario_rcp scenario rcp
+#'
+#' @return une liste des incohérences entre les données et les données climatiques
+#'
+#' @export
+#'
+validation_annuel <- function(data, data_annuel, scenario_rcp) {
+  data <- renommer_les_colonnes(data)
+  data_annuel <- renommer_les_colonnes_climat_annuel(data_annuel)
+
+  erreurs <- list()
+
+  # Filtrer selon le scénario
+  data_annuel  <- data_annuel  %>% filter(rcp == scenario_rcp)
+
+  # Validation données présentes
+  if (nrow(data_annuel) == 0){
+    erreurs[["data_annuel_vide"]] <- paste( "Aucune donnée climatique annuelle pour le scénario ", scenario_rcp )
+  }
+
+  else{
+    # Validation année vs placetteId
+    nb_ann <- n_distinct(data_annuel$Annee)
+
+    resultat_annuel <- data_annuel %>%
+      filter(PlacetteID %in% data$PlacetteID) %>%
+      distinct(PlacetteID, Annee) %>%
+      count(PlacetteID) %>%
+      pull(n) %>%
+      all(. == nb_ann)
+
+
+    if (!resultat_annuel) {
+      erreurs[["annee_manquante_annuel"]] <- paste( "Il manque des placettes dans le fichier annuel pour certaines années" )
+    }
+  }
+
+  return(erreurs)
+}
+
+#' Validation des données climatiques mensuelles
+#'
+#'
+#' @param data Un dataframe représentant les données
+#' @param data_mensuel Un dataframe représentant les données climatiques mensuelles
+#' @param scenario_rcp scenario rcp
+#'
+#' @return une liste des incohérences entre les données et les données climatiques
+#'
+#' @export
+#'
+validation_mensuel <- function(data, data_mensuel, scenario_rcp) {
+  data <- renommer_les_colonnes(data)
+  data_mensuel <- renommer_les_colonnes_climat_mensuel(data_mensuel)
+
+  erreurs <- list()
+
+  # Filtrer selon le scénario
+  data_mensuel  <- data_mensuel  %>% filter(rcp == scenario_rcp)
+
+  # Validation données présentes
+  if (nrow(data_mensuel) == 0){
+    erreurs[["data_mensuel_vide"]] <- paste( "Aucune donnée climatique mensuelle pour le scénario ", scenario_rcp )
+  }
+
+  else{
+    # Validation année vs placetteId
+
+    nb_ann <- n_distinct(data_mensuel$Annee)
+
+    resultat_mensuel <- data_mensuel %>%
+      filter(PlacetteID %in% data$PlacetteID) %>%
+      distinct(PlacetteID, Annee) %>%
+      count(PlacetteID) %>%
+      pull(n) %>%
+      all(. == nb_ann)
+
+
+    if (!resultat_mensuel) {
+      erreurs[["annee_manquante_mensuel"]] <- paste( "Il manque des placettes dans le fichier mensuel pour certaines années" )
+    }
+  }
+  return(erreurs)
+}
 
 #' Comparer le nombre d'annee présent dans les données climatique annuelles et mensuelles selon le scénario
 #'
@@ -155,17 +244,8 @@ comparer_annee_scenario <- function(data, data_annuel, data_mensuel, scenario_rc
   data_mensuel <- renommer_les_colonnes_climat_annuel(data_mensuel)
 
   erreurs <- list()
-
-  # Filtrer selon le scénario
   data_annuel  <- data_annuel  %>% filter(rcp == scenario_rcp)
-  data_mensuel <- data_mensuel %>% filter(rcp == scenario_rcp)
-
-  if (nrow(data_annuel) == 0){
-    erreurs[["data_annuel_vide"]] <- paste( "Aucune donnée climatique annuelle pour le scénario ", scenario_rcp )
-  }
-  if (nrow(data_mensuel) == 0){
-    erreurs[["data_mensuel_vide"]] <- paste( "Aucune donnée climatique mensuelle pour le scénario ", scenario_rcp )
-  }
+  data_mensuel  <- data_mensuel  %>% filter(rcp == scenario_rcp)
 
   # Comparer les années précentes dans le fichier
   annee_annuel <- sort(unique(data_annuel$Annee))
@@ -174,32 +254,6 @@ comparer_annee_scenario <- function(data, data_annuel, data_mensuel, scenario_rc
   if (!identical(annee_annuel, annee_mensuel)) {
     erreurs[["diff_annee"]] <- paste( "Les valeurs des années annuelles vs mensuelles ne correspondent pas" )
   }
-
-  # resultat_annuel <- data_annuel %>%
-  #   group_by(rcp) %>%
-  #   summarise(
-  #     nb_annees = n_distinct(Annee),
-  #     .groups = "drop"
-  #   )
-  #
-  # resultat_mensuel <- data_mensuel %>%
-  #   group_by(rcp) %>%
-  #   summarise(
-  #     nb_annees = n_distinct(Annee),
-  #     .groups = "drop"
-  #   )
-  #
-  # cible <- tibble(rcp = scenario_rcp)
-  #
-  # comparaison <- cible %>%
-  #   left_join(resultat_annuel, by = "rcp") %>% rename(nb_annuel = nb_annees) %>%
-  #   left_join(resultat_mensuel, by = "rcp") %>% rename(nb_mensuel = nb_annees) %>%
-  #   mutate(
-  #     nb_annuel = coalesce(nb_annuel, 0L),
-  #     nb_mensuel = coalesce(nb_mensuel, 0L),
-  #     nb_annee_coherent = (nb_annuel == nb_mensuel) & (nb_annuel > 0)
-  #   )
-
 
     return (erreurs)
   }
