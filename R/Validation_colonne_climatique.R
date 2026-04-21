@@ -256,7 +256,22 @@ comparer_annee_scenario <- function(data, data_annuel, data_mensuel, scenario_rc
   }
 
     return (erreurs)
-  }
+}
 
+
+#' Extraire le nombre d'année maximum pour une simulation
+#'
+#'
+#' @param data_annuel Un dataframe représentant les données climatiques annuelles
+#'
+#' @return le nombre d'année totale
+#'
+#' @export
+#'
+extraire_nb_annee <- function(data_annuel){
+  data_annuel <- renommer_les_colonnes_climat_annuel(data_annuel)
+  nb_annee <- length(unique(data_annuel$Annee))
+  return (nb_annee)
+}
 
 
