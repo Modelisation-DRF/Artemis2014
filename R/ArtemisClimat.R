@@ -516,7 +516,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     PredRecrue$ArbreID<-PredRecrue$origTreeID
 
 
-    if (AccModif!="ORI" | MortModif=="QUE" | MortModif=="CANEU") {
+    if (AccModif!="ORI" | MortModif!="ORI") {
       # Séparer recrues EPX entre EPN et EPB
       PropEPB<-Models[[8]]
       PropEPB<-PropEPB$PropEPB[which(PropEPB$VEG_POT==Veg_Pot)]
