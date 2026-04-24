@@ -206,13 +206,14 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
     }
   }
 
+  Data_ori<-renommer_les_colonnes(Data_ori)
+
   Data_ori <- Data_ori %>% mutate(PlacetteID = paste0("P", PlacetteID))
 
   Para <- Para %>% mutate(Effect = str_to_lower(Effect))
 
   AnneeDep <- if (is.null (AnneeDep)) {as.numeric(format(Sys.Date(), "%Y"))}else{AnneeDep}
 
-  Data_ori<-renommer_les_colonnes(Data_ori)
 
   if (exists("ClimMois") && !is.null(ClimMois)) {
 
