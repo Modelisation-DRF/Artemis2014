@@ -76,6 +76,7 @@ SortiePlacette <- function(SimulHtVol ,simplifier=FALSE){
   placetteSamare <- SimulHtVol %>%
                     group_by(PlacetteID, Annee, Residuel, Etat, GrEspece) %>%
                     mutate(NbCum=cumsum(Nombre)) %>%
+                    arrange(-hauteur_pred) %>%
                     summarise(nbTi_HA=sum(Nombre)*25,ST_HA=sum((DHPcm/200)^2*pi*Nombre)*25,DMQ=(ST_HA/nbTi_HA/pi)^0.5*200,Vol_HA=sum(vol_dm3/1000*Nombre)*25,
                               HDomM=ifelse(nbTi_HA>100,mean(hauteur_pred[1:first(which((NbCum/0.04)>=100))],na.rm = TRUE),NA),
                               Hauteur_Moy=sum(hauteur_pred*Nombre)/sum(Nombre)) %>%
