@@ -254,12 +254,46 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
   list_plot <- unique(Data$PlacetteID)
 
  suppressWarnings(
-   Final<- bind_rows(
-    foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
-      {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
-                     AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
-                     EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
-                     TBE = TBE)}
+   #Final<- bind_rows(
+    #foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
+     # {Test<-ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
+      #               AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
+       #              EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
+        #             TBE = TBE)}
+  # )
+   Final <- dplyr::bind_rows(
+     foreach::foreach(
+       x = list_plot,
+       .packages = c("gbm", "dplyr")
+     ) %dorng% {
+
+       tryCatch({
+         ArtemisClimat(
+           Para=Para,
+           Data=Data[Data$PlacetteID==x, ,drop=FALSE],
+           AnneeDep=AnneeDep,
+           Horizon=Horizon,
+           FacHa=FacHa,
+           Tendance=Tendance,
+           Residuel=Residuel,
+           ClimMois=ClimMois,
+           ClimAn=ClimAn,
+           EvolClim=EvolClim,
+           AccModif=AccModif,
+           MortModif=MortModif,
+           RCP=RCP,
+           Models=Models,
+           Coupe_ON=Coupe_ON,
+           Coupe_modif=Coupe_modif,
+           TBE=TBE
+         )
+       }, error = function(e) {
+         print(paste("Erreur pour PlacetteID =", x))
+         print(e)
+         return(NULL)
+       })
+
+     }
    )
   )
 
