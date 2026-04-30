@@ -12,7 +12,7 @@ par les équations d'accroissement d'Artémis.}
 }
 \value{
 Retourne la prévision d'accroissement diamétrale en cm de l'arbre
-        pour un interval de croissance.
+pour un interval de croissance.
 }
 \description{
 Fonction pour calculer l'accroissement diamétrale. Fonction de base d'Artémis-2014

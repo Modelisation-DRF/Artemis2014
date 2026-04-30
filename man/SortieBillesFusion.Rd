@@ -23,17 +23,17 @@ SortieBillesFusion(
 \arguments{
 \item{Data}{Un data.frame ou data.table contenant les données d'inventaire forestier avec les colonnes suivantes:
 \itemize{
-  \item Veg_Pot - Code de végétation potentielle, ex: "MS2"
-  \item PlacetteID - Identifiant de la placette
-  \item DHPcm - Diamètre à hauteur de poitrine en cm
-  \item Altitude - Altitude en mètres
-  \item hauteur_pred - Hauteur prédite de l'arbre en mètres
-  \item origTreeID - Numéro de l'arbre
-  \item Espece - Code d'essence de l'arbre, ex: "SAB"
-  \item Cl_Drai - Classe de drainage ex: "2"
-  \item Etat - État de l'arbre ("vivant", "mort", "recrue")
-  \item Nombre - Nombre d'arbres représentés par cette observation dans une placette de 400 m2
-  \item sdom_bio - Sous-domaine bioclimatique. ex: "1", "2E", "4O"
+\item Veg_Pot - Code de végétation potentielle, ex: "MS2"
+\item PlacetteID - Identifiant de la placette
+\item DHPcm - Diamètre à hauteur de poitrine en cm
+\item Altitude - Altitude en mètres
+\item hauteur_pred - Hauteur prédite de l'arbre en mètres
+\item origTreeID - Numéro de l'arbre
+\item Espece - Code d'essence de l'arbre, ex: "SAB"
+\item Cl_Drai - Classe de drainage ex: "2"
+\item Etat - État de l'arbre ("vivant", "mort", "recrue")
+\item Nombre - Nombre d'arbres représentés par cette observation dans une placette de 400 m2
+\item sdom_bio - Sous-domaine bioclimatique. ex: "1", "2E", "4O"
 }}
 
 \item{Type}{Le type de billonage à utiliser pour la fonction SortieBillonage}
@@ -70,14 +70,14 @@ pour produire une table fusionnée des données avec les volumes par grade.
 \details{
 La fonction effectue les opérations suivantes:
 \itemize{
-  \item Appelle SortieSybille avec les paramètres de grades spécifiés
-  \item Standardise les noms de colonnes de Sybille
-  \item Appelle SortieBillonage avec le type spécifié
-  \item Transpose les données Petro pour avoir une ligne par coupe
-  \item Fusionne les deux tables avec rbind
-  \item Supprime les colonnes non nécessaires
-  \item Remplace les valeurs NA de volume par 0.0
-  \item Trie les données par PlacetteID, Annee, et origTreeID
+\item Appelle SortieSybille avec les paramètres de grades spécifiés
+\item Standardise les noms de colonnes de Sybille
+\item Appelle SortieBillonage avec le type spécifié
+\item Transpose les données Petro pour avoir une ligne par coupe
+\item Fusionne les deux tables avec rbind
+\item Supprime les colonnes non nécessaires
+\item Remplace les valeurs NA de volume par 0.0
+\item Trie les données par PlacetteID, Annee, et origTreeID
 }
 }
 \examples{

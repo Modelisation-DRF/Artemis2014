@@ -20,7 +20,7 @@ AccroissementBRT(Accrois, ClimatBRT, Models, sum_st_ha, t)
 }
 \value{
 Retourne un dataframe incluant le numéro d'arbre et la prévision
-       d'accroissement diamétrale  en cm.
+d'accroissement diamétrale  en cm.
 }
 \description{
 Fonction qui estime l'accroissement en diamètre des arbres pour 1 interval de croissance.

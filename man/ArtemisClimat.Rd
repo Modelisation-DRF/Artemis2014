@@ -79,7 +79,7 @@ un effet de TBE (Tordeuse des bourgeons de l'épinette).}
 }
 \value{
 Retourne un dataframe contenant la liste d'arbres vivants de la
-        placette simulée avec leur DHP pour chaque période de simulation.
+placette simulée avec leur DHP pour chaque période de simulation.
 }
 \description{
 Fonction qui effectue la simulation d'Artemis. Elle procède pour chacune des placettes à

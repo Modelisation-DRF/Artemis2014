@@ -16,11 +16,11 @@ La fonction \code{renommer_les_colonnes} renomme les colonnes d'un dataframe
 \details{
 La fonction suit les étapes suivantes :
 \itemize{
-  \item Définir un vecteur \code{ColOrdre} contenant les noms des colonnes souhaitées dans l'ordre désiré.
-  \item Convertir les noms des colonnes existantes du dataframe en minuscules pour faciliter la correspondance.
-  \item Convertir les noms des colonnes souhaitées en minuscules.
-  \item Pour chaque nom de colonne souhaité, chercher sa correspondance parmi les noms des colonnes existantes.
-  \item Si une correspondance est trouvée, renommer la colonne existante avec le nom souhaité.
-  \item Retourner le dataframe avec les noms de colonnes mis à jour.
+\item Définir un vecteur \code{ColOrdre} contenant les noms des colonnes souhaitées dans l'ordre désiré.
+\item Convertir les noms des colonnes existantes du dataframe en minuscules pour faciliter la correspondance.
+\item Convertir les noms des colonnes souhaitées en minuscules.
+\item Pour chaque nom de colonne souhaité, chercher sa correspondance parmi les noms des colonnes existantes.
+\item Si une correspondance est trouvée, renommer la colonne existante avec le nom souhaité.
+\item Retourner le dataframe avec les noms de colonnes mis à jour.
 }
 }

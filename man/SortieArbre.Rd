@@ -17,7 +17,7 @@ que la première et la dernière année de la simulation. Par défaut, \code{FAL
 }
 \value{
 Retourne un dataframe contenant l'ensemble des arbres pour chacune des
-         placettes, années.
+placettes, années.
 }
 \description{
 Fonction qui structure un dataframe de sortie dont chaque ligne correspond

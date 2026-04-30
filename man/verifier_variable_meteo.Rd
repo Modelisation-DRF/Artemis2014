@@ -13,7 +13,7 @@ verifier_variable_meteo(data)
 }
 \value{
 Retourne la liste d'arbre initiale avec les données météo ajoutée si
-       elles sont absentes
+elles sont absentes
 }
 \description{
 Fonction qui vérifie si les variables climatiques de base température annuelle moyenne,

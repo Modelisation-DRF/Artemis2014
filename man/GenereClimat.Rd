@@ -25,7 +25,7 @@ Le dataframe peut être une liste d'arbres ou une liste de placettes.}
 }
 \value{
 La fonction retourne une liste de deux dataframe, le premier contenant
-       les prévisions à l'échelle annuelle et le deuxième à l'échelle mensuelle.
+les prévisions à l'échelle annuelle et le deuxième à l'échelle mensuelle.
 }
 \description{
 Fonction qi permet de générer des données climatiques pour le fichier de données

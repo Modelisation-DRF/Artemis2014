@@ -65,8 +65,8 @@ d'essences. Ce data frame est conservé en tant que données internes au package
 }
 \value{
 La fonction retourne une liste comprenant le dataframe de données mis en forme,
-       les modèles BRT ou GAM lorsqu'ils doivent être utilisés et les deux dataframes
-       de données climatiques.
+les modèles BRT ou GAM lorsqu'ils doivent être utilisés et les deux dataframes
+de données climatiques.
 }
 \description{
 Fonction qui prépare les données en vue d'effectuer
