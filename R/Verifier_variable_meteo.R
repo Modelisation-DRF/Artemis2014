@@ -68,26 +68,6 @@ vevifier_variable_meteo <- function(data){
   return (data)
 }
 
-#' Fonction qui vérifie l'absence des champs météo optionels
-#' Si ils sont absents, ils sont détectés
-#'
-#'@param data Un dataframe contenant la liste d'arbres à simuler.
-#'
-#'@return Retourne la liste des champs absents
-#'
-#'@export
-#'
-#'
-
-trouver_variable_meteo_absent <- function(data) {
-
-  mes_variables<- c('GrwDays', 'PTot', 'TMoy')
-
-  noms_absents <- setdiff(mes_variables , names(data))
-
-  return(noms_absents)
-}
-
 #' Fonction qui vérifie si la proportion de sable et de capacité d'échange cationique.
 #' Si elle sont absentes, elles sont estimée à l'aide du package extract_map.
 #'

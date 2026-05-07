@@ -88,7 +88,24 @@ trouver_noms_absents <- function(Data, Mort_Modif,Acc_Modif) {
 
 
 
-
+#' Fonction qui vérifie l'absence des champs optionels
+#' Si ils sont absents, ils sont détectés
+#'
+#'@param data Un dataframe contenant la liste d'arbres à simuler.
+#'
+#'@return Retourne la liste des champs absents
+#'
+#'@export
+#'
+#'
+trouver_noms_optionels <- function(data) {
+  
+  mes_variables<- c('GrwDays', 'PTot', 'TMoy','sand_015cm','cec_015cm','Pente','Exposition')
+  
+  noms_absents <- setdiff(mes_variables , names(data))
+  
+  return(noms_absents)
+}
 
 
 #' Vérifier la présence des colonnes obligatoires dans le fichier climat mensuel.
