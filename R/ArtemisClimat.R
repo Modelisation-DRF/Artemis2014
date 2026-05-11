@@ -61,7 +61,7 @@
 #'@export
 #'
 ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models,
-                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
+                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH){
 
 
 ##############################################################################
@@ -311,8 +311,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       PredMort <- Mort %>%
         mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
                RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
-               Veg_Pot=Veg_Pot) %>%
-        group_by(origTreeID) %>%
+               Veg_Pot=Veg_Pot, mch=MCH) %>%        group_by(origTreeID) %>%
         nest() %>%
         mutate(pred_mort = map(data,mort)) %>%
         unnest(pred_mort) %>%
@@ -453,6 +452,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
           drainageClass=ifelse(Cl_Drai<20,"xeric",ifelse(Cl_Drai<40,"mesic",ifelse(Cl_Drai<50,"subhydric","hydric"))),
           SBWoutbreak=0) %>%
         rename(BAL=st_ha_cumul_gt, DBH=DHPcm) %>%
+
         select(PlacetteID, origTreeID, species, deltaT, BAL, DBH, BAS, UtilVPD, CMI, DD, drainageClass, SBWoutbreak) %>%
         group_by(origTreeID) %>%
         nest() %>%

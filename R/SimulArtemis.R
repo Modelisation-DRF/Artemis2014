@@ -259,7 +259,8 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
                      EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
-                     TBE = TBE)}
+
+                     TBE = TBE, MCH=MCH)}
    )
   )
 
