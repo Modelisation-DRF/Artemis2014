@@ -311,7 +311,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       PredMort <- Mort %>%
         mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
                RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
-               Veg_Pot=Veg_Pot, mch=MCH) %>%        group_by(origTreeID) %>%
+               Veg_Pot=Veg_Pot, MCH=MCH) %>%        group_by(origTreeID) %>%
         nest() %>%
         mutate(pred_mort = map(data,mort)) %>%
         unnest(pred_mort) %>%

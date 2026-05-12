@@ -91,7 +91,7 @@
 
 
 simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,
-                            AccModif='ORI',MortModif='ORI',RCP='RCP45', Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
+                            AccModif='ORI',MortModif='ORI',RCP='RCP45', Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
   if (!exists("Data_ori")){
