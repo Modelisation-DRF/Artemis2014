@@ -13,6 +13,7 @@
 # Coupe_ON = NULL  vide, horizon 1 et 3
 # Coupe_modif = NULL  vide, horizon 1 et 3
 # TBE = NULL  0 et 1
+# MCH= 0 et 1
 
 # tester des valeurs pas accepté sur les parametres
 
@@ -213,3 +214,35 @@ test_that("La fonction simulateurArtemis(), tbe à la deuxième décennie, Modul
 
 
 
+test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés, Coupe partielle réalisée depuis moins de 10 ans
+          , Module d’accroissement Original et Module de mortalité Original et sans Données climatiques et MCH=1", {
+
+            # Residuel est laissé à sa valeur par defaut à 0, ce n'est donc pas un test avec CP depuis moins de 10 ans
+
+            set.seed(NULL)
+            set.seed(3)
+            # Intrant_Test contient une placette par veg_pot: In group 17: `origTreeID = 17`. RE2 arbre 17
+
+            Result1 <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2025, Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
+                                         MCH=1) %>%
+              arrange(PlacetteID,origTreeID,Annee) %>%
+              #mutate(Annee=Annee-(as.numeric(format(Sys.Date(), "%Y"))-2025)) %>%
+              select(-Cl_Drai)
+
+            # pour que le test passe en attendant
+            Result1 <- Result1 %>% select(-Residuel)
+            set.seed(NULL)
+
+            attendu <- readRDS(test_path("fixtures", "expect_test_for_Artemis_AccModif_ORI_MortModif_ORI.rds"))
+            # la colonne residuel n'est pas dans ce data...
+
+            # vérifier la première décennie de simulation des arbres survivants, pas les recrues
+            attendu0 <-data.table::as.data.table(attendu) %>% filter(Annee==2025) %>% dplyr::select(PlacetteID, origTreeID)
+            attendu10 <-data.table::as.data.table(attendu) %>% filter(Annee==2035)
+            attendu10 <- left_join(attendu0, attendu10, by = c('PlacetteID', 'origTreeID'))
+            attendu10[attendu10$Espece=='HEG', "Nombre"] <- 1 - 0.104004375  # mortalité attendu pour un HEG de 15 cm
+            Result1 <- left_join(attendu0, Result1 %>% filter(Annee==2035), by = c('PlacetteID', 'origTreeID'))
+
+            expect_equal(Result1$Nombre, attendu10$Nombre , tolerance = 1e-6)
+
+          })

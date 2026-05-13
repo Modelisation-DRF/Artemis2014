@@ -24,7 +24,8 @@ ArtemisClimat(
   Models,
   Coupe_ON = NULL,
   Coupe_modif = NULL,
-  TBE = NULL
+  TBE = NULL,
+  MCH = 0
 )
 }
 \arguments{
@@ -64,7 +65,7 @@ par essence sensibles au climat de Power et al. 2025.}
 \item{RCP}{Scénario climatique choisi pour la simulation soit RCP 4.5 ou 8.5.
 Ce paramètre est seulement utilisé si le paramètre EvolClim=1.}
 
-\item{Models}{Liste dans laquelle les modèles d'accroissement et de moratlité
+\item{Models}{Liste dans laquelle les modèles d'accroissement et de mortalité
 (à l'exception des modele d'Artémis-2014) sont inclus.}
 
 \item{Coupe_ON}{Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
@@ -76,6 +77,9 @@ ou un data.frame avec colonnes 'essence' et 'modifier'.}
 
 \item{TBE}{Vecteur contenant les valeurs 0 ou 1 pour indiquer les décennies avec
 un effet de TBE (Tordeuse des bourgeons de l'épinette).}
+
+\item{MCH}{Binaire. 1 = indique la présence de la maladie corticale du hêtre durant tout l'horizon de simulation.
+0 = absence de la maladie (par défaut).}
 }
 \value{
 Retourne un dataframe contenant la liste d'arbres vivants de la

@@ -54,8 +54,11 @@
 #'            1 = effet TBE présent, 0 = pas d'effet TBE.
 #'            Par défaut = NULL (pas de TBE).
 #'
-#'@param AnneeDep Permet de ficxer l'année de départ de la simulation. Si laissé vide
+#' @param AnneeDep Permet de fixer l'année de départ de la simulation. Si laissé vide
 #'                l'année courante sera utilisée.
+#'
+#' @param MCH Binaire. 1 = indique la présence de la maladie corticale du hêtre durant tout l'horizon de simulation.
+#'                     0 = absence de la maladie (par défaut).
 #'
 #' @return Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
 #'         leur hauteur et leur volume pour chaque placette
