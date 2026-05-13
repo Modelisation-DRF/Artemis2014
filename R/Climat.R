@@ -8,6 +8,8 @@
 #'
 #' @param Annee Année de debut de la période de simulation en cours.
 #'
+#' @param AnneeDep Année de départ de la simulation Artémis.
+#'
 #' @param t Duree de la periode de simulation (habituellement 10 ans).
 #'
 #' @param ClimMois Un dataframe contenant des prévisions climatiques mensuelles issues du logiciel biosim
@@ -34,7 +36,7 @@
 #'
 #' @export
 #'
-ClimatBiosim<-function (Placettes, Annee, t, RCP, ClimMois, ClimAn, EvolClim, AccModif){
+ClimatBiosim<-function (Placettes, Annee, AnneeDep, t, RCP, ClimMois, ClimAn, EvolClim, AccModif){
 
 if (Annee<2091){
  An=Annee}else{
@@ -77,7 +79,7 @@ VarAn<-ClimAn %>%
   filter(Annee>=An & Annee<=(An+t)) %>%
        group_by(PlacetteID) %>%
        summarise(FFP=mean(FFP), PTotPeriode=mean(PTot), TMoyPeriode=mean(TMoy),
-                 Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD), CMIcm=mean(CMIcm), VPD=mean(VPD)) %>%
+                 Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD), CMIcm=mean(CMIcm), TotalVPD=mean(TotalVPD), UtilVPD=mean(UtilVPD)) %>%
       mutate(Max_ST=VarMois[[2]][[1]],
               Min_WT=VarMois[[2]][[2]],
               MSP=VarMois[[2]][[3]],
@@ -96,7 +98,7 @@ suppressMessages(
 
   VarMois<-ClimMois %>%
     #filter(Annee>=(An-30) & Annee<=An) %>%
-    filter(Annee>=1991 & Annee<=2000) %>% #######Période de référence pour les courbes actuellement utilisées corespond au milieu de la plage de 30 ans
+    filter(Annee>=1991 & Annee<=AnneeDep) %>% #######Période de référence pour les courbes changé était entre 2000 et 1991 avant
     group_by(PlacetteID) %>%
     nest() %>%
     mutate(Var=map(data,VarClimMois)) %>%
@@ -105,10 +107,10 @@ suppressMessages(
 
   VarAn<-ClimAn %>%
     #filter(Annee>=(An-30) & Annee<=An) %>%
-    filter(Annee>=1991 & Annee<=2000) %>% #######Période de référence pour les courbes actuellement utilisées correspond au milieu de la plage de 30 ans
+    filter(Annee>=1991 & Annee<=AnneeDep) %>% #######Période de référence pour les courbes changé était entre 2000 et 1991 avant
     group_by(PlacetteID) %>%
     summarise(FFP=mean(FFP),PTotPeriode=mean(PTot), TMoyPeriode=mean(TMoy),
-              Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD), CMIcm=mean(CMIcm), VPD=mean(VPD)) %>%
+              Tmax_yr=mean(Tmax_yr),CMI=mean(CMI), Aridity=mean(Aridity), DD=mean(DD), CMIcm=mean(CMIcm), TotalVPD=mean(TotalVPD), UtilVPD=mean(UtilVPD)) %>%
     mutate(Max_ST=VarMois[[2]][[1]],
            Min_WT=VarMois[[2]][[2]],
            MSP=VarMois[[2]][[3]],

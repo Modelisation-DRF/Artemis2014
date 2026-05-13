@@ -71,7 +71,7 @@
 SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, diam_grade1 = NA, nom_grade2 = NA, long_grade2 = NA, diam_grade2 = NA,
                           nom_grade3 = NA, long_grade3 = NA, diam_grade3 = NA) {
 
-  setDT(Data)
+  data.table::setDT(Data)
 
   #Arrondissement des valeurs à 6 décimales pour précision pour duplicate plus tard
   cols_to_round <- c("Nombre", "DHPcm", "vol_dm3")
@@ -87,9 +87,9 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   ), by = .(PlacetteID, Annee)]
 
   # Faire une copie de la table PropEPX
-  PropEPX_copy <- copy(PropEPX)
+  PropEPX_copy <- data.table::copy(PropEPX)
   # Renommer VEG_POT -> Veg_Pot
-  setnames(PropEPX_copy, "VEG_POT", "Veg_Pot")
+  data.table::setnames(PropEPX_copy, "VEG_POT", "Veg_Pot")
 
   # Faire le merge sur Veg_Pot
   Data <- merge(Data, PropEPX_copy, by = "Veg_Pot", all.x = TRUE)
@@ -107,7 +107,7 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   ]
 
   # Renommer les colonnes pour préparer le Data dans Sybille
-  setnames(Data_temp, c("Veg_Pot", "PlacetteID", "DHPcm", "Altitude", "hauteur_pred", "origTreeID", "EssenceFinale", "Cl_Drai"),
+  data.table::setnames(Data_temp, c("Veg_Pot", "PlacetteID", "DHPcm", "Altitude", "hauteur_pred", "origTreeID", "EssenceFinale", "Cl_Drai"),
            c("veg_pot", "id_pe", "DHP_Ae", "ALTITUDE", "HAUTEUR_M", "no_arbre", "essence", "cl_drai"))
 
   # Ajouter les colonnes manquantes et effectuer les traitements de préparation de données
@@ -142,7 +142,7 @@ SortieSybille <- function(Data, dhs = 0.15, nom_grade1 = NA, long_grade1 = NA, d
   Data_calculated <- unique(Data_calculated)
 
   #On renomme les colonnes pour matcher avec Artemis
-  setnames(Data_calculated, c("id_pe", "no_arbre"),
+  data.table::setnames(Data_calculated, c("id_pe", "no_arbre"),
            c("PlacetteID", "origTreeID"))
 
   Data_calculated <- merge(Data_calculated, original_data,

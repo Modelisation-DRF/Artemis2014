@@ -21,7 +21,7 @@ en format .rds.}
 }
 \value{
 Retourne un dataframe incluant le numéro d'arbre et la prévision
-       d'accroissement diamétrale  en cm.
+d'accroissement diamétrale  en cm.
 }
 \description{
 Fonction d'accroissement diamétrale basé sur les modèles de D'Orangeville et al. 2019.

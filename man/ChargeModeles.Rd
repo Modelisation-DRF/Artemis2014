@@ -22,7 +22,7 @@ pour les fonctions de mortalité de Power et al. 2025.}
 }
 \value{
 Retourne une liste incluant des modele .rds et des fichiers nécessaires à
-       l'Utilisation des modèles.
+l'Utilisation des modèles.
 }
 \description{
 Fonction qui charge les modèles d'accroissement en diamètre et de mortalité

@@ -39,6 +39,9 @@ mort<-function (Mort){
   #   summarise(cloglog=sum(ParameterEstimate * Value))
   Pred <- merge(ParaMorti,X,by = "Effect")
   cloglog <- sum(Pred$ParameterEstimate*Pred$Value)
+  if (Mort$MCH==1 & (Mort$Espece=='HEG' | Mort$GrEspece=='HEG')) {
+    cloglog <- -5.4430 + 0.0621*Mort$DHPcm + log(Mort$t)
+    }
   pred_mort=(1-exp(-exp(cloglog)))##Change sept 2023 pour retourner directement la prob de mortalite
 
   return(pred_mort)

@@ -10,7 +10,7 @@
 #'@export
 #'
 #'
-vevifier_variable_meteo <- function(data){
+verifier_variable_meteo <- function(data){
 
   select=dplyr::select
 
@@ -80,7 +80,7 @@ vevifier_variable_meteo <- function(data){
 #'
 #'
 
-vevifier_variable_Sol <- function(data){
+verifier_variable_Sol <- function(data){
 
   select=dplyr::select
 
@@ -138,7 +138,7 @@ vevifier_variable_Sol <- function(data){
 }
 
 
-#' Fonction qui vérifie si la pente et l'exposition.
+#' Fonction qui vérifie si la pente, l'exposition et le dépot sont présent.
 #' Si elle sont absentes, elles sont estimée à l'aide du package extract_map.
 #'
 #'@param data Un dataframe contenant la liste d'arbres à simuler.
@@ -149,7 +149,7 @@ vevifier_variable_Sol <- function(data){
 #'@export
 #'
 #'
-vevifier_variable_Sation <- function(data){
+verifier_variable_Station <- function(data){
 
   select=dplyr::select
 
@@ -177,10 +177,9 @@ vevifier_variable_Sation <- function(data){
 
 
 
-  map_noms_variables <- c(Pente = "pente",
-                          Exposition = "exposition")
+  map_noms_variables <- c(Pente = "pente", Exposition = "exposition", Depot="depot")
 
-  variables_non_trouvees <- setdiff(mes_variables, names(data))
+  variables_non_trouvees <- setdiff(c(mes_variables,"Depot"), names(data))##On ajoute Depot qui est toujours estimé à partir de la carte
 
 
   if(!is_empty(variables_non_trouvees)){
@@ -195,6 +194,10 @@ vevifier_variable_Sation <- function(data){
 
     if('exposition' %in% variables_a_extraire) {
       data <- rename(data, Exposition = exposition)
+    }
+
+    if('depot' %in% variables_a_extraire) {
+      data <- rename(data, Depot = depot)
     }
 
 

@@ -455,7 +455,6 @@ valide_Pente <- function(data){
   return(all(resultats$valeur_unique))
 }
 
-
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'GrwDays' sont correctes.
 #' @param data fichier des arbres
 #' @return retourne vrai ou faux s'il détecte des erreurs.

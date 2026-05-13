@@ -10,7 +10,7 @@
 #'
 #' @export
 #'
-SortieBillonage <- function(Data, Type ){
+SortieBillonnage <- function(Data, Type ){
   # Data=fic; Type="DHP2015"
   Data_ori <- Data
   select <- dplyr::select
@@ -34,15 +34,15 @@ SortieBillonage <- function(Data, Type ){
     return(final_transpo)
   }
 
-  data1 <- data %>% mutate(bilonID = seq_len(nrow(data)))
-  billo <- Billonage::SIMBillonnageABCD_DHP(data1, Type)
+  data1 <- data %>% mutate(TigeID = seq_len(nrow(data)))
+  billo <- BillonnagePetro::SimBillonnagePetro(data1, Type)
 
-  final <- left_join(data1, billo, by = "bilonID") %>%
+  final <- left_join(data1, billo, by = "TigeID") %>%
     dplyr::select(-Espece) %>%
     rename(Espece = Espece_original) %>%
     arrange(PlacetteID, Annee, GrEspece)
 
-  final <- final %>% select(-bilonID)
+  final <- final %>% select(-TigeID)
 
   final <- final %>%
     mutate(across(c(DER, F1, F2, F3, F4, P), ~ .x * 1000))
@@ -58,7 +58,7 @@ SortieBillonage <- function(Data, Type ){
     select(PlacetteID, Annee, origTreeID, Residuel, grade_bille, vol_bille_dm3)
 
   #On enleve les possibles erreurs de fichiers en mettant le fichier en data.table
-  final_transpo <- suppressMessages(setDT(final_transpo))
+  final_transpo <- suppressMessages(data.table::setDT(final_transpo))
 
   return(final_transpo)
 }

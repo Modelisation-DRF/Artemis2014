@@ -16,7 +16,7 @@ par la fonction "simulateurArtemis".}
 }
 \value{
 Retourne un dataframe contenant l'ensemble des arbres pour chacune des
-         placettes, années avec leur prévisions de biomasse.
+placettes, années avec leur prévisions de biomasse.
 }
 \description{
 Fonction qui structure un dataframe de sortie dont chaque ligne correspond

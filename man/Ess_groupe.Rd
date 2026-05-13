@@ -27,7 +27,7 @@ SpeciesGroupName qui correspond aux groupes d'essences d'Artémis-2014.}
 }
 \value{
 Retourne un dataframe dans lequel chacun des arbres se voient associer
-         un groupe d'essence.
+un groupe d'essence.
 }
 \description{
 Fonction qui associe un groupe d'essence a chacun des arbres des données

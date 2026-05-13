@@ -7,6 +7,7 @@ initiales ainsi qu'un choix de parametres pour la simulation.}
 \usage{
 simulateurArtemis(
   Data_ori,
+  AnneeDep = NULL,
   Horizon,
   ClimMois = NULL,
   ClimAn = NULL,
@@ -24,11 +25,14 @@ simulateurArtemis(
 }
 \arguments{
 \item{Data_ori}{Un dataframe contenant les valeurs de départ pour une liste
- d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
+d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Etat",
 "DHPcm","Dom_Bio","Nombre","Sdom_Bio","Veg_Pot","Latitude","Longitude","Altitude",
 "Pente","PTot","TMoy","GrwDays","Reg_Eco","Type_Eco", "Cl_Drai","Exposition",
 "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
- sur certains champs n'est pas disponible, on peut le laisser vide.}
+sur certains champs n'est pas disponible, on peut le laisser vide.}
+
+\item{AnneeDep}{Permet de ficxer l'année de départ de la simulation. Si laissé vide
+l'année courante sera utilisée.}
 
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
@@ -49,10 +53,11 @@ Valeure par defaut de 0}
 
 \item{AccModif}{Choix de fonction d'accroissement en diamètre "ORI" pour les équations originales d'Artémis 2014,
 "BRT" pour les équations Boosted regression tree de JieJie Wang 2022,
- "GAM" pour les GAM de D'Orangeville 2019}
+"GAM" pour les GAM de D'Orangeville 2019}
 
 \item{MortModif}{Choix de fonction de mortalité "ORI" pour les équation originales d'Artemis 2014,
-"QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025}
+"QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025
+"CANEU"  pour les équation de mortalité basés sur les données du Canada et des États-Unis}
 
 \item{RCP}{Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1}
 
@@ -76,7 +81,7 @@ Par défaut = NULL (pas de TBE).}
 }
 \value{
 Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
-        leur hauteur et leur volume pour chaque placette
+leur hauteur et leur volume pour chaque placette
 }
 \description{
 Fonction qui sert à appeler le simulateur Artemis 2014 et qui fournie les donnees

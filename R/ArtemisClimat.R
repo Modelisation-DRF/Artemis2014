@@ -61,7 +61,7 @@
 #'@export
 #'
 ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models,
-                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
+                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH){
 
 
 ##############################################################################
@@ -114,6 +114,9 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Pente de la placette
   PenteCl<-ifelse(Plac$Pente[1]>30,"EF", ifelse(Plac$Pente[1]<=8,"B",ifelse(Plac$Pente[1]<=15,"C",ifelse(Plac$Pente[1]<=30,"D","A"))))
 
+  # Depot de la placette
+  Depot<-Plac$Depot[1]
+
   # Selection de la correction pour le biais selon la vp
   Cor<-ListeCor$Cor[which(ListeCor$Veg_Pot==Veg_Pot)]
 
@@ -148,7 +151,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
 
-    ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
+    ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
   }
 
   # Initialisation du fichier qui contiendra les résultats de simulation de la placette et variables
@@ -197,13 +200,18 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       }
 
 
-
-    Plac<-BAL(Plac,FacHa=FacHa)
     # calcul variable echelle placette
+    Plac<-BAL(Plac,FacHa=FacHa)
     sum_st_ha <- sum(Plac$ST_m2[which(Plac$Etat=="vivant")])
+    sum_st_ha_Feu <- sum(Plac$ST_m2[which(Plac$Etat=="vivant" & Plac$Clade=="F")])
+    sum_st_ha_Res <- sum(Plac$ST_m2[which(Plac$Etat=="vivant" & Plac$Clade=="R")])
     n_arbre_ha <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])*FacHa
     n_arbre <- sum(Plac$Nombre[which(Plac$Etat=="vivant")])
     mq_DHPcm <- sqrt(sum_st_ha/n_arbre_ha*40000/3.1416)
+    shannon <- Shannon(Plac,FacHa=FacHa)
+    gini <- Gini(Plac)
+
+    Plac<-Plac[,!(names(Plac)=="Clade")]
 
     # Utiliser le simulateur de coupe si pas NA à la position k de Coupe_ON
     if (!is.null(Coupe_ON) && length(Coupe_ON) >= k && !is.na(Coupe_ON[k])) {
@@ -248,6 +256,20 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       #On garde le df après coupe puisque fichier retourne "avant_coupe"
       Plac_apres_coupe <- Plac %>%
         mutate(Residuel = 1)
+
+      #Mise à jour des valeurs placette
+
+      Plac_apres_coupe<-BAL(Plac_apres_coupe,FacHa=FacHa)
+      # calcul variable echelle placette
+      sum_st_ha <- sum(Plac_apres_coupe$ST_m2[which(Plac_apres_coupe$Etat=="vivant")])
+      sum_st_ha_Feu <- sum(Plac_apres_coupe$ST_m2[which(Plac_apres_coupe$Etat=="vivant" & Plac_apres_coupe$Clade=="F")])
+      sum_st_ha_Res <- sum(Plac_apres_coupe$ST_m2[which(Plac_apres_coupe$Etat=="vivant" & Plac_apres_coupe$Clade=="R")])
+      n_arbre_ha <- sum(Plac_apres_coupe$Nombre[which(Plac_apres_coupe$Etat=="vivant")])*FacHa
+      n_arbre <- sum(Plac_apres_coupe$Nombre[which(Plac$Etat=="vivant")])
+      mq_DHPcm <- sqrt(sum_st_ha/n_arbre_ha*40000/3.1416)
+      shannon <- Shannon(Plac_apres_coupe,FacHa=FacHa)
+      gini <- Gini(Plac_apres_coupe)
+
     }
 
     # Ajout des donnees CO2 de la période si nécessaire
@@ -267,7 +289,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (EvolClim==1){
 
-      ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
+      ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
 
     }
 
@@ -288,9 +310,8 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
       PredMort <- Mort %>%
         mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
-               PTot=PTot,RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
-               Veg_Pot=Veg_Pot, TMoy=TMoy) %>%
-        group_by(origTreeID) %>%
+               RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
+               Veg_Pot=Veg_Pot, MCH=MCH) %>%        group_by(origTreeID) %>%
         nest() %>%
         mutate(pred_mort = map(data,mort)) %>%
         unnest(pred_mort) %>%
@@ -299,7 +320,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     }
 
 
-    ###################################Mortalité avec equations par sp et varibles climatique HP#####
+    ###################################Mortalité selon Power 2025 HP#####
     if (MortModif=="QUE"){
 
       if (EvolClim==0){ClimatQUE=ClimatHisto} else {ClimatQUE=ClimatModif}
@@ -307,6 +328,58 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
       PredMort<-mortQUE(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
     }
 
+
+    ###########################Mortalité Placettes Canada É.-U.#################
+
+    if (MortModif =="CANEU"){
+
+      if (EvolClim==0){ClimatQUE=ClimatHisto} else {ClimatQUE=ClimatModif}
+
+      Mort<-merge(Mort,Models[[12]])
+
+      MortQUE<-Mort[which(Mort$Model=="QUE"& !Mort$Espece %in% c("EPR","PEB","PEG","PIB","PIR")),]##On ajoute ces 5 especes qui sont regroupés dans Artémis
+
+      MortQUE<-MortQUE[,!names(MortQUE)%in% c("Ess_regroupe","Model")]#Enlève Model et EssRegroupe
+
+      if(nrow(MortQUE>0)){
+
+        PredMortQUE<-mortQUE(MortQUE, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
+
+      }
+
+      MortCANEU<-Mort[which(Mort$Model=="CANEU"| Mort$Espece %in% c("EPR","PEB","PEG","PIB","PIR") ),]
+
+      MortCANEU<-MortCANEU[,!names(MortCANEU)%in% c("Ess_regroupe","Model")]#Enlève Model et EssRegroupe
+
+      if(nrow(MortCANEU>0)){
+
+        PredMortCANEU<-mortCANEU(MortCANEU, ClimatQUE, Models, DrainageCl, PenteCl,
+                                 Texture, Coupe, Coupe0, sum_st_ha, sum_st_ha_Res,
+                                 sum_st_ha_Feu, t, mq_DHPcm, shannon, gini, Depot)
+
+      }
+
+      if (exists("PredMortCANEU")==TRUE & exists("PredMortQUE")==TRUE){
+
+        PredMort<-rbind(PredMortQUE,PredMortCANEU)
+
+        rm(PredMortQUE,PredMortCANEU)
+      }
+
+      if (exists("PredMortCANEU")==TRUE & exists("PredMortQUE")==FALSE){
+
+        PredMort<-PredMortCANEU
+
+        rm(PredMortCANEU)
+      }
+      if (exists("PredMortCANEU")==FALSE & exists("PredMortQUE")==TRUE){
+
+        PredMort<-PredMortQUE
+
+        rm(PredMortQUE)
+      }
+
+    }
 
 
     ############################################## ACCROISSEMENT ####################################################
@@ -319,9 +392,15 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     # on applique la fonction d'accroissement sur chacun des arbres avec la fonction nest()
     if (AccModif=="ORI"){
+
+      if (EvolClim==1){
+        Accrois<-Accrois %>%
+          mutate(PTot=ClimatModif$PTotPeriode, TMoy=ClimatModif$TMoyPeriode)
+      }
+
       PredAcc <- Accrois %>%
         mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
-               PTot=PTot,RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage, Veg_Pot=Veg_Pot) %>%
+              RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage, Veg_Pot=Veg_Pot) %>%
         group_by(origTreeID) %>%
         nest() %>%
         mutate(pred_acc = map(data,accrois)) %>%
@@ -367,13 +446,14 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         mutate(
           BAS=sum_st_ha-st_ha_cumul_gt,
           deltaT=t,
-          VPD=ClimatFortin$VPD,
+          UtilVPD=ClimatFortin$UtilVPD,
           CMI=ClimatFortin$CMIcm,
           DD=ClimatFortin$DD,
           drainageClass=ifelse(Cl_Drai<20,"xeric",ifelse(Cl_Drai<40,"mesic",ifelse(Cl_Drai<50,"subhydric","hydric"))),
           SBWoutbreak=0) %>%
         rename(BAL=st_ha_cumul_gt, DBH=DHPcm) %>%
-        select(PlacetteID, origTreeID, species, deltaT, BAL, DBH, BAS, VPD, CMI, DD, drainageClass, SBWoutbreak) %>%
+
+        select(PlacetteID, origTreeID, species, deltaT, BAL, DBH, BAS, UtilVPD, CMI, DD, drainageClass, SBWoutbreak) %>%
         group_by(origTreeID) %>%
         nest() %>%
         mutate(Estimate = map(data,makePredictions )) %>%
@@ -436,7 +516,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     PredRecrue$ArbreID<-PredRecrue$origTreeID
 
 
-    if (AccModif!="ORI" | MortModif=="QUE") {
+    if (AccModif!="ORI" | MortModif!="ORI") {
       # Séparer recrues EPX entre EPN et EPB
       PropEPB<-Models[[8]]
       PropEPB<-PropEPB$PropEPB[which(PropEPB$VEG_POT==Veg_Pot)]

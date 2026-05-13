@@ -6,13 +6,25 @@
 Elle permet de produire les variables climatiques nécessaires aux modules de mortalité,
 de croissance et de recrutement sensibles au climat.}
 \usage{
-ClimatBiosim(Placettes, Annee, t, RCP, ClimMois, ClimAn, EvolClim, AccModif)
+ClimatBiosim(
+  Placettes,
+  Annee,
+  AnneeDep,
+  t,
+  RCP,
+  ClimMois,
+  ClimAn,
+  EvolClim,
+  AccModif
+)
 }
 \arguments{
 \item{Placettes}{Identifiant de la placette pour laquelle on veut extraire les variables
 climatiques.}
 
 \item{Annee}{Année de debut de la période de simulation en cours.}
+
+\item{AnneeDep}{Année de départ de la simulation Artémis.}
 
 \item{t}{Duree de la periode de simulation (habituellement 10 ans).}
 
@@ -37,7 +49,7 @@ GAM de D'Orangeville 2019.}
 }
 \value{
 Retourne un dataframe avec l'identifiant de la placette et les données
-         climatiques formatées pour la période de simulation en cours.
+climatiques formatées pour la période de simulation en cours.
 }
 \description{
 Fonction qui extrait les variables climatiques de la période de simulation en cours.

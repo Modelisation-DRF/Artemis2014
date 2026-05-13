@@ -268,9 +268,9 @@ comparer_annee_scenario <- function(data, data_annuel, data_mensuel, scenario_rc
 #'
 #' @export
 #'
-extraire_nb_annee <- function(data_annuel){
+extraire_nb_annee <- function(data_annuel,AnneeDep){
   data_annuel <- renommer_les_colonnes_climat_annuel(data_annuel)
-  nb_annee <- length(unique(data_annuel$Annee))
+  nb_annee <- length(unique(data_annuel$Annee[which(data_annuel$Annee>=AnneeDep)]))
   return (nb_annee)
 }
 
