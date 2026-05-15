@@ -14,6 +14,9 @@ avec leur diamètre à hauteur de poitrine.}
 \item{FacHa}{Facteur d'expansion à l'hectare de la placette}
 }
 \value{
+Retourne le dataframe fourni initialement avec une colonne supplémentaire
+'st_ha_cumul_gt' qui rapporte la surface terrière des arbres de plus grand
+diamètre de chacun des arbres.
 }
 \description{
 Fonction qui calcule la surface terrière des arbres de diamètre plus grand

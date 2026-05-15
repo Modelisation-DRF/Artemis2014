@@ -20,7 +20,8 @@ simulateurArtemis(
   RCP = "RCP45",
   Coupe_ON = NULL,
   Coupe_modif = NULL,
-  TBE = NULL
+  TBE = NULL,
+  MCH = 1
 )
 }
 \arguments{
