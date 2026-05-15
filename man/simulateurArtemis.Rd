@@ -21,7 +21,7 @@ simulateurArtemis(
   Coupe_ON = NULL,
   Coupe_modif = NULL,
   TBE = NULL,
-  MCH = 1
+  MCH = 0
 )
 }
 \arguments{
@@ -32,7 +32,7 @@ d'arbres à simuler. Les champs: "PlacetteID","no_mes","origTreeID","Espece","Et
 "Age_moy","sand_015cm","cec_015cm" doivent être présents. Si l'information
 sur certains champs n'est pas disponible, on peut le laisser vide.}
 
-\item{AnneeDep}{Permet de ficxer l'année de départ de la simulation. Si laissé vide
+\item{AnneeDep}{Permet de fixer l'année de départ de la simulation. Si laissé vide
 l'année courante sera utilisée.}
 
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
@@ -79,6 +79,9 @@ un effet de TBE (Tordeuse des bourgeons de l'épinette).
 Le nombre d'éléments doit être égal à Horizon.
 1 = effet TBE présent, 0 = pas d'effet TBE.
 Par défaut = NULL (pas de TBE).}
+
+\item{MCH}{Binaire. 1 = indique la présence de la maladie corticale du hêtre durant tout l'horizon de simulation.
+0 = absence de la maladie (par défaut).}
 }
 \value{
 Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
