@@ -249,53 +249,18 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
   doFuture::registerDoFuture()
   options(future.globals.maxSize= 891289600)###Monte la tolérence à 850 megs pour les éléments passés dans do futur
   future::plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
-  #plan(sequential) #temporaire
 
   list_plot <- unique(Data$PlacetteID)
 
  suppressWarnings(
-   #Final<- bind_rows(
-    #foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
-     # {Test<-ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
-      #               AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
-       #              EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
-        #             TBE = TBE)}
-  # )
-   Final <- dplyr::bind_rows(
-     foreach::foreach(
-       x = list_plot,
-       .packages = c("gbm", "dplyr")
-     ) %dorng% {
-
-       tryCatch({
-         ArtemisClimat(
-           Para=Para,
-           Data=Data[Data$PlacetteID==x, ,drop=FALSE],
-           AnneeDep=AnneeDep,
-           Horizon=Horizon,
-           FacHa=FacHa,
-           Tendance=Tendance,
-           Residuel=Residuel,
-           ClimMois=ClimMois,
-           ClimAn=ClimAn,
-           EvolClim=EvolClim,
-           AccModif=AccModif,
-           MortModif=MortModif,
-           RCP=RCP,
-           Models=Models,
-           Coupe_ON=Coupe_ON,
-           Coupe_modif=Coupe_modif,
-           TBE=TBE
-         )
-       }, error = function(e) {
-         print(paste("Erreur pour PlacetteID =", x))
-         print(e)
-         return(NULL)
-       })
-
-     }
+   Final<- bind_rows(
+    foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
+      {Test<-ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
+                    AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
+                    EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
+                     TBE = TBE)}
    )
-  )
+ )
 
   future::plan(sequential)
 
