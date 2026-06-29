@@ -61,7 +61,7 @@ de simulation.}
 }
 \value{
 Retourne un dataframe avec une colonne origTreeID et une colonne avec la
-         probabilité de mortalité pour la période de simulation en cours.
+probabilité de mortalité pour la période de simulation en cours.
 }
 \description{
 Fonction de prévision de la probabilité de mortalité basée sur les équations

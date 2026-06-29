@@ -12,7 +12,7 @@ verifier_variable_Sol(data)
 }
 \value{
 Retourne la liste d'arbres initiale avec les données de sol ajoutées si
-       elles sont absentes.
+elles sont absentes.
 }
 \description{
 Fonction qui vérifie si la proportion de sable et de capacité d'échange cationique.

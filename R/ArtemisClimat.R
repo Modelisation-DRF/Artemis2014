@@ -39,7 +39,7 @@
 #'@param RCP Scénario climatique choisi pour la simulation soit RCP 4.5 ou 8.5.
 #'           Ce paramètre est seulement utilisé si le paramètre EvolClim=1.
 #'
-#'@param Models Liste dans laquelle les modèles d'accroissement et de moratlité
+#'@param Models Liste dans laquelle les modèles d'accroissement et de mortalité
 #'               (à l'exception des modele d'Artémis-2014) sont inclus.
 #'
 #'@param Coupe_ON Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
@@ -52,6 +52,9 @@
 #'@param TBE Vecteur contenant les valeurs 0 ou 1 pour indiquer les décennies avec
 #'            un effet de TBE (Tordeuse des bourgeons de l'épinette).
 #'
+#'@param MCH Binaire. 1 = indique la présence de la maladie corticale du hêtre durant tout l'horizon de simulation.
+#'                     0 = absence de la maladie (par défaut).
+#'
 #' @return Retourne un dataframe contenant la liste d'arbres vivants de la
 #'         placette simulée avec leur DHP pour chaque période de simulation.
 #'
@@ -61,7 +64,7 @@
 #'@export
 #'
 ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models,
-                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
+                         Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
 ##############################################################################
@@ -314,7 +317,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
                Veg_Pot=Veg_Pot) %>%
         group_by(origTreeID) %>%
         nest() %>%
-        mutate(pred_mort = map(data,mort)) %>%
+        mutate(pred_mort = map(data,mort,MCH=MCH)) %>%
         unnest(pred_mort) %>%
         select(-data) # contient 2 variables: origTreeID et pred_mort
 
@@ -453,6 +456,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
           drainageClass=ifelse(Cl_Drai<20,"xeric",ifelse(Cl_Drai<40,"mesic",ifelse(Cl_Drai<50,"subhydric","hydric"))),
           SBWoutbreak=0) %>%
         rename(BAL=st_ha_cumul_gt, DBH=DHPcm) %>%
+
         select(PlacetteID, origTreeID, species, deltaT, BAL, DBH, BAS, UtilVPD, CMI, DD, drainageClass, SBWoutbreak) %>%
         group_by(origTreeID) %>%
         nest() %>%

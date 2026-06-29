@@ -54,8 +54,11 @@
 #'            1 = effet TBE présent, 0 = pas d'effet TBE.
 #'            Par défaut = NULL (pas de TBE).
 #'
-#'@param AnneeDep Permet de ficxer l'année de départ de la simulation. Si laissé vide
+#' @param AnneeDep Permet de fixer l'année de départ de la simulation. Si laissé vide
 #'                l'année courante sera utilisée.
+#'
+#' @param MCH Binaire. 1 = indique la présence de la maladie corticale du hêtre durant tout l'horizon de simulation.
+#'                     0 = absence de la maladie (par défaut).
 #'
 #' @return Retourne un dataframe contenant la liste des arbres, leur état, leur DHP,
 #'         leur hauteur et leur volume pour chaque placette
@@ -91,7 +94,7 @@
 
 
 simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,ClimAn = NULL,Tendance=0,Residuel=0,FacHa=25,EvolClim=0,
-                            AccModif='ORI',MortModif='ORI',RCP='RCP45', Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL){
+                            AccModif='ORI',MortModif='ORI',RCP='RCP45', Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
   if (!exists("Data_ori")){
@@ -255,10 +258,11 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
  suppressWarnings(
    Final<- bind_rows(
     foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
-      {Test<-ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
-                    AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
-                    EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
-                     TBE = TBE)}
+      {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
+                     AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimMois=ClimMois, ClimAn =ClimAn,
+                     EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif,
+
+                     TBE = TBE, MCH=MCH)}
    )
  )
 

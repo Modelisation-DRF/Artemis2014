@@ -2,17 +2,21 @@
 % Please edit documentation in R/Mortalite.R
 \name{mort}
 \alias{mort}
-\title{Fonction pour calculer la probabilité de mortalité. Fonction de base d'Artémis-2014.}
+\title{Fonction pour calculer la probabilité de mortalité d'un arbre. Fonction de base d'Artémis-2014.}
 \usage{
-mort(Mort)
+mort(Mort, MCH = 0)
 }
 \arguments{
-\item{Mort}{Un dataframe d'une ligne qui contient toutes les valeures utilisées
-par les équations de probabilité de mortalité d'Artémis-2014.}
+\item{Mort}{Un dataframe d'une ligne qui contient toutes les valeurs utilisées
+par les équations de probabilité de mortalité d'Artémis-2014
+et une colonne MCH indiquant d'utiliser l'équation de mortalité pour la MCH pour les HEG (0 ou 1).}
+
+\item{MCH}{Binaire. 1 = indique la présence de la maladie corticale du hêtre durant tout l'horizon de simulation.
+0 = absence de la maladie (par défaut).}
 }
 \value{
 Retourne la probabilité de mortalité pour la période de simulation en cours.
 }
 \description{
-Fonction pour calculer la probabilité de mortalité. Fonction de base d'Artémis-2014.
+Fonction pour calculer la probabilité de mortalité d'un arbre. Fonction de base d'Artémis-2014.
 }

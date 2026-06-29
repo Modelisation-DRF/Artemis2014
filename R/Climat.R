@@ -143,7 +143,8 @@ VarClimMois<-function(DataMois){
   PrecSummer<-sum(DataMois$PTot[which(DataMois$Mois %in% c(5,6,7,8,9))])/TempsCMI
   #Snow<-mean(DataMois$PTot[which(DataMois$Mois %in% c(1,2,3))])
   Snow<-sum(DataMois$PTot[which(DataMois$Mois %in% c(1,2,3))])/TempsCMI
-  PUtile<-mean(DataMois$PTot[which(DataMois$Mois %in% c(6,7,8))])
+  PUtile<-sum(DataMois$PTot[which(DataMois$Mois %in% c(6,7,8))])/TempsCMI##########Changé mean pour sum Putile devrait
+                                                                #être la somme des précipitations et non la moyenne HP 05-07-2026
 
   #  if (AccModif=="GAM"){
   #   DataPET<-DataMois%>%

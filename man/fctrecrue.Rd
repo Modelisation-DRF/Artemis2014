@@ -9,7 +9,7 @@ fctrecrue(EspecesFinal)
 }
 \arguments{
 \item{EspecesFinal}{un vecteur qui comprend un groupe d'espèce une colonne
- raporte le nombre de tiges, le nombre de
+raporte le nombre de tiges, le nombre de
 tiges par hectare et la surface terrière.}
 }
 \value{

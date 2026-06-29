@@ -17,8 +17,8 @@ que la première et la dernière année de la simulation. Par défaut, \code{FAL
 }
 \value{
 Retourne un dataframe contenant le nombre de tiges par hectare, la surface terrière par hectare,
-         le diamètre moyen quadratique, le volume marchand brut par hectare, la hauteur dominante et la hauteur moyenne
-         par placette, groupe d'espèce et année.
+le diamètre moyen quadratique, le volume marchand brut par hectare, la hauteur dominante et la hauteur moyenne
+par placette, groupe d'espèce et année.
 }
 \description{
 Fonction qui structure un dataframe de sortie dont chaque ligne correspond

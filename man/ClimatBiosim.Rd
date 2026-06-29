@@ -49,7 +49,7 @@ GAM de D'Orangeville 2019.}
 }
 \value{
 Retourne un dataframe avec l'identifiant de la placette et les données
-         climatiques formatées pour la période de simulation en cours.
+climatiques formatées pour la période de simulation en cours.
 }
 \description{
 Fonction qui extrait les variables climatiques de la période de simulation en cours.
