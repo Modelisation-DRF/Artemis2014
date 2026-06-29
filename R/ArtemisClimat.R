@@ -341,7 +341,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
       Mort<-merge(Mort,Models[[12]])
 
-      MortQUE<-Mort[which(Mort$Model=="QUE"& !Mort$Espece %in% c("EPR","PEB","PEG","PIB","PIR")),]##On ajoute ces 5 especes qui sont regroupés dans Artémis
+      MortQUE<-Mort[which(Mort$Model=="QUE"& !Mort$Espece %in% c("EPB","EPR","PEB","PEG","PIB","PIR")),]##On ajoute ces 5 especes qui sont regroupés dans Artémis
 
       MortQUE<-MortQUE[,!names(MortQUE)%in% c("Ess_regroupe","Model")]#Enlève Model et EssRegroupe
 

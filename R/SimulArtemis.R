@@ -252,7 +252,6 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
   doFuture::registerDoFuture()
   options(future.globals.maxSize= 891289600)###Monte la tolérence à 850 megs pour les éléments passés dans do futur
   future::plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
-  #plan(sequential) #temporaire
 
   list_plot <- unique(Data$PlacetteID)
 
@@ -265,7 +264,7 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
 
                      TBE = TBE, MCH=MCH)}
    )
-  )
+ )
 
   future::plan(sequential)
 
@@ -321,18 +320,4 @@ suppressMessages(
   return(Final2)
 
 }
-
-#chemin <- "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/Artemis2014/data-raw/Intrant_Test.csv"
-#chemin <- "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/Artemis2014_Shiny/WWW/Donnees_Exemple.csv"
-#head_data <- read.csv(chemin, sep = ";")
-#vec_Coupe_ON <- c(NA, NA, 2, NA, 10)
-####test_ess <- data.frame(
-####  ess_ind = c("CHR"),
-####  modifier = c(50))
-#vec_coupeModifier <- list(NA, NA, 20, NA, 10)
-#TBE <- c(0, 0, 0, 0, 0)
-#####Result33 <- suppressMessages(simulateurArtemis(Data_ori = head_data, Horizon = 5, ClimMois = NULL, ClimAn = NULL, AccModif='ORI', MortModif='ORI', RCP='RCP45')) %>% arrange(PlacetteID, origTreeID, Annee)
-#Result77 <- suppressMessages(simulateurArtemis(Data_ori = head_data ,Horizon = 5,ClimMois = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
-#                                            Coupe_ON = vec_Coupe_ON, Coupe_modif = vec_coupeModifier, TBE = TBE) %>% arrange(PlacetteID,origTreeID,Annee))
-#write.csv(Result77, "C:/Users/boini5/OneDrive - BuroVirtuel/Bureau/MRNF Projects/OutilsDRF/data-raw/resultats_test.csv", row.names = FALSE)
 
