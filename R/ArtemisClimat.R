@@ -63,7 +63,8 @@
 #'
 #'@export
 #'
-ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn, EvolClim, AccModif, MortModif, RCP, Models,
+ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn,
+                         ClimTot, EvolClim, AccModif, MortModif, RCP, Models,
                          Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
@@ -149,12 +150,26 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Lecture du climat
   if (!(AccModif=="ORI" & MortModif=="ORI" & EvolClim==0) ){
 
+    if (!is.null(ClimAn)){
+
     ClimPe<-ClimMois %>% filter(PlacetteID==info_plac$PlacetteID)
     ClimAnPe<-ClimAn %>% filter(PlacetteID==info_plac$PlacetteID)
 
+    }else{
+
+      ClimTotPe<-ClimTot %>% filter(PlacetteID==info_plac$PlacetteID)
+    }
+
     # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
 
-    ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
+    if (!is.null(ClimAn)){
+
+      ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
+
+    }else{
+
+      ClimatHisto<-ClimatBiosimRaster(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, ClimTotPe, EvolClim) #Annee de départ définie à 2020 pour climat historique
+    }
   }
 
   # Initialisation du fichier qui contiendra les résultats de simulation de la placette et variables
@@ -292,7 +307,17 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (EvolClim==1){
 
-      ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
+      if (!is.null(ClimAn)){
+
+        ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
+
+      }else{
+
+        ClimatModif<-ClimatBiosimRaster(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, ClimTotPe, EvolClim)
+
+        }
+
+
 
     }
 
@@ -339,49 +364,12 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
       if (EvolClim==0){ClimatQUE=ClimatHisto} else {ClimatQUE=ClimatModif}
 
-      Mort<-merge(Mort,Models[[12]])
 
-      MortQUE<-Mort[which(Mort$Model=="QUE"& !Mort$Espece %in% c("EPB","EPR","PEB","PEG","PIB","PIR")),]##On ajoute ces 5 especes qui sont regroupés dans Artémis
 
-      MortQUE<-MortQUE[,!names(MortQUE)%in% c("Ess_regroupe","Model")]#Enlève Model et EssRegroupe
+        PredMort<-mortCANEU(Mort, ClimatQUE, Models, DrainageCl, PenteCl,
+                            Texture, Coupe, Coupe0, sum_st_ha, sum_st_ha_Res,
+                             sum_st_ha_Feu, t, mq_DHPcm, shannon, gini, Depot)
 
-      if(nrow(MortQUE>0)){
-
-        PredMortQUE<-mortQUE(MortQUE, ClimatQUE, Models, DrainageCl, PenteCl, Texture, Coupe, Coupe0, sum_st_ha, t)
-
-      }
-
-      MortCANEU<-Mort[which(Mort$Model=="CANEU"| Mort$Espece %in% c("EPR","PEB","PEG","PIB","PIR") ),]
-
-      MortCANEU<-MortCANEU[,!names(MortCANEU)%in% c("Ess_regroupe","Model")]#Enlève Model et EssRegroupe
-
-      if(nrow(MortCANEU>0)){
-
-        PredMortCANEU<-mortCANEU(MortCANEU, ClimatQUE, Models, DrainageCl, PenteCl,
-                                 Texture, Coupe, Coupe0, sum_st_ha, sum_st_ha_Res,
-                                 sum_st_ha_Feu, t, mq_DHPcm, shannon, gini, Depot)
-
-      }
-
-      if (exists("PredMortCANEU")==TRUE & exists("PredMortQUE")==TRUE){
-
-        PredMort<-rbind(PredMortQUE,PredMortCANEU)
-
-        rm(PredMortQUE,PredMortCANEU)
-      }
-
-      if (exists("PredMortCANEU")==TRUE & exists("PredMortQUE")==FALSE){
-
-        PredMort<-PredMortCANEU
-
-        rm(PredMortCANEU)
-      }
-      if (exists("PredMortCANEU")==FALSE & exists("PredMortQUE")==TRUE){
-
-        PredMort<-PredMortQUE
-
-        rm(PredMortQUE)
-      }
 
     }
 
