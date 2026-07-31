@@ -7,8 +7,7 @@ une simulation avec le package Artémis-2014.}
 \usage{
 PrepareData(
   Data,
-  Clim_tous,
-  ClimAn_tous,
+  ClimTot,
   AccModif,
   EvolClim,
   MortModif,
@@ -22,14 +21,6 @@ PrepareData(
 \arguments{
 \item{Data}{Un data frame qui contient la liste d'arbre de départ pour la
 simulation.}
-
-\item{Clim_tous}{Un data frame de données climatique mensuelles. Ce fichier
-est seulement nécessaire pour les simulations effectuées avec
-les modules d'accroissement ou de mortalité sensibles au climat.}
-
-\item{ClimAn_tous}{Un data frame de données climatiques annuelles. Ce fichier
-est seulement nécessaire pour les simulations effectuées avec
-les modules d'accroissement ou de mortalité sensibles au climat.}
 
 \item{AccModif}{Vecteur qui peut prendre les valeurs 'ORI' pour l'utilisation
 du module d'accroissement original d'Artémis-2014, 'BRT' pour
@@ -62,6 +53,14 @@ conservé en tant que données internes au package.}
 
 \item{Sp}{Un data frame qui associe un code numérique à chacun des groupes
 d'essences. Ce data frame est conservé en tant que données internes au package.}
+
+\item{Clim_tous}{Un data frame de données climatique mensuelles. Ce fichier
+est seulement nécessaire pour les simulations effectuées avec
+les modules d'accroissement ou de mortalité sensibles au climat.}
+
+\item{ClimAn_tous}{Un data frame de données climatiques annuelles. Ce fichier
+est seulement nécessaire pour les simulations effectuées avec
+les modules d'accroissement ou de mortalité sensibles au climat.}
 }
 \value{
 La fonction retourne une liste comprenant le dataframe de données mis en forme,

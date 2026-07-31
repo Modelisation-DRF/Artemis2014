@@ -68,22 +68,25 @@ mortCANEU<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, tbe, 
           Input<-Mort %>%
             ungroup %>%
             left_join(EssGrCANEU, by="GrEspece") %>% # le fichier ne contient pas les EPX, ni EPB/EPN
-            mutate(Ess_regroupe=ifelse(Espece %in% c("EPN","EPB","EPR","PEB","PEG","PIB"), Espece, Ess_regroupe)) %>% # on associe les espèces regroupées aux bonnes équations
+            mutate(Ess_regroupe=ifelse(Espece %in% c("BOJ","BOP","CHR","EPN","EPB",
+                                                     "EPR","ERR","ERS","FRN","HEG",
+                                                     "MEL","OSV","PEB","PEG","PET",
+                                                     "PIG","PIB","PRU","SAB","THO","TIL"), Espece, Ess_regroupe)) %>% # on associe les espèces regroupées aux bonnes équations
             left_join(ClimatQUE))
 
  suppressMessages(
  Input<-Input %>%
            left_join(ParaSTD) %>%
-           mutate(logDHPcm=log(DHPcm), logPTot=log(PTot)) %>%
+           mutate(logDHPcm=log(DHPcm), logPTot=log(PTotPeriode)) %>%
            mutate(DDStd=(DD-Moyenne_dd)/EcartType_dd, DHPcmStd=(DHPcm-Moyenne_dhpcm)/EcartType_dhpcm,
                   giniStd=(gini-Moyenne_gini)/EcartType_gini,logDHPcmStd=(logDHPcm-Moyenne_logdhpcm)/EcartType_logdhpcm,
-                  logPTotStd=(logPTot-Moyenne_logptot)/EcartType_logptot,PTotStd=(PTot-Moyenne_ptot)/EcartType_ptot,
+                  logPTotStd=(logPTot-Moyenne_logptot)/EcartType_logptot,PTotStd=(PTotPeriode-Moyenne_ptot)/EcartType_ptot,
                   PUtilStd=(PUtile-Moyenne_putil)/EcartType_putil,mq_DHPcmStd=(mq_DHPcm-Moyenne_qmd)/EcartType_qmd,
                   shannonStd=(shannon-Moyenne_shannon)/EcartType_shannon,st_ha_cumul_gtStd=(st_ha_cumul_gt-Moyenne_st_ha_cumul_gt)/EcartType_st_ha_cumul_gt,
                   sum_st_haStd=(sum_st_ha-Moyenne_sum_st_ha)/EcartType_sum_st_ha,
                   sum_st_ha_ResStd=(sum_st_ha_Res-Moyenne_sum_st_ha_res)/EcartType_sum_st_ha_res,
                   sum_st_ha_FeuStd=(sum_st_ha_Feu-Moyenne_sum_st_ha_feu)/EcartType_sum_st_ha_feu,
-                  TMoyStd=(TMoy-Moyenne_tmoy)/EcartType_tmoy,VPDStd=(TotalVPD-Moyenne_vpd)/EcartType_vpd)
+                  TMoyStd=(TMoyPeriode-Moyenne_tmoy)/EcartType_tmoy,VPDStd=(TotalVPD-Moyenne_vpd)/EcartType_vpd)
  )
 
 
@@ -106,14 +109,15 @@ mortCANEU<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, tbe, 
           Xmort[,31:36]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","BOP","EPB","FRN","HEG","SAB")])*Input$DDStd*Input$DDStd
           Xmort[,37]<-(Input$Ess_regroupe=="BOP")*(Input$DDStd*Input$PUtilStd)
           Xmort[,38]<-(Input$Ess_regroupe=="HEG")*(Input$DDStd*Input$VPDStd)
-          Xmort[,39]<-(Input$Ess_regroupe=="BOJ" & Depot =="MF")*1
-          Xmort[,40]<-(Input$Ess_regroupe=="EPN" & Depot == "OG")*1
-          Xmort[,41]<-(Input$Ess_regroupe=="EPN" & Depot %in% c("R","TM"))*1
-          Xmort[,42]<-(Input$Ess_regroupe=="EPR" & Depot %in% c("R","TM","RM","TE","OG","MF","MG"))*1
+          Xmort[,39]<-(Input$Ess_regroupe=="BOJ" & Depot %in% c("A","GLo","GMo","Lo","Mo"))*1
+          Xmort[,40]<-(Input$Ess_regroupe=="EPN" & Depot == "O")*1
+          Xmort[,41]<-(Input$Ess_regroupe=="EPN" & Depot %in% c("R","Tv"))*1
+          Xmort[,42]<-(Input$Ess_regroupe=="EPR" & Depot %in% c("R","Tv","Tb","Th","Tm","O","A","E","GFc",
+                                                                "GFp","GLn","GLo","GMn","GMo","GMv","Ln","Lo","Mn","Mo"))*1
           Xmort[,43]<-(Input$Ess_regroupe=="ERR" & Depot=="RM")*1
           Xmort[,44]<-(Input$Ess_regroupe=="ERR" & Depot=="RS")*1
-          Xmort[,45]<-(Input$Ess_regroupe=="ERR" & Depot %in% c("R","TM","TE","C","MG"))*1
-          Xmort[,46]<-(Input$Ess_regroupe=="FRN" & Depot=="OG")*1
+          Xmort[,45]<-(Input$Ess_regroupe=="ERR" & Depot %in% c("R","Tv","Tb","Th","Tm","C","Cv","MG"))*1
+          Xmort[,46]<-(Input$Ess_regroupe=="FRN" & Depot=="O")*1
           Xmort[,47:67]<-(Input$Ess_regroupe==listeEss)*Input$DHPcmStd
           Xmort[,68]<-(Input$Ess_regroupe=="PIB")*Input$DHPcmStd*Input$DHPcmStd
           Xmort[,69:70]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","PIG")])*Input$giniStd

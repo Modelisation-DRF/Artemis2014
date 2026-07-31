@@ -19,6 +19,14 @@
 #'
 GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, RCP = "RCP45") {
 
+  if (AnneeFin<=AnneeDep){
+    stop("AnneeFin doit être supérieure à AnneeDep" )
+  }
+
+  if (!RCP %in% c("RCP45","RCP85")){
+    stop("La variable RCP doit soit prendre la valeur RCP45 ou RCP85")
+  }
+
   Data <- Data %>%
               group_by(PlacetteID) %>%
               summarise(latitude = first(Latitude), longitude = first(Longitude)) %>%

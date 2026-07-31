@@ -38,6 +38,8 @@
 #'
 ClimatBiosim<-function (Placettes, Annee, AnneeDep, t, RCP, ClimMois, ClimAn, EvolClim, AccModif){
 
+  .Deprecated("ClimatRaster")
+
 if (Annee<2091){
  An=Annee}else{
    An=2090

@@ -18,10 +18,9 @@
 #'
 #'
 #' @param FacHa  Facteur d'expansion de de toutes les placettes à l'hectare. Valeure par defaut fixée à 25
-#
-#' @param ClimMois Donnees climatiques mensuelles. Si absente laisser vide
 #'
-#' @param ClimAn   Donnees climatiques annuelles. Si absente laisser vide
+#'
+#' @param ClimTot   Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide
 #'
 #' @param EvolClim  Valeure de 0 pour climat constant et de 1 pour evolution du climat à travers le temps de simulation
 #'                  Valeure par defaut de 0
@@ -93,7 +92,7 @@
 #'
 
 
-simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,ClimAn = NULL,ClimTot = NULL,Tendance=0,
+simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tendance=0,
                             Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45',
                             Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
@@ -106,8 +105,8 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
     stop("Une valeur plus grande que 0 doit \u00EAtre pass\u00E9e \u00E0 l'argument Horizon " )
   }
 
-  if ((is.null(ClimMois)|is.null(ClimAn)) & is.null(ClimTot) & (EvolClim==1|AccModif!="ORI"|MortModif!="ORI")){
-    stop("L'argument ClimAn et ClimMois ou ClimTot ne peuvent pas \u00EAtre null
+  if (is.null(ClimTot) & (EvolClim==1|AccModif!="ORI"|MortModif!="ORI")){
+    stop("L'argument ClimTot ne peuvent pas \u00EAtre null
     lorsque EvolClim=1 ou que AccModif n'est pas \u00E9gal \u00E0 ORI
     ou que MortModif n'est pas \u00E9gal  ORI" )
   }
@@ -219,18 +218,18 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
   AnneeDep <- if (is.null (AnneeDep)) {as.numeric(format(Sys.Date(), "%Y"))}else{AnneeDep}
 
 
-  if (exists("ClimMois") && !is.null(ClimMois)) {
+ # if (exists("ClimMois") && !is.null(ClimMois)) {
 
-    ClimMois<- renommer_les_colonnes_climat_mensuel(ClimMois)
+  #  ClimMois<- renommer_les_colonnes_climat_mensuel(ClimMois)
 
-    ClimMois <- ClimMois %>% mutate(PlacetteID = paste0("P", PlacetteID))
-  }
+   # ClimMois <- ClimMois %>% mutate(PlacetteID = paste0("P", PlacetteID))
+  #}
 
-  if (exists("ClimAn") && !is.null(ClimAn)) {
+  #if (exists("ClimAn") && !is.null(ClimAn)) {
 
-    ClimAn<- renommer_les_colonnes_climat_annuel(ClimAn)
-    ClimAn <- ClimAn %>% mutate(PlacetteID = paste0("P", PlacetteID))
-  }
+   # ClimAn<- renommer_les_colonnes_climat_annuel(ClimAn)
+    #ClimAn <- ClimAn %>% mutate(PlacetteID = paste0("P", PlacetteID))
+  #}
 
   if (exists("ClimTot") && !is.null(ClimTot)) {
 
@@ -248,12 +247,12 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
     Data_ori <- Data_ori %>% mutate(Age_moy = 50)
   }
 
-  prep_data <- PrepareData(Data_ori, ClimMois, ClimAn,ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
+  prep_data <- PrepareData(Data_ori, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
   Data <- prep_data[[1]]
   Models <- prep_data[[2]]
-  ClimMois <- prep_data[[3]]
-  ClimAn <- prep_data[[4]]
-  ClimTot <- prep_data[[5]]
+  #ClimMois <- prep_data[[3]]
+  #ClimAn <- prep_data[[4]]
+  ClimTot <- prep_data[[3]]
 
   rm(prep_data)
 
@@ -268,9 +267,8 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
     foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel,
-                     ClimMois=ClimMois, ClimAn=ClimAn, ClimTot=ClimTot, EvolClim =EvolClim,
-                     AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models,
-                     Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif, TBE = TBE, MCH=MCH)}
+                     ClimTot=ClimTot, EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP,
+                     Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif, TBE = TBE, MCH=MCH)}
    )
  )
 
@@ -278,19 +276,19 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon,ClimMois = NULL ,Clim
 
   if (EvolClim==1){
 
-    if (!is.null(ClimAn)){
+    #if (!is.null(ClimAn)){
 
-      PTotTMoyEvol<-ClimAn %>%
-                  mutate(Annee=Annee) %>%
-                  ungroup() %>%
-                  dplyr::select(PlacetteID,Annee,PTot,TMoy)########Ajuste la température et les précipitations pour le calcul de la hauteur
-    }else{
+     # PTotTMoyEvol<-ClimAn %>%
+      #            mutate(Annee=Annee) %>%
+       #           ungroup() %>%
+        #          dplyr::select(PlacetteID,Annee,PTot,TMoy)########Ajuste la température et les précipitations pour le calcul de la hauteur
+    #}else{
 
       PTotTMoyEvol<-ClimTot %>%
                     mutate(Annee=Annee) %>%
                     ungroup() %>%
                     dplyr::select(PlacetteID,Annee,PTot,TMoy)
-      }
+     # }
 
     if ((AnneeDep+Horizon*10)>2100){#########Reporte les températures et les précipitations de 2100 pour les années subséquentes
                   ListePe<-data.frame("PlacetteID"=unique(PTotTMoyEvol$PlacetteID))

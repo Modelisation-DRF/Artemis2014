@@ -19,9 +19,11 @@
 #'
 #' @param Residuel Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.
 #'
-#' @param ClimMois Données climatiques mensuelles. Si abscente laisser vide.
+#'  ClimMois Données climatiques mensuelles. Si abscente laisser vide.
 #'
-#' @param ClimAn Données climatiques annuelles. Si abscente laisser vide.
+#'  ClimAn Données climatiques annuelles. Si abscente laisser vide.
+#'
+#'  @param ClimTot   Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide
 #'
 #' @param EvolClim Paramètre qui prend la valeure de 0 pour climat constant et
 #'                 de 1 pour une évolution du climat à travers le temps de
@@ -63,7 +65,7 @@
 #'
 #'@export
 #'
-ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel, ClimMois, ClimAn,
+ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel,
                          ClimTot, EvolClim, AccModif, MortModif, RCP, Models,
                          Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
@@ -150,26 +152,26 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Lecture du climat
   if (!(AccModif=="ORI" & MortModif=="ORI" & EvolClim==0) ){
 
-    if (!is.null(ClimAn)){
+    #if (!is.null(ClimAn)){
 
-    ClimPe<-ClimMois %>% filter(PlacetteID==info_plac$PlacetteID)
-    ClimAnPe<-ClimAn %>% filter(PlacetteID==info_plac$PlacetteID)
+    #ClimPe<-ClimMois %>% filter(PlacetteID==info_plac$PlacetteID)
+    #ClimAnPe<-ClimAn %>% filter(PlacetteID==info_plac$PlacetteID)
 
-    }else{
+    #}else{
 
       ClimTotPe<-ClimTot %>% filter(PlacetteID==info_plac$PlacetteID)
-    }
+    #}
 
     # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
 
-    if (!is.null(ClimAn)){
+   # if (!is.null(ClimAn)){
 
-      ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
+    #  ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
 
-    }else{
+    #}else{
 
       ClimatHisto<-ClimatBiosimRaster(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, ClimTotPe, EvolClim) #Annee de départ définie à 2020 pour climat historique
-    }
+    #}
   }
 
   # Initialisation du fichier qui contiendra les résultats de simulation de la placette et variables
@@ -307,15 +309,15 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (EvolClim==1){
 
-      if (!is.null(ClimAn)){
+     # if (!is.null(ClimAn)){
 
-        ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
+      #  ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
 
-      }else{
+      #}else{
 
         ClimatModif<-ClimatBiosimRaster(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, ClimTotPe, EvolClim)
 
-        }
+       # }
 
 
 
@@ -367,7 +369,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
 
         PredMort<-mortCANEU(Mort, ClimatQUE, Models, DrainageCl, PenteCl,
-                            Texture, Coupe, Coupe0, sum_st_ha, sum_st_ha_Res,
+                            Texture, tbe, tbe1, Coupe, Coupe0, sum_st_ha, sum_st_ha_Res,
                              sum_st_ha_Feu, t, mq_DHPcm, shannon, gini, Depot)
 
 

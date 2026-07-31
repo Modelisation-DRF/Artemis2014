@@ -99,11 +99,11 @@ trouver_noms_absents <- function(Data, MortModif,AccModif) {
 #'
 #'
 trouver_noms_optionels <- function(data) {
-  
+
   mes_variables<- c('GrwDays', 'PTot', 'TMoy','sand_015cm','cec_015cm','Pente','Exposition')
-  
+
   noms_absents <- setdiff(mes_variables , names(data))
-  
+
   return(noms_absents)
 }
 
@@ -230,3 +230,70 @@ renommer_les_colonnes_climat_annuel <- function(data){
 
   return(data)
 }
+
+
+
+
+
+#' Vérifier la présence des colonnes obligatoires dans le fichier climat Total
+#'
+#' La fonction \code{trouver_noms_absents_Climat_annuel} vérifie si toutes les colonnes obligatoires
+#' sont présentes dans un dataframe représentant le fichier climat total. Elle retourne une liste
+#' des noms des colonnes manquantes, le cas échéant.
+#'
+#' @param Data Un dataframe représentant le fichier climat total
+#'
+#' @return Une liste des noms des colonnes manquantes.
+#'
+#'
+#' @export
+#'
+trouver_noms_absents_Climat_total <- function(Data) {
+
+  ColOrdre <- c("PlacetteID","Annee","rcp","Aridity","CMI","CMIcm","DD","FFP","MSP",
+                "Max_ST","Min_WT","PAS","PTot","PUtile","TMoy","TSummer","TmaxUtil",
+                "Tmax_yr","TotalVPD","UtilVPD")
+
+  names(Data) <- tolower(names(Data))
+
+  colone_minuscule <- lapply(ColOrdre, tolower)
+
+  noms_absents <- setdiff(colone_minuscule, names(Data))
+
+  return(noms_absents)
+
+}
+
+
+
+
+
+
+#' Renommer les colonnes  du fichier des climats total
+#'
+#' La fonction \code{renommer_les_colonnes_climat_total} renomme les colonnes d'un dataframe
+#'
+#' @param data Un dataframe, représentant le fichier des climats total, dont les colonnes doivent être renommées et réorganisées.
+#'
+#' @export
+
+renommer_les_colonnes_climat_total <- function(data){
+
+  ColOrdre <- c("PlacetteID","Annee","rcp","Aridity","CMI","CMIcm","DD","FFP","MSP",
+                "Max_ST","Min_WT","PAS","PTot","PUtile","TMoy","TSummer","TmaxUtil",
+                "Tmax_yr","TotalVPD","UtilVPD")
+
+
+  noms_colonnes_existants <- tolower(names(data))
+  noms_colonnes_desires <- tolower(ColOrdre)
+
+  for (i in seq_along(noms_colonnes_desires)) {
+    index_colonne <- match(noms_colonnes_desires[i], noms_colonnes_existants)
+    if (!is.na(index_colonne)) {
+      names(data)[index_colonne] <- ColOrdre[i]
+    }
+  }
+
+  return(data)
+}
+

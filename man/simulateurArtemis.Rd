@@ -9,8 +9,7 @@ simulateurArtemis(
   Data_ori,
   AnneeDep = NULL,
   Horizon,
-  ClimMois = NULL,
-  ClimAn = NULL,
+  ClimTot = NULL,
   Tendance = 0,
   Residuel = 0,
   FacHa = 25,
@@ -38,9 +37,7 @@ l'année courante sera utilisée.}
 \item{Horizon}{Valeur numérique du nombre de périodes de 10 ans sur lesquelles
 le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 
-\item{ClimMois}{Donnees climatiques mensuelles. Si absente laisser vide}
-
-\item{ClimAn}{Donnees climatiques annuelles. Si absente laisser vide}
+\item{ClimTot}{Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide}
 
 \item{Tendance}{Si =1 modifie les paramètres d'accroissement, de mortalité et de recrutement pour les vegetations
 potentielles FE2 et FE3 afin de utiliser que les intevalles de croissance se terminant après 1998}

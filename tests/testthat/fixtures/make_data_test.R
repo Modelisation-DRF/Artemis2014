@@ -42,8 +42,9 @@ saveRDS(PredAcc, "tests/testthat/fixtures/PredAcc.rds")
 # Data frame résultant de la fonction d'accroissement.
 saveRDS(expect_test_for_Artemis_accroissement, "tests/testthat/fixtures/expect_test_for_Artemis_accroissement.rds")
 
-# Data frame résultant de la fonction d'accroissement.
+# Data frame résultant de la fonction de mortalité.
 saveRDS(PredMort, "tests/testthat/fixtures/expect_test_for_Artemis_MortaliteQUE.rds")
+saveRDS(PredMort, "tests/testthat/fixtures/expect_test_for_Artemis_MortaliteCANEU.rds")
 
 
 # Fichier des arbres sur lequel on applique la fonction de de Mortalité
@@ -78,7 +79,7 @@ saveRDS(plac_AccroisGAM , "tests/testthat/fixtures/plac_AccroisGAM.rds")
 saveRDS(GroupeTest, "tests/testthat/fixtures/expect_result_for_Ess_groupe.rds")
 
 
-# Résultat de la fonction Climat
+# Résultat de la fonction Climat originale
 saveRDS(Climat_result_0_ORI, "tests/testthat/fixtures/expect_result_for_Climat_0_ORI.rds")
 saveRDS(Climat_result_1_ORI, "tests/testthat/fixtures/expect_result_for_Climat_1_ORI.rds")
 saveRDS(Climat_result_0_GAM, "tests/testthat/fixtures/expect_result_for_Climat_0_GAM.rds")
@@ -86,12 +87,16 @@ saveRDS(Climat_result_1_GAM, "tests/testthat/fixtures/expect_result_for_Climat_1
 saveRDS(Climat_result_0_BRT, "tests/testthat/fixtures/expect_result_for_Climat_0_BRT.rds")
 saveRDS(Climat_result_1_BRT, "tests/testthat/fixtures/expect_result_for_Climat_1_BRT.rds")
 
+# Résultat de la fonction ClimatRaster
+saveRDS(ClimatTot_result_0, "tests/testthat/fixtures/expect_result_for_ClimatTot_0.rds")
+saveRDS(ClimatTot_result_1, "tests/testthat/fixtures/expect_result_for_ClimatTot_1.rds")
+
 
 # Résultat de prépare Data
 
 saveRDS(Data_0_ORI_ORI[[1]], "tests/testthat/fixtures/expect_result_for_PrepareData_0_ORI_ORI_Data.rds")
-saveRDS(Data_0_ORI_ORI[[3]], "tests/testthat/fixtures/expect_result_for_ClimatMois_0_ORI_ORI_Data.rds")
-saveRDS(Data_0_ORI_ORI[[4]], "tests/testthat/fixtures/expect_result_for_ClimatAn_0_ORI_ORI_Data.rds")
+saveRDS(Data_0_ORI_ORI[[3]], "tests/testthat/fixtures/expect_result_for_ClimatTot_0_ORI_ORI_Data.rds")
+
 
 # Résultats sortie Arbre placette
 

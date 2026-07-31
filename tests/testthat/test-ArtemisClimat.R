@@ -12,8 +12,9 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   FacHa <- 25
   Tendance <- 0
   Residuel <- 0
-  Clim <- NULL
-  ClimAn<- NULL
+  #Clim <- NULL
+  #ClimAn<- NULL
+  ClimTot<-NULL
   EvolClim <- 0
   AccModif <- "ORI"
   MortModif <- "ORI"
@@ -21,7 +22,7 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   Models <- NULL
 
   result <- ArtemisClimat(Para=Para,  Data=Data,
-                AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, Clim=Clim, ClimAn =ClimAn,
+                AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimTot=ClimTot,
                 EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models)
 
   set.seed(NULL)
@@ -44,8 +45,9 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   FacHa <- 25
   Tendance <- 0
   Residuel <- 0
-  Clim <- NULL
-  ClimAn<- NULL
+  #Clim <- NULL
+  #ClimAn<- NULL
+  ClimTot<-NULL
   EvolClim <- 0
   AccModif <- "ORI"
   MortModif <- "ORI"
@@ -63,7 +65,7 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   set.seed(NULL)
   set.seed(3)
   result1 <- ArtemisClimat(Para=Para,  Data=Data,
-                           AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, Clim=Clim, ClimAn =ClimAn,
+                           AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimTot=ClimTot,
                            EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, MCH=1)
   set.seed(NULL)
 

@@ -4,7 +4,7 @@
 \alias{extraire_nb_annee}
 \title{Extraire le nombre d'année maximum pour une simulation}
 \usage{
-extraire_nb_annee(data_annuel, AnneeDep)
+extraire_nb_annee(data, AnneeDep)
 }
 \arguments{
 \item{data_annuel}{Un dataframe représentant les données climatiques annuelles}

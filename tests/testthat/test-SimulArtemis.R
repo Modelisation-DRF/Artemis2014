@@ -25,7 +25,7 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
             set.seed(NULL)
             set.seed(3)
 
-  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2025, Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2025, Horizon = 3,ClimTot = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45') %>%
             arrange(PlacetteID,origTreeID,Annee) %>%
             #mutate(Annee=Annee-(as.numeric(format(Sys.Date(), "%Y"))-2025)) %>%
             select(-Cl_Drai)
@@ -56,7 +56,9 @@ test_that("La fonction simulateurArtemis(),  Coupe partielle réalisée depuis m
             set.seed(3)
 
 
-            Result <- simulateurArtemis(Data_ori = Intrant_Test, AnneeDep=2025, Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='BRT',MortModif='ORI', EvolClim=0, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test)
+            Result <- simulateurArtemis(Data_ori = Intrant_Test, AnneeDep=2025, Horizon = 3 ,Tendance=0 ,
+                                        Residuel=0 ,AccModif='BRT',MortModif='ORI', EvolClim=0,
+                                        ClimTot = ClimTot_Test)
 
 
 
@@ -78,7 +80,9 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement GAM et Modu
             set.seed(3)
 
 
-            Result <- simulateurArtemis(Data_ori = Intrant_Test , AnneeDep=2026, Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='GAM',MortModif='QUE', EvolClim=1, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test) %>%
+            Result <- simulateurArtemis(Data_ori = Intrant_Test , AnneeDep=2026, Horizon = 3 ,
+                                        Tendance=0 ,Residuel=0 ,AccModif='GAM',MortModif='QUE',
+                                        EvolClim=1, ClimTot = ClimTot_Test) %>%
                       arrange(PlacetteID,origTreeID,Annee)
 
             set.seed(NULL)
@@ -100,7 +104,9 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement QUE (Fortin
   set.seed(3)
 
 
-  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='QUE',MortModif='QUE', EvolClim=1, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test) %>%
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0 ,
+                              Residuel=0 ,AccModif='QUE',MortModif='QUE', EvolClim=1,
+                              ClimTot = ClimTot_Test) %>%
             arrange(PlacetteID,origTreeID,Annee)
 
   set.seed(NULL)
@@ -123,7 +129,9 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement QUE (Fortin
   set.seed(3)
 
 
-  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0 ,Residuel=0 ,AccModif='QUE',MortModif='CANEU', EvolClim=1, ClimMois = ClimMois_Test ,ClimAn = ClimAn_Test) %>%
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0
+                              ,Residuel=0 ,AccModif='QUE',MortModif='CANEU', EvolClim=1,
+                              ClimTot = ClimTot_Test) %>%
     arrange(PlacetteID,origTreeID,Annee)
 
   set.seed(NULL)
@@ -143,13 +151,14 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement QUE (Fortin
 
 
 
-test_that("La fonction simulateurArtemis(), Peuplement résduel, Module d’accroissement Original et Module de mortalité Original", {
+test_that("La fonction simulateurArtemis(), Peuplement résiduel, Module d’accroissement Original et Module de mortalité Original", {
 
   set.seed(NULL)
   set.seed(3)
 
 
-  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,Tendance=0 ,Residuel=1 ,AccModif='ORI',MortModif='ORI', EvolClim=0) %>%
+  Result <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2026, Horizon = 3 ,
+                              Tendance=0 ,Residuel=1 ,AccModif='ORI',MortModif='ORI', EvolClim=0) %>%
             mutate(Annee=Annee-(as.numeric(format(Sys.Date(), "%Y"))-2025))%>%
             arrange(PlacetteID,origTreeID,Annee)
 
@@ -223,7 +232,8 @@ test_that("La fonction simulateurArtemis(), Paramètres de recrutement ajustés,
             set.seed(3)
             # Intrant_Test contient une placette par veg_pot: In group 17: `origTreeID = 17`. RE2 arbre 17
 
-            Result1 <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2025, Horizon = 3,Clim = NULL ,ClimAn = NULL ,AccModif='ORI',MortModif='ORI',RCP='RCP45',
+            Result1 <- simulateurArtemis(Data_ori = Intrant_Test ,AnneeDep=2025, Horizon = 3,ClimTot = NULL ,
+                                         AccModif='ORI',MortModif='ORI',RCP='RCP45',
                                          MCH=1) %>%
               arrange(PlacetteID,origTreeID,Annee) %>%
               #mutate(Annee=Annee-(as.numeric(format(Sys.Date(), "%Y"))-2025)) %>%

@@ -52,7 +52,7 @@
 #'
 #'@export
 #'
-PrepareData <- function(Data, Clim_tous, ClimAn_tous, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {
+PrepareData <- function(Data, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {
 
 
 
@@ -77,21 +77,21 @@ if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
 
   IndexPlacette<-Data %>% group_by(PlacetteID) %>% summarise()
 
-  if (!is.null(Clim_tous)){
-  Clim <- Clim_tous %>%
-    filter(rcp==RCP ) %>%
-           inner_join(IndexPlacette, by="PlacetteID")
-  }else{
-    Clim<-c()
-  }
+  #if (!is.null(Clim_tous)){
+  #Clim <- Clim_tous %>%
+   # filter(rcp==RCP ) %>%
+    #       inner_join(IndexPlacette, by="PlacetteID")
+  #}else{
+   # Clim<-c()
+  #}
 
-  if (!is.null(ClimAn_tous)){
-  ClimAn <- ClimAn_tous %>%
-    filter(rcp==RCP) %>%
-           inner_join(IndexPlacette, by="PlacetteID")
-  }else{
-    ClimAn<-c()
-  }
+  #if (!is.null(ClimAn_tous)){
+  #ClimAn <- ClimAn_tous %>%
+   # filter(rcp==RCP) %>%
+    #       inner_join(IndexPlacette, by="PlacetteID")
+  #}else{
+   # ClimAn<-c()
+  #}
 
   if (!is.null(ClimTot)){
     ClimTot <- ClimTot %>%
@@ -102,8 +102,8 @@ if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
   }
 
 }else{
-  Clim<-c()
-  ClimAn<-c()
+  #Clim<-c()
+  #ClimAn<-c()
   ClimTot<-c()
 }
 
@@ -130,7 +130,7 @@ if (!(AccModif=="ORI" & MortModif=="ORI")){
   Models<-c()
 }
 
-fic <- list(Data, Models, Clim, ClimAn, ClimTot)
+fic <- list(Data, Models, ClimTot)
 
 
 return(fic)
