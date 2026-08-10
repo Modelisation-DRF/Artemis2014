@@ -149,7 +149,7 @@ valider_Mois <- function(data, scenario_rcp) {
 #'
 #' @export
 #'
-verifier_colonnes_ClimAn <- function(data) {
+verifier_colonnes_ClimTot <- function(data) {
 
   data<- renommer_les_colonnes_climat_total(data)
 

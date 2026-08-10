@@ -5,19 +5,13 @@
 \title{Vérifier les noms de colonnes des variables climatiques}
 \usage{
 verifier_colonnes_ClimAn(data)
-
-verifier_colonnes_ClimAn(data)
 }
 \arguments{
-\item{data}{Un dataframe représentant les données climatiques totales.}
+\item{data}{Un dataframe représentant les données climatiques annuelles.}
 }
 \value{
-Une liste des noms des colonnes manquantes.
-
 Une liste des noms des colonnes manquantes.
 }
 \description{
 Vérifier les noms de colonnes des variables climatiques
-
-Vérifier les noms de colonnes des variables climatiques du fichier climTot
 }
