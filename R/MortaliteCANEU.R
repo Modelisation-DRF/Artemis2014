@@ -100,7 +100,7 @@ mortCANEU<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, tbe, 
 
           listePente<-c(rep("B",n),rep("C",n),rep("D",n),rep("E",n), rep("F",n))
 
-          Xmort<-matrix(0,ncol=252,nrow=n)
+          Xmort<-matrix(0,ncol=245,nrow=n)
 
           # les 7 premieres colonnes sont pour l'effet âge pour 7 essences
           Xmort[,1:4]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("HEG","PEG","PET","SAB")])*Coupe
@@ -115,43 +115,40 @@ mortCANEU<-function(Mort, ClimatQUE, Models, DrainageCl, PenteCl, Texture, tbe, 
           Xmort[,42]<-(Input$Ess_regroupe=="EPR" & Depot %in% c("R","Tv","Tb","Th","Tm","O","A","E","GFc",
                                                                 "GFp","GLn","GLo","GMn","GMo","GMv","Ln","Lo","Mn","Mo"))*1
           Xmort[,43]<-(Input$Ess_regroupe=="ERR" & Depot=="RM")*1
-          Xmort[,44]<-(Input$Ess_regroupe=="ERR" & Depot=="RS")*1
-          Xmort[,45]<-(Input$Ess_regroupe=="ERR" & Depot %in% c("R","Tv","Tb","Th","Tm","C","Cv","MG"))*1
-          Xmort[,46]<-(Input$Ess_regroupe=="FRN" & Depot=="O")*1
-          Xmort[,47:67]<-(Input$Ess_regroupe==listeEss)*Input$DHPcmStd
-          Xmort[,68]<-(Input$Ess_regroupe=="PIB")*Input$DHPcmStd*Input$DHPcmStd
-          Xmort[,69:70]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","PIG")])*Input$giniStd
-          Xmort[,71:91]<-(Input$Ess_regroupe==listeEss)*1 # effet Intercept
-          Xmort[,92:108]<-(Input$Ess_regroupe==listeEss[!listeEss %in%c("HEG","MEL","PIB","SAB")])*Input$logDHPcmStd
-          Xmort[,109:110]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("ERS","THO")])*Input$logPTotStd
-          Xmort[,111:112]<-(Input$Ess_regroupe=="BOP" & PenteCl==listePente[listePente %in% c("D","E")])*1
-          Xmort[,113]<-(Input$Ess_regroupe=="BOP" & PenteCl=="F")*1
-          Xmort[,114:115]<-(Input$Ess_regroupe=="EPR" & PenteCl==listePente[listePente %in% c("E","F")])*1
-          Xmort[,116:118]<-(Input$Ess_regroupe=="PEG" & PenteCl==listePente[listePente %in% c("B","C","D")])*1
-          Xmort[,119]<-(Input$Ess_regroupe=="PET" & PenteCl=="F")*1
-          Xmort[,120:122]<-(Input$Ess_regroupe=="PRU" & PenteCl==listePente[listePente %in% c("B","E","F")])*1
-          Xmort[,123:126]<-(Input$Ess_regroupe=="TIL" & PenteCl==listePente[listePente %in% c("C","D","E","F")])*1
-          Xmort[,127:133]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","ERR","FRN","PEB","PEG","PIG","SAB")])*Input$PTotStd
-          Xmort[,134:135]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("ERR","PEB")])*Input$PTotStd*Input$PTotStd
-          Xmort[,136]<-(Input$Ess_regroupe=="BOJ")*Input$PTotStd*Input$DDStd
-          Xmort[,137:143]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOP","CHR","EPB","EPN","PET","PIB","TIL")])*Input$PUtilStd
-          Xmort[,144:147]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOP","EPB","EPN","PET")])*Input$PUtilStd*Input$PUtilStd
-          Xmort[,148]<-(Input$Ess_regroupe=="PIB")*Input$PUtilStd*Input$TMoyStd
-          Xmort[,149:156]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOP","EPN","EPR","ERR","HEG","MEL","PRU","THO")])*Input$mq_DHPcmStd
-          Xmort[,157:163]<-(Input$Ess_regroupe==listeEss[listeEss %in% c("BOJ","BOP","EPB","EPN","ERS","HEG","PIG")])*Input$shannonStd
-          Xmort[,164:182]<-(Input$Ess_regroupe==listeEss[!listeEss %in%c("HEG","OSV")])*Input$st_ha_cumul_gtStd
-          Xmort[,183:190]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPN","ERS","FRN","MEL","PET","PIB","THO","TIL")])*Input$sum_st_haStd
-          Xmort[,191:203]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","BOP","CHR","EPB","EPR","ERR","HEG","OSV","PEB","PEG","PIG","PRU","SAB")])*Input$sum_st_ha_FeuStd
-          Xmort[,204:215]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","BOP","CHR","EPB","EPR","ERR","HEG","PEB","PEG","PIG","PRU","SAB")])*Input$sum_st_ha_ResStd
-          Xmort[,216]<-(Input$Ess_regroupe=="SAB")*tbe1
-          Xmort[,217:220]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPB","EPN","EPR","SAB")])*tbe
-          Xmort[,221:231]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPN","EPR","ERR","ERS","MEL", "OSV","PEB","PET", "PIB","PIG","PRU")])*Input$TMoyStd
-          Xmort[,232:240]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPN","EPR","ERR","ERS","OSV","PET", "PIB","PIG","PRU")])*Input$TMoyStd*Input$TMoyStd
-          Xmort[,241:242]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("ERR","PEB")])*Input$TMoyStd*Input$PTotStd
-          Xmort[,243]<-(Input$Ess_regroupe=="EPN")*Input$TMoyStd*Input$PUtilStd
-          Xmort[,244:246]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("MEL","OSV","PRU")])*Input$TMoyStd*Input$VPDStd
-          Xmort[,247:252]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPR","HEG","MEL","OSV","PRU","THO")])*Input$VPDStd
-
+          Xmort[,44]<-(Input$Ess_regroupe=="ERR" & Depot %in% c("R","RM","Tv","Tb","Th","Tm","C","Cv","MG"))*1
+          Xmort[,45:65]<-(Input$Ess_regroupe==listeEss)*Input$DHPcmStd
+          Xmort[,66]<-(Input$Ess_regroupe=="PIB")*Input$DHPcmStd*Input$DHPcmStd
+          Xmort[,67:68]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","PIG")])*Input$giniStd
+          Xmort[,69:89]<-(Input$Ess_regroupe==listeEss)*1 # effet Intercept
+          Xmort[,90:106]<-(Input$Ess_regroupe==listeEss[!listeEss %in%c("HEG","MEL","PIB","SAB")])*Input$logDHPcmStd
+          Xmort[,107:108]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("ERS","THO")])*Input$logPTotStd
+          Xmort[,109:110]<-(Input$Ess_regroupe=="BOP" & PenteCl==listePente[listePente %in% c("D","E")])*1
+          Xmort[,111]<-(Input$Ess_regroupe=="BOP" & PenteCl=="F")*1
+          Xmort[,112:113]<-(Input$Ess_regroupe=="EPR" & PenteCl==listePente[listePente %in% c("E","F")])*1
+          Xmort[,114:116]<-(Input$Ess_regroupe=="PEG" & PenteCl==listePente[listePente %in% c("B","C","D")])*1
+          Xmort[,117]<-(Input$Ess_regroupe=="PET" & PenteCl=="F")*1
+          Xmort[,118]<-(Input$Ess_regroupe=="PRU" & PenteCl=="F")*1
+          Xmort[,119:122]<-(Input$Ess_regroupe=="TIL" & PenteCl==listePente[listePente %in% c("C","D","E","F")])*1
+          Xmort[,123:129]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","ERR","FRN","PEB","PEG","PIG","SAB")])*Input$PTotStd
+          Xmort[,130:131]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("ERR","PEB")])*Input$PTotStd*Input$PTotStd
+          Xmort[,132]<-(Input$Ess_regroupe=="BOJ")*Input$PTotStd*Input$DDStd
+          Xmort[,133:139]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOP","CHR","EPB","EPN","PET","PIB","TIL")])*Input$PUtilStd
+          Xmort[,140:143]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOP","EPB","EPN","PET")])*Input$PUtilStd*Input$PUtilStd
+          Xmort[,144]<-(Input$Ess_regroupe=="PIB")*Input$PUtilStd*Input$TMoyStd
+          Xmort[,145:151]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOP","EPN","EPR","ERR","MEL","PRU","THO")])*Input$mq_DHPcmStd
+          Xmort[,152:158]<-(Input$Ess_regroupe==listeEss[listeEss %in% c("BOJ","BOP","EPB","EPN","ERS","HEG","PIG")])*Input$shannonStd
+          Xmort[,159:177]<-(Input$Ess_regroupe==listeEss[!listeEss %in%c("HEG","OSV")])*Input$st_ha_cumul_gtStd
+          Xmort[,178:184]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPN","ERS","FRN","PET","PIB","THO","TIL")])*Input$sum_st_haStd
+          Xmort[,185:197]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","BOP","CHR","EPB","EPR","ERR","HEG","OSV","PEB","PEG","PIG","PRU","SAB")])*Input$sum_st_ha_FeuStd
+          Xmort[,198:209]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("BOJ","BOP","CHR","EPB","EPR","ERR","HEG","PEB","PEG","PIG","PRU","SAB")])*Input$sum_st_ha_ResStd
+          Xmort[,210]<-(Input$Ess_regroupe=="SAB")*tbe1
+          Xmort[,211:214]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPB","EPN","EPR","SAB")])*tbe
+          Xmort[,215:225]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPN","EPR","ERR","ERS","MEL", "OSV","PEB","PET", "PIB","PIG","PRU")])*Input$TMoyStd
+          Xmort[,226:234]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPN","EPR","ERR","ERS","OSV","PET", "PIB","PIG","PRU")])*Input$TMoyStd*Input$TMoyStd
+          Xmort[,235:236]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("ERR","PEB")])*Input$TMoyStd*Input$PTotStd
+          Xmort[,237]<-(Input$Ess_regroupe=="EPN")*Input$TMoyStd*Input$PUtilStd
+          Xmort[,238:239]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("OSV","PRU")])*Input$TMoyStd*Input$VPDStd
+          Xmort[,240:245]<-(Input$Ess_regroupe==listeEss[listeEss %in%c("EPR","HEG","MEL","OSV","PRU","THO")])*Input$VPDStd
 
 
           # Matrice de parametres: il faut que les colonnes de Xmort soit dans le même ordre que celles de BetaMat
