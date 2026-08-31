@@ -9,6 +9,8 @@
 #'
 verifier_colonnes_ClimAn <- function(data) {
 
+  .Deprecated("verifier_colonnes_ClimTot")
+
   data<- renommer_les_colonnes_climat_annuel(data)
 
   types_attendus <- list(
@@ -52,6 +54,8 @@ verifier_colonnes_ClimAn <- function(data) {
 #' @export
 #'
 verifier_colonnes_Clim <- function(data) {
+
+  .Deprecated("verifier_colonnes_ClimTot")
 
   data<- renommer_les_colonnes_climat_mensuel(data)
 
@@ -105,6 +109,9 @@ verifier_colonnes_Clim <- function(data) {
 #' @export
 #'
 valider_Mois <- function(data, scenario_rcp) {
+
+  .Deprecated("validation_total")
+
   data <- renommer_les_colonnes_climat_mensuel(data)
 
   erreurs <- list()
@@ -196,6 +203,9 @@ verifier_colonnes_ClimTot <- function(data) {
 #' @export
 #'
 validation_annuel <- function(data, data_annuel, scenario_rcp) {
+
+  .Deprecated("validation_total")
+
   data <- renommer_les_colonnes(data)
   data_annuel <- renommer_les_colonnes_climat_annuel(data_annuel)
 
@@ -243,6 +253,9 @@ validation_annuel <- function(data, data_annuel, scenario_rcp) {
 #' @export
 #'
 validation_mensuel <- function(data, data_mensuel, scenario_rcp) {
+
+  .Deprecated("validation_total")
+
   data <- renommer_les_colonnes(data)
   data_mensuel <- renommer_les_colonnes_climat_mensuel(data_mensuel)
 
@@ -297,7 +310,8 @@ validation_total <- function(data, data_total, scenario_rcp) {
   erreurs <- list()
 
   # Filtrer selon le scénario
-  data_total  <- data_total  %>% filter(rcp == scenario_rcp)
+  #data_total  <- data_total  %>% filter(rcp == scenario_rcp)
+  data_total <- dplyr::filter(data_total, rcp == scenario_rcp)
 
   # Validation données présentes
   if (nrow(data_total) == 0){
@@ -342,6 +356,9 @@ validation_total <- function(data, data_total, scenario_rcp) {
 #' @export
 #'
 comparer_annee_scenario <- function(data, data_annuel, data_mensuel, scenario_rcp) {
+
+  .Deprecated("validation_total")
+
   data <- renommer_les_colonnes(data)
   data_annuel <- renommer_les_colonnes_climat_annuel(data_annuel)
   data_mensuel <- renommer_les_colonnes_climat_annuel(data_mensuel)
