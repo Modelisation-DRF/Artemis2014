@@ -319,7 +319,7 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
          rename(id_pe=PlacetteID, dhpcm=DHPcm, essence=GrEspece,no_arbre=origTreeID, nb_tige=Nombre,
                 altitude=Altitude,veg_pot=Veg_Pot,p_tot=PTot,t_ma=TMoy, reg_eco=Reg_Eco)
 
-  nb_periodes <- Horizon+1
+  nb_periodes <- length(unique(Final$Annee))
 
   ht <- OutilsDRF::relation_h_d(fic_arbres=Final, mode_simul='DET', nb_step=nb_periodes,
                                 reg_eco = TRUE, dt =10, grouping_vars = "Annee")

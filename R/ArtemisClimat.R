@@ -566,6 +566,7 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (n_Test>5000 | St_Test >60){
 
+
       break
     }######Arrete simulation si les valeurs limites sont dépassées
 
@@ -574,19 +575,24 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
     outputTot <- bind_rows(outputTot, Predictions)
   }  # fin de la boucle d'un pas de simulation
 
-  if (k>1){
-    outputTot<-outputTot %>%
-      select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
-             Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, any_of("Residuel")) %>%
-      bind_rows(PlacOri) %>% bind_rows(all_plac_coupe) %>%
+
+  if (is.null(outputTot)==TRUE){
+
+    outputTot<-PlacOri %>%
+      bind_rows(all_plac_coupe) %>%
       arrange(PlacetteID,Annee,origTreeID, desc(Nombre))
-  } else{
+
+  }else{
+
+
     outputTot<-outputTot %>%
-      select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
-             Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, any_of("Residuel")) %>%
-      bind_rows(PlacOri) %>% bind_rows(all_plac_coupe) %>%
-      arrange(PlacetteID, Annee,origTreeID, desc(Nombre))
+               select(Annee,PlacetteID,origTreeID,Espece,  GrEspece, Etat,
+                      Nombre, DHPcm, Veg_Pot, Type_Eco, Reg_Eco, Altitude, PTot, TMoy, Cl_Drai, any_of("Residuel")) %>%
+               bind_rows(PlacOri) %>% bind_rows(all_plac_coupe) %>%
+               arrange(PlacetteID, Annee,origTreeID, desc(Nombre))
+
   }
+
 
   return(outputTot)
 

@@ -55,6 +55,24 @@
 PrepareData <- function(Data, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {
 
 
+################################################################################
+###########################Retirer les placettes sans arbres vivants############
+
+ListePe<-Data %>%
+         filter(Etat %in% c(10, 12, 29, 30, 32, 40, 42, 50, 52)) %>%
+         group_by(PlacetteID) %>%
+         summarise()
+
+if (nrow(ListePe) == 0) {
+
+  stop("Erreur : Aucune placette avec des arbres vivants n'est presente. La simulation ne sera pas effectuee.")
+
+}
+
+Data<-Data %>%
+      inner_join(ListePe)
+
+
 
 # Convertir Especes en GrEspece
 Data<-Data %>%
