@@ -143,7 +143,7 @@ test_that("La fonction simulateurArtemis(), Module d’accroissement QUE (Fortin
     relocate(Residuel, .after = Cl_Drai)
 
 
-  expect_equal(Result, expect_test_for_Artemis_AccModif_QUE_MortModif_QUE, tolerance = 1e-2)#####Changé la tolérance à cause de la correction de quadrature
+  expect_equal(Result, expect_test_for_Artemis_AccModif_QUE_MortModif_QUE, tolerance = 1e-3)#####Changé la tolérance à cause de la correction de quadrature
   # Gauss-Hermite qui doit générer des distributions
 
 })

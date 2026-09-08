@@ -69,8 +69,9 @@ if (nrow(ListePe) == 0) {
 
 }
 
+suppressMessages(
 Data<-Data %>%
-      inner_join(ListePe)
+      inner_join(ListePe))
 
 
 

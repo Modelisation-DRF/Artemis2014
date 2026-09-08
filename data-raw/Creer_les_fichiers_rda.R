@@ -77,7 +77,7 @@ EssGr_Fortin<-read_delim("data-raw/Fortin2026/EssGr_Fortin.csv", delim=";")
 
 usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
                   ListeVp,ListeSpVp, Sp, SpGroups, Clade, SpInd, ListeSpVp, ParaBiomasse,
-                  CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
+                  PropEPX,CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
                   EssGrMortCANEU, ParaMortCANEU, finalParms, EssGr_Fortin,
                   internal=TRUE, overwrite = TRUE)
 
