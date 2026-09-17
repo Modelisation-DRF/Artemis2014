@@ -46,7 +46,7 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, RCP = "RCP45") {
 
   interpoler <- function(df, AnneeDep, AnneeFin, var) {
 
-    annees <- seq(AnneeDep-30, AnneeFin)
+    annees <- seq(max(AnneeDep-30,1991), AnneeFin)
 
     interp <- approx(
       x = df$AnneeCentrale,
@@ -117,6 +117,7 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, RCP = "RCP45") {
   }
 
   ClimTot$rcp<-RCP
+  ClimTot$CMIcm<-ClimTot$CMIcm/3######Patch temporaire pour ajuster aux données calibration
   ClimTot<-ClimTot[,c(1,2,20,3:19)]
 
   return(ClimTot)

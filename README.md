@@ -61,4 +61,7 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 |2026-07-14| 4.5.0 |Mortalité CANEU Climat Biosim raster| Intégration des essences boréales au module de mortalité CANEU. Changement 
 de la méthode de gestion des prévisions climatiques pour utiliser les prévisions climatiques du package ExtractMap|
 |2026-09-08| 4.5.1 |Mortalité CANEU SAB modifie| Modification de la fonction de mortalité du SAB qui avec DD2 avait tendance à prédire de trop fortes mortalité en extrapolation|
+|2026-09-17| 4.5.2 |Ajout fonction statistiques climatiques| Ajout d'une fonction de visualisation des données climatiques en lien avec les données
+de calibration des modèles de mortalité CANEU et d'accroissement QUE. Utilisation du climat de la première période de simulation pour calculer la
+hauteur lorsque le fichier de données climatiques est fourni|
 

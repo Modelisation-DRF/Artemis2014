@@ -59,6 +59,8 @@ ParaBiomasse<-read_delim("data-raw/ParaBiomasse.csv", delim=";")
 
 PropEPX<-read_delim("data-raw/PropEPX.csv", delim=";")
 
+StatsClimatModel<-read_delim("data-raw/StatsClimatModeles.csv", delim=";")
+
 #######MortQUE
 CovParmMortQUE<-read_delim("data-raw/MortQUE/CovParmMortQUE.csv", delim=";")
 EssGrMortQUE<-read_delim("data-raw/MortQUE/EssGrMortQUE.csv", delim=";")
@@ -77,7 +79,7 @@ EssGr_Fortin<-read_delim("data-raw/Fortin2026/EssGr_Fortin.csv", delim=";")
 
 usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
                   ListeVp,ListeSpVp, Sp, SpGroups, Clade, SpInd, ListeSpVp, ParaBiomasse,
-                  PropEPX,CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
+                  PropEPX, StatsClimatModel, CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
                   EssGrMortCANEU, ParaMortCANEU, finalParms, EssGr_Fortin,
                   internal=TRUE, overwrite = TRUE)
 
