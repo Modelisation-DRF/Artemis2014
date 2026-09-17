@@ -310,7 +310,30 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
 
   } else{
 
+    if(is.null(ClimTot)==FALSE){
+
+     suppressMessages(
+       PTotTMoyEvol<-ClimTot %>%
+                    filter(Annee>=AnneeDep & Annee<(AnneeDep+10)) %>%
+                    group_by(PlacetteID) %>%
+                    summarise(PTot=mean(PTot), TMoy=mean(TMoy)) %>%
+                    dplyr::select(PlacetteID,PTot,TMoy))
+
+      suppressMessages(
+        Final<-Final %>%
+          dplyr::select(-PTot,-TMoy) %>%
+          inner_join(PTotTMoyEvol))
+
+      rm(PTotTMoyEvol)
+
+
+
+
+    } else{
+
     Final<-Final
+
+    }
 
   }
 
