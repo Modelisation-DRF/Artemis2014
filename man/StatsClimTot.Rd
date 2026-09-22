@@ -8,19 +8,26 @@ d'accroissement en diamètre "QUE" et de mortalité "CANEU". Les lignes vertical
 représentent l'interval de confiance 95\%. La fonction retourne une liste de graphique
 soit un graphique par combinaison de modèle et d'essence}
 \usage{
-StatsClimTot(Climat, Essence = NULL, Model = NULL, RCP = "RCP45")
-}
+StatsClimTot(Climat, Essence = NULL, Model = NULL, RCP = "RCP45")}
 \arguments{
 \item{Climat}{un fichier de données climatiques du même format que ceux générés
 par la fonction GenereClimatRaster}
 
 \item{Essence}{une liste d'essence pour lesquelles on veux vérifier la distribution
+<<<<<<< HEAD
 du climat à travers les placettes.Seules les essences prises en charge
 par les différents modèles seront traitées.}
 
 \item{Model}{Une liste de modèles pour lesquels on veut repprésenter le climat en fonction
 de ses données de calibration. Les modèles disponibles sont "Mort_CANEU",
 "Acc_QUE", "Acc_GAM" et "Acc_BRT" pour l'instant}
+=======
+du climat à travers les placettes.}
+
+\item{Model}{Une liste de modèles pour lesquels on veut repprésenter le climat en fonction
+de ses données de calibration. Les modèles disponibles sont seulement "Mort_CANEU"
+et "Acc_QUE" pour l'instant}
+>>>>>>> 8e55686a185249426ff608688c2b6e6a7492e07b
 
 \item{RCP}{Le scénario RCP présent dans le fichier Climat}
 }
