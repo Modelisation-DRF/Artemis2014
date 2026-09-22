@@ -26,6 +26,7 @@
 
 StatsClimTot<-function(Climat,Essence=NULL, Model=NULL, RCP="RCP45"){
 
+
   #Climat<-read.csv("P:/F1062/Modelisation/Hugues Power/Modeles/Sepaq-Bic/Climat85_41100.csv", sep=",")
   #StatsClimat<-read.csv("data-raw/StatsClimatModeles.csv", sep=";")
 
@@ -109,12 +110,15 @@ ClimatStd <- data.table::rbindlist(
 
     # Standardisation des variables disponibles
 
+
     if (mod %in% c("Acc_QUE","Mort_CANEU")){
+
     tmp[, (vars.dispo) :=
         lapply(vars.dispo,
                function(v)
                (get(v) - moy[v]) / sd[v]
         )]
+
     }
 
     # Variables absentes des paramètres
@@ -138,12 +142,15 @@ ClimatStd <- data.table::rbindlist(
 
 )
 
+
 suppressMessages(
+
 ClimatStd<-ClimatStd %>%
            data.table::melt(id.vars = c("PlacetteID", "Decennie", "Model", "Essence"),
                        variable.name = "Variable",value.name = "Valeur") %>%
            filter(is.na(Valeur)==FALSE) %>%
            left_join(Param))
+
 #}
 
 # if("ACC_QUE" %in% Param$Model){
@@ -199,7 +206,6 @@ for (i in unique(ClimatStd$Model_Essence)){
                      theme(legend.position="bottom",
                            plot.caption = element_text(hjust = 0, face = "italic", color = "grey30"))
 
-
   ListeGraph<-c(ListeGraph,GraphModeli)
 
  }
@@ -238,7 +244,6 @@ for (i in unique(ClimatStd$Model_Essence)){
    ListeGraph<-c(ListeGraph,GraphModeli)
 
  }
-
 
 
 }

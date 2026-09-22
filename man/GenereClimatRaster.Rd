@@ -2,15 +2,15 @@
 % Please edit documentation in R/GenereClimatRaster.R
 \name{GenereClimatRaster}
 \alias{GenereClimatRaster}
-\title{Fonction qi permet de récupérer les données climatiques pour le fichier de données
+\title{Fonction qui permet de récupérer les données climatiques pour le fichier de données
 initiales. Les données climatiques sont récupérées des couches de climat future
 du package ExtractMap. Ces couches ont été créées à partit de bioSim pour des
 cellules de 2km par 2km à partir. Les modèles GCM4_ESM2, Hadley GEM2-ES,
-RCM4_ESM_22km pour 2 scénarios RCP avec 50 répétitions. La fonction retourne une liste de
+RCM4_ESM_22km pour 2 scénarios SSP avec 50 répétitions. La fonction retourne une liste de
 deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 à l'échelle mensuelle.}
 \usage{
-GenereClimatRaster(Data, AnneeDep, AnneeFin, RCP = "RCP45")
+GenereClimatRaster(Data, AnneeDep, AnneeFin, SSP = "ssp245")
 }
 \arguments{
 \item{Data}{Un dataframe contenant les coordonnées géographiques des placettes à simuler.
@@ -21,18 +21,18 @@ Le dataframe peut être une liste d'arbres ou une liste de placettes.}
 
 \item{AnneeFin}{Année de fin de la simulation à effectuer dans Artémis}
 
-\item{RCP}{Scenario climatique choisi pour la simulation soit "RCP45"  ou "RCP85"}
+\item{SSP}{Scenario climatique choisi pour la simulation soit "ssp245"  ou "ssp585"}
 }
 \value{
 La fonction retourne un dataframe contenant les prévisions à l'échelle
 annuelle pour toutes les variables climatiques  utilisées par les modèles.
 }
 \description{
-Fonction qi permet de récupérer les données climatiques pour le fichier de données
+Fonction qui permet de récupérer les données climatiques pour le fichier de données
 initiales. Les données climatiques sont récupérées des couches de climat future
 du package ExtractMap. Ces couches ont été créées à partit de bioSim pour des
 cellules de 2km par 2km à partir. Les modèles GCM4_ESM2, Hadley GEM2-ES,
-RCM4_ESM_22km pour 2 scénarios RCP avec 50 répétitions. La fonction retourne une liste de
+RCM4_ESM_22km pour 2 scénarios SSP avec 50 répétitions. La fonction retourne une liste de
 deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 à l'échelle mensuelle.
 }

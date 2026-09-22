@@ -28,7 +28,7 @@
 #'                  du module de mortalité original d'Artémis-2014 ou 'QUE' pour
 #'                  utiliser les équations de mortalité de Power et al. 2025.
 #'
-#'@param RCP Vecteur qui prend la valeur 'RCP45' ou 'RCP85' selon le scénario de
+#'@param SSP Vecteur qui prend la valeur 'ssp245' ou 'ssp585' selon le scénario de
 #'           changements climatiques que l'on veut utiliser.
 #'
 #'@param SpInd Un data frame qui associe un code numérique à chacune des essences.
@@ -52,7 +52,7 @@
 #'
 #'@export
 #'
-PrepareData <- function(Data, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {
+PrepareData <- function(Data, ClimTot, AccModif, EvolClim, MortModif, SSP, SpInd, ListeVp, SpGroups, Sp) {
 
 
 ################################################################################
@@ -98,7 +98,7 @@ if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
 
   #if (!is.null(Clim_tous)){
   #Clim <- Clim_tous %>%
-   # filter(rcp==RCP ) %>%
+   # filter(ssp==SSP ) %>%
     #       inner_join(IndexPlacette, by="PlacetteID")
   #}else{
    # Clim<-c()
@@ -106,7 +106,7 @@ if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
 
   #if (!is.null(ClimAn_tous)){
   #ClimAn <- ClimAn_tous %>%
-   # filter(rcp==RCP) %>%
+   # filter(ssp==SSP) %>%
     #       inner_join(IndexPlacette, by="PlacetteID")
   #}else{
    # ClimAn<-c()
@@ -114,7 +114,7 @@ if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
 
   if (!is.null(ClimTot)){
     ClimTot <- ClimTot %>%
-      filter(rcp==RCP) %>%
+      filter(ssp==SSP) %>%
       inner_join(IndexPlacette, by="PlacetteID")
   }else{
     ClimTot<-c()

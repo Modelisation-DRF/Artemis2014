@@ -64,4 +64,5 @@ de la méthode de gestion des prévisions climatiques pour utiliser les prévisi
 |2026-09-17| 4.5.2 |Ajout fonction statistiques climatiques| Ajout d'une fonction de visualisation des données climatiques en lien avec les données
 de calibration des modèles de mortalité CANEU et d'accroissement QUE. Utilisation du climat de la première période de simulation pour calculer la
 hauteur lorsque le fichier de données climatiques est fourni|
+|2026-09-30| 4.5.3 |Changement CMIP5 pour CMIP6| Les références aux scénarios climatiques ont été changés pour s'adapter au scénarios CMIP6|
 

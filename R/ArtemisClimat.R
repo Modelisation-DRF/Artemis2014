@@ -19,11 +19,7 @@
 #'
 #' @param Residuel Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.
 #'
-#'  ClimMois Données climatiques mensuelles. Si abscente laisser vide.
-#'
-#'  ClimAn Données climatiques annuelles. Si abscente laisser vide.
-#'
-#'  @param ClimTot   Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide
+#' @param ClimTot   Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide
 #'
 #' @param EvolClim Paramètre qui prend la valeure de 0 pour climat constant et
 #'                 de 1 pour une évolution du climat à travers le temps de
@@ -38,7 +34,7 @@
 #'                 originales d'Artémis-2014,"QUE" pour les équations calibrées
 #'                 par essence sensibles au climat de Power et al. 2025.
 #'
-#'@param RCP Scénario climatique choisi pour la simulation soit RCP 4.5 ou 8.5.
+#'@param SSP Scénario climatique choisi pour la simulation soit ssp245 ou ssp585.
 #'           Ce paramètre est seulement utilisé si le paramètre EvolClim=1.
 #'
 #'@param Models Liste dans laquelle les modèles d'accroissement et de mortalité
@@ -66,7 +62,7 @@
 #'@export
 #'
 ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Residuel,
-                         ClimTot, EvolClim, AccModif, MortModif, RCP, Models,
+                         ClimTot, EvolClim, AccModif, MortModif, SSP, Models,
                          Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
@@ -152,29 +148,15 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
   # Lecture du climat
   if (!(AccModif=="ORI" & MortModif=="ORI" & EvolClim==0) ){
 
-    #if (!is.null(ClimAn)){
-
-    #ClimPe<-ClimMois %>% filter(PlacetteID==info_plac$PlacetteID)
-    #ClimAnPe<-ClimAn %>% filter(PlacetteID==info_plac$PlacetteID)
-
-    #}else{
 
       ClimTotPe<-ClimTot %>% filter(PlacetteID==info_plac$PlacetteID)
-    #}
-
-    # Climat historique si on utilise des équations sensibles au climat sinon variables lues dans Plac
-
-   # if (!is.null(ClimAn)){
-
-    #  ClimatHisto<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif) #Annee de départ définie à 2020 pour climat historique
-
-    #}else{
 
       ClimatHisto<-ClimatBiosimRaster(Placettes = Plac$PlacetteID[1],Annee=2020, t, AnneeDep = AnneeDep, ClimTotPe, EvolClim) #Annee de départ définie à 2020 pour climat historique
-    #}
+
   }
 
   # Initialisation du fichier qui contiendra les résultats de simulation de la placette et variables
+
   outputTot <- c()
 
   all_plac_coupe <- data.frame()
@@ -296,9 +278,9 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if((AccModif=="BRT")) {
       if (EvolClim==1) {
-        Plac$CO2<-CO2$CO2[which(abs(CO2$AnneeMoy-Annee)==min(abs(CO2$AnneeMoy-Annee)) & CO2$rcp==RCP)]
+        Plac$CO2<-CO2$CO2[which(abs(CO2$AnneeMoy-Annee)==min(abs(CO2$AnneeMoy-Annee)) & CO2$ssp==SSP)]
       } else {
-        Plac$CO2<-CO2$CO2[which(abs(CO2$AnneeMoy-Annee)==min(abs(CO2$AnneeMoy-Annee)) & is.na(CO2$rcp==TRUE))]
+        Plac$CO2<-CO2$CO2[which(abs(CO2$AnneeMoy-Annee)==min(abs(CO2$AnneeMoy-Annee)) & is.na(CO2$ssp==TRUE))]
       }
     }
 
@@ -309,44 +291,39 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
 
     if (EvolClim==1){
 
-     # if (!is.null(ClimAn)){
 
-      #  ClimatModif<-ClimatBiosim(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, RCP=RCP, ClimPe, ClimAnPe, EvolClim, AccModif)
-
-      #}else{
 
         ClimatModif<-ClimatBiosimRaster(Placettes = Plac$PlacetteID[1],Annee, AnneeDep = AnneeDep, t, ClimTotPe, EvolClim)
-
-       # }
-
 
 
     }
 
     ################################################ Mortalite ###############################################
     # fichier des arbres de la placette pour appliquer le module de mortalite
+
     Mort <- Plac
 
     ###################################Mortalité de base Artemis########################
 
     if (MortModif=="ORI") {
-      # Modification des TMoy et PTot
+
+    # Modification des TMoy et PTot
       if (EvolClim==1){
         Mort<-Mort %>%
           mutate(PTot=ClimatModif$PTotPeriode, TMoy=ClimatModif$TMoyPeriode)
       }
 
-      # on applique la fonction de mortalite sur chacun des arbres avec la fonction nest()
+    # on applique la fonction de mortalite sur chacun des arbres avec la fonction nest()
 
       PredMort <- Mort %>%
-        mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,tbe=tbe,tbe1=tbe1,n_arbre=n_arbre,
-               RegionOuest=RegionOuest,sum_st_ha=sum_st_ha, Drainage=Drainage,
-               Veg_Pot=Veg_Pot) %>%
-        group_by(origTreeID) %>%
-        nest() %>%
-        mutate(pred_mort = map(data,mort,MCH=MCH)) %>%
-        unnest(pred_mort) %>%
-        select(-data) # contient 2 variables: origTreeID et pred_mort
+                  mutate(anc=anc,Coupe=Coupe,Coupe0=Coupe0,Coupe1=Coupe1,t=t,
+                         tbe=tbe,tbe1=tbe1,n_arbre=n_arbre, RegionOuest=RegionOuest,
+                         sum_st_ha=sum_st_ha, Drainage=Drainage, Veg_Pot=Veg_Pot) %>%
+                  group_by(origTreeID) %>%
+                  nest() %>%
+                  mutate(pred_mort = map(data,mort,MCH=MCH)) %>%
+                  unnest(pred_mort) %>%
+                  select(-data) # contient 2 variables: origTreeID et pred_mort
 
     }
 

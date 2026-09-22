@@ -33,7 +33,8 @@
 #'                 "QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025
 #'                 "CANEU"  pour les équation de mortalité basés sur les données du Canada et des États-Unis
 #'
-#' @param RCP  Scenario climatique choisi pour la simulation soit 4.5 ou 8.5. Ce paramètre est seulement utilisé si le paramètre EvolClim=1
+#' @param SSP  Scenario climatique choisi pour la simulation soit ssp245 ou ssp585.
+#'             Ce paramètre est seulement utilisé si le paramètre EvolClim=1
 #'
 #' @param Coupe_ON Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
 #'              décennie à simuler. Le nombre d'éléments doit être égal à Horizon.
@@ -65,26 +66,26 @@
 #' @examples
 #' \dontrun{
 #' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0,
-#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp245' )
 #' print(result)
 #'
 #' # Avec effet TBE
 #' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 4,
 #' TBE = c(1, 1, 1, 1), Tendance = 0, Residuel = 0,
-#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp245' )
 #' print(result)
 #'
 #' # Avec traitement de coupe
 #' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 6,
 #' Coupe_ON = c(3, NA, NA, NA, NA, 8), Tendance = 0, Residuel = 0,
-#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp45' )
 #' print(result)
 #'
 #' # Avec modificateurs de coupe
 #' result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 4,
 #' Coupe_ON = c(3, NA, NA, 8),
 #' Coupe_modif = list(80, NA, NA, 0), Tendance = 0, Residuel = 0,
-#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', RCP='RCP45' )
+#' FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp245' )
 #' print(result)
 #' }
 #'
@@ -93,7 +94,7 @@
 
 
 simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tendance=0,
-                            Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',RCP='RCP45',
+                            Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',SSP='ssp245',
                             Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
@@ -127,8 +128,8 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
     stop("Les valeurs permises pour l'argument AccModif sont ORI, GAM ou BRT")
   }
 
-  if(!RCP %in% c("RCP45","RCP85")){
-    stop("Les valeurs permises pour l'argument RCP sont soit RCP45 ou RCP85")
+  if(!SSP %in% c("ssp245","ssp585")){
+    stop("Les valeurs permises pour l'argument SSP sont soit ssp245 ou ssp585")
   }
 
   if (!is.null(Coupe_ON)) {
@@ -247,7 +248,7 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
     Data_ori <- Data_ori %>% mutate(Age_moy = 50)
   }
 
-  prep_data <- PrepareData(Data_ori, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp)
+  prep_data <- PrepareData(Data_ori, ClimTot, AccModif, EvolClim, MortModif, SSP, SpInd, ListeVp, SpGroups, Sp)
   Data <- prep_data[[1]]
   Models <- prep_data[[2]]
   #ClimMois <- prep_data[[3]]
@@ -267,7 +268,7 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
     foreach::foreach(x = iterators::iter(list_plot), .packages = c("gbm"))  %dorng%
       {ArtemisClimat(Para=Para,  Data=Data[Data$PlacetteID==x,],
                      AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel,
-                     ClimTot=ClimTot, EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP,
+                     ClimTot=ClimTot, EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, SSP=SSP,
                      Models = Models, Coupe_ON = Coupe_ON, Coupe_modif = Coupe_modif, TBE = TBE, MCH=MCH)}
    )
  )

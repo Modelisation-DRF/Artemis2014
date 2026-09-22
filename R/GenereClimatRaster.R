@@ -1,30 +1,30 @@
-#' Fonction qi permet de récupérer les données climatiques pour le fichier de données
-#' initiales. Les données climatiques sont récupérées des couches de climat future
-#' du package ExtractMap. Ces couches ont été créées à partit de bioSim pour des
-#' cellules de 2km par 2km à partir. Les modèles GCM4_ESM2, Hadley GEM2-ES,
-#' RCM4_ESM_22km pour 2 scénarios RCP avec 50 répétitions. La fonction retourne une liste de
-#' deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
-#' à l'échelle mensuelle.
+#'Fonction qui permet de récupérer les données climatiques pour le fichier de données
+#'initiales. Les données climatiques sont récupérées des couches de climat future
+#'du package ExtractMap. Ces couches ont été créées à partit de bioSim pour des
+#'cellules de 2km par 2km à partir. Les modèles GCM4_ESM2, Hadley GEM2-ES,
+#'RCM4_ESM_22km pour 2 scénarios SSP avec 50 répétitions. La fonction retourne une liste de
+#'deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
+#'à l'échelle mensuelle.
 #'
 #' @param Data Un dataframe contenant les coordonnées géographiques des placettes à simuler.
 #'                 Les champs: "PlacetteID","Latitude","Longitude","Altitude", doivent être présents.
 #'                 Le dataframe peut être une liste d'arbres ou une liste de placettes.
 #' @param AnneeDep Année de départ de la simulation à effectuer dans Artémis
 #' @param AnneeFin Année de fin de la simulation à effectuer dans Artémis
-#' @param RCP Scenario climatique choisi pour la simulation soit "RCP45"  ou "RCP85"
+#' @param SSP Scenario climatique choisi pour la simulation soit "ssp245"  ou "ssp585"
 #' @return La fonction retourne un dataframe contenant les prévisions à l'échelle
 #'        annuelle pour toutes les variables climatiques  utilisées par les modèles.
 #'
 #' @export
 #'
-GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, RCP = "RCP45") {
+GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, SSP = "ssp245") {
 
   if (AnneeFin<=AnneeDep){
     stop("AnneeFin doit être supérieure à AnneeDep" )
   }
 
-  if (!RCP %in% c("RCP45","RCP85")){
-    stop("La variable RCP doit soit prendre la valeur RCP45 ou RCP85")
+  if (!SSP %in% c("ssp245","ssp585")){
+    stop("La variable SSP doit soit prendre la valeur ssp245 ou ssp585")
   }
 
   Data <- Data %>%
@@ -41,7 +41,7 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, RCP = "RCP45") {
   nom_climat_futur_per <- c("1991-2020", "2001-2030", "2011-2040", "2021-2050", "2031-2060", "2041-2070", "2051-2080", "2061-2090", "2071-2100")
   nom_climat_futur_per<-nom_climat_futur_per[1:BorneSup]
   nom_climat_futur_var <- c("Aridity", "CMI", "CMIcm", "DD", "FFP", "MSP", "Max_ST", "Min_WT", "PAS", "PTot", "PUtile", "TMoy", "TSummer", "TmaxUtil", "Tmax_yr", "TotalVPD", "UtilVPD")
-  nom_climat_futur_rcp<-RCP
+  nom_climat_futur_ssp<-SSP
 
 
   interpoler <- function(df, AnneeDep, AnneeFin, var) {
@@ -116,7 +116,7 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, RCP = "RCP45") {
 
   }
 
-  ClimTot$rcp<-RCP
+  ClimTot$ssp<-SSP
   ClimTot$CMIcm<-ClimTot$CMIcm/3######Patch temporaire pour ajuster aux données calibration
   ClimTot<-ClimTot[,c(1,2,20,3:19)]
 

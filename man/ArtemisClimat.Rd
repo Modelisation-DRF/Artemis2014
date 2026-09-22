@@ -19,7 +19,7 @@ ArtemisClimat(
   EvolClim,
   AccModif,
   MortModif,
-  RCP,
+  SSP,
   Models,
   Coupe_ON = NULL,
   Coupe_modif = NULL,
@@ -42,13 +42,9 @@ le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 \item{Tendance}{Si =1 les paramètres d'accroissement, de mortalité et de recrutement sont modifiés pour les végétations
 potentielles FE2 et FE3 afin dutiliser deulement les intevalles de croissance se terminant après 1998.}
 
-\item{Residuel}{Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.
+\item{Residuel}{Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.}
 
-ClimMois Données climatiques mensuelles. Si abscente laisser vide.
-
-ClimAn Données climatiques annuelles. Si abscente laisser vide.
-
-@param ClimTot   Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide}
+\item{ClimTot}{Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide}
 
 \item{EvolClim}{Paramètre qui prend la valeure de 0 pour climat constant et
 de 1 pour une évolution du climat à travers le temps de
@@ -63,7 +59,7 @@ Boosted regression tree de JieJie Wang 2022, "GAM" pour les
 originales d'Artémis-2014,"QUE" pour les équations calibrées
 par essence sensibles au climat de Power et al. 2025.}
 
-\item{RCP}{Scénario climatique choisi pour la simulation soit RCP 4.5 ou 8.5.
+\item{SSP}{Scénario climatique choisi pour la simulation soit ssp245 ou ssp585.
 Ce paramètre est seulement utilisé si le paramètre EvolClim=1.}
 
 \item{Models}{Liste dans laquelle les modèles d'accroissement et de mortalité
