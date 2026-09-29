@@ -15,8 +15,7 @@ ArtemisClimat(
   FacHa = 25,
   Tendance,
   Residuel,
-  ClimMois,
-  ClimAn,
+  ClimTot,
   EvolClim,
   AccModif,
   MortModif,
@@ -43,11 +42,13 @@ le simulateur effectuera ses simulations (ex: 3 pour 30 ans de simulation).}
 \item{Tendance}{Si =1 les paramètres d'accroissement, de mortalité et de recrutement sont modifiés pour les végétations
 potentielles FE2 et FE3 afin dutiliser deulement les intevalles de croissance se terminant après 1998.}
 
-\item{Residuel}{Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.}
+\item{Residuel}{Inscrire 1 si la placette a été affectée par une coupe partielle depuis moins de 10 ans.
 
-\item{ClimMois}{Données climatiques mensuelles. Si abscente laisser vide.}
+ClimMois Données climatiques mensuelles. Si abscente laisser vide.
 
-\item{ClimAn}{Données climatiques annuelles. Si abscente laisser vide.}
+ClimAn Données climatiques annuelles. Si abscente laisser vide.
+
+@param ClimTot   Donnees climatiques pour utilisation des modules sensibles au climat. Si absente laisser vide}
 
 \item{EvolClim}{Paramètre qui prend la valeure de 0 pour climat constant et
 de 1 pour une évolution du climat à travers le temps de

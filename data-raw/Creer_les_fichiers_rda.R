@@ -59,6 +59,8 @@ ParaBiomasse<-read_delim("data-raw/ParaBiomasse.csv", delim=";")
 
 PropEPX<-read_delim("data-raw/PropEPX.csv", delim=";")
 
+StatsClimatModel<-read_delim("data-raw/StatsClimatModeles.csv", delim=";")
+
 #######MortQUE
 CovParmMortQUE<-read_delim("data-raw/MortQUE/CovParmMortQUE.csv", delim=";")
 EssGrMortQUE<-read_delim("data-raw/MortQUE/EssGrMortQUE.csv", delim=";")
@@ -77,7 +79,7 @@ EssGr_Fortin<-read_delim("data-raw/Fortin2026/EssGr_Fortin.csv", delim=";")
 
 usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
                   ListeVp,ListeSpVp, Sp, SpGroups, Clade, SpInd, ListeSpVp, ParaBiomasse,
-                  CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
+                  PropEPX, StatsClimatModel, CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
                   EssGrMortCANEU, ParaMortCANEU, finalParms, EssGr_Fortin,
                   internal=TRUE, overwrite = TRUE)
 
@@ -106,15 +108,17 @@ mod_sab_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM
 
 ClimAn_Test<-read_delim("data-raw/ClimAn_test.csv", delim=";")
 #ClimMois_Test<-read_delim("data-raw/ClimMois_test.csv", delim=";")
+ClimTot_Test<-read_delim("data-raw/ClimTot_test.csv", delim=",")
 Intrant_Test<-read_delim("data-raw/Intrant_test.csv", delim=";")
 ClimAn_Exemple<-read_delim("data-raw/ClimAn_Exemple.csv", delim=";")
 ClimMois_Exemple<-read_delim("data-raw/ClimMois_Exemple.csv", delim=",")
+ClimTot_Exemple<-read_delim("data-raw/ClimTot_Exemple.csv", delim=",")
 Donnees_Exemple<-read_delim("data-raw/Donnees_Exemple.csv", delim=";")
 PropEPX<-read_delim("data-raw/PropEPX.csv", delim=";")
 
 
-usethis::use_data(ClimAn_Test, Intrant_Test,
-                  ClimAn_Exemple,ClimMois_Exemple,Donnees_Exemple,
+usethis::use_data(ClimAn_Test, ClimTot_Test, Intrant_Test,
+                  ClimAn_Exemple,ClimMois_Exemple,ClimTot_Exemple,Donnees_Exemple,
                   CO2, EssGrBRT, mod_epb_BRT, mod_epn_BRT, mod_peu_BRT,
                   mod_pig_BRT, mod_sab_BRT, mod_bop_BRT,
                   PropEPX, EssGrGAM, mod_bop_GAM, mod_epb_GAM,

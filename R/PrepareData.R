@@ -52,7 +52,26 @@
 #'
 #'@export
 #'
-PrepareData <- function(Data, Clim_tous, ClimAn_tous, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {
+PrepareData <- function(Data, ClimTot, AccModif, EvolClim, MortModif, RCP, SpInd, ListeVp, SpGroups, Sp) {
+
+
+################################################################################
+###########################Retirer les placettes sans arbres vivants############
+
+ListePe<-Data %>%
+         filter(Etat %in% c(10, 12, 29, 30, 32, 40, 42, 50, 52)) %>%
+         group_by(PlacetteID) %>%
+         summarise()
+
+if (nrow(ListePe) == 0) {
+
+  stop("Erreur : Aucune placette avec des arbres vivants n'est presente. La simulation ne sera pas effectuee.")
+
+}
+
+suppressMessages(
+Data<-Data %>%
+      inner_join(ListePe))
 
 
 
@@ -61,10 +80,7 @@ Data<-Data %>%
       filter(DHPcm>=9.1) %>% ######Enlève les gaules qui peuvent être présentes
       mutate(Reg_Eco=substr(Reg_Eco,1,2))##Prend seulement les 2 premiers charactères
 
-Data<-Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp) #%>%
-  #mutate(PlacetteID=as.character(PlacetteID),
-   #      PlacetteID=paste("00",PlacetteID,sep=""),
-    #     PlacetteID=substr(PlacetteID, nchar(PlacetteID)-10+1, nchar(PlacetteID)))
+Data<-Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp)
 
 
 ########################################################################################################
@@ -74,40 +90,40 @@ Data<-Ess_groupe(Data, SpInd, ListeVp, SpGroups, Sp) #%>%
 #############Attribution des pentes à partir de raster lorsque abscente#############################
 ####################################################################################################
 
-#ListeMod<-c(rep("GAM",4),rep("BRT",4))
-#ListeRCP<-c("RCP45","RCP45","RCP85","RCP85","RCP45","RCP45","RCP85","RCP85")
-#ListeEvolCli<-c(1,0,1,0,1,0,1,0)
-#ListeMort<-c(rep("QUE",8))
-
-#for (l in 1:8){
-# print(l)
-#AccModif=ListeMod[l]
-#RCP=ListeRCP[l]
-#EvolClim=ListeEvolCli[l]
-#MortModif=ListeMort[l]
-
 
 
 if (AccModif!="ORI" | EvolClim==1 | MortModif %in% c("QUE","CANEU")){
 
   IndexPlacette<-Data %>% group_by(PlacetteID) %>% summarise()
 
-  Clim <- Clim_tous %>%
-    filter(rcp==RCP ) %>%
-      #mutate(PlacetteID=as.character(PlacetteID),
-       #      PlacetteID=paste("00",PlacetteID,sep=""),
-        #     PlacetteID=substr(PlacetteID, nchar(PlacetteID)-10+1, nchar(PlacetteID))) %>%
-      inner_join(IndexPlacette, by="PlacetteID")
+  #if (!is.null(Clim_tous)){
+  #Clim <- Clim_tous %>%
+   # filter(rcp==RCP ) %>%
+    #       inner_join(IndexPlacette, by="PlacetteID")
+  #}else{
+   # Clim<-c()
+  #}
 
-  ClimAn <- ClimAn_tous %>%
-    filter(rcp==RCP) %>%
-     # mutate(PlacetteID=as.character(PlacetteID),
-      #       PlacetteID=paste("00",PlacetteID,sep=""),
-       #      PlacetteID=substr(PlacetteID, nchar(PlacetteID)-10+1, nchar(PlacetteID))) %>%
+  #if (!is.null(ClimAn_tous)){
+  #ClimAn <- ClimAn_tous %>%
+   # filter(rcp==RCP) %>%
+    #       inner_join(IndexPlacette, by="PlacetteID")
+  #}else{
+   # ClimAn<-c()
+  #}
+
+  if (!is.null(ClimTot)){
+    ClimTot <- ClimTot %>%
+      filter(rcp==RCP) %>%
       inner_join(IndexPlacette, by="PlacetteID")
+  }else{
+    ClimTot<-c()
+  }
+
 }else{
-  Clim<-c()
-  ClimAn<-c()
+  #Clim<-c()
+  #ClimAn<-c()
+  ClimTot<-c()
 }
 
 if (!(AccModif=="ORI" & MortModif=="ORI")){
@@ -133,7 +149,7 @@ if (!(AccModif=="ORI" & MortModif=="ORI")){
   Models<-c()
 }
 
-fic <- list(Data, Models, Clim, ClimAn)
+fic <- list(Data, Models, ClimTot)
 
 
 return(fic)

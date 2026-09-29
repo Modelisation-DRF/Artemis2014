@@ -19,6 +19,8 @@
 #'
 GenereClimat <- function(Data_Ori, AnneeDep, AnneeFin, RCP = "RCP45") {
 
+  .Deprecated("GenereClimatRaster")
+
   Data_Ori <- Data_Ori %>%
     mutate(Latitude = as.numeric(Latitude), Longitude = as.numeric(Longitude) , Altitude = as.numeric(Altitude))
 

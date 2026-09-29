@@ -12,6 +12,8 @@ mortCANEU(
   DrainageCl,
   PenteCl,
   Texture,
+  tbe,
+  tbe1,
   Coupe,
   Coupe0,
   sum_st_ha,
