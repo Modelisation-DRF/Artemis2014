@@ -11,20 +11,20 @@
 #'                 Le dataframe peut être une liste d'arbres ou une liste de placettes.
 #' @param AnneeDep Année de départ de la simulation à effectuer dans Artémis
 #' @param AnneeFin Année de fin de la simulation à effectuer dans Artémis
-#' @param SSP Scenario climatique choisi pour la simulation soit "ssp245"  ou "ssp585"
+#' @param SSP Scenario climatique choisi pour la simulation soit "SSP245"  ou "SSP370"
 #' @return La fonction retourne un dataframe contenant les prévisions à l'échelle
 #'        annuelle pour toutes les variables climatiques  utilisées par les modèles.
 #'
 #' @export
 #'
-GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, SSP = "ssp245") {
+GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, SSP = "SSP245") {
 
   if (AnneeFin<=AnneeDep){
     stop("AnneeFin doit être supérieure à AnneeDep" )
   }
 
-  if (!SSP %in% c("ssp245","ssp585")){
-    stop("La variable SSP doit soit prendre la valeur ssp245 ou ssp585")
+  if (!SSP %in% c("SSP245","SSP370")){
+    stop("La variable SSP doit soit prendre la valeur SSP245 ou SSP370")
   }
 
   Data <- Data %>%
@@ -70,7 +70,7 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, SSP = "ssp245") {
   nom_climat_futur <- apply(
     expand.grid(
       nom_climat_futur_per,
-      nom_climat_futur_rcp,
+      nom_climat_futur_ssp,
       nom_climat_futur_var_i,
       stringsAsFactors = FALSE
     ),

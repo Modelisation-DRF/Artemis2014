@@ -94,7 +94,7 @@
 
 
 simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tendance=0,
-                            Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',SSP='ssp245',
+                            Residuel=0,FacHa=25,EvolClim=0,AccModif='ORI',MortModif='ORI',SSP='SSP245',
                             Coupe_ON = NULL, Coupe_modif = NULL, TBE = NULL, MCH=0){
 
 
@@ -128,8 +128,8 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
     stop("Les valeurs permises pour l'argument AccModif sont ORI, GAM ou BRT")
   }
 
-  if(!SSP %in% c("ssp245","ssp585")){
-    stop("Les valeurs permises pour l'argument SSP sont soit ssp245 ou ssp585")
+  if(!SSP %in% c("SSP245","SSP585")){
+    stop("Les valeurs permises pour l'argument SSP sont soit SSP245 ou SSP585")
   }
 
   if (!is.null(Coupe_ON)) {
