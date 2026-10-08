@@ -25,7 +25,9 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
     valide_Type_Eco = "Type \u00E9cologique requis",
     valide_Reg_Eco = "Valeur non permise pour Reg_Eco",
     valide_Cl_Drai = "Valeur non permise pour classe de rainage",
-    valide_Veg_Pot = "Valeur non permise pour Veg_Pot"
+    valide_Veg_Pot = "Valeur non permise pour Veg_Pot",
+    valide_Exposition= "Valeur non permise pour le champs Exposition",
+    valide_origTreeID = "Type non valide pour origTreeID"
 
   )
 
@@ -42,7 +44,7 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
   # Itérer sur chaque validation
   for (nom_validation in names(validations)) {
     # Appeler dynamiquement la fonction de validation en utilisant do.call
-    valide <- do.call(nom_validation, list(data = data ))
+      valide <- do.call(nom_validation, list(data = data ))
 
     # Si la validation échoue, ajouter le message d'erreur correspondant à la liste
     if (!valide) {
@@ -540,7 +542,7 @@ valide_Veg_Pot <- function(data){
 #' @export
 valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 
-  if(Mort_Modif=="QUE" || Mort_Modif=="BRT" || Acc_Modif=="GAM"){
+  if(Mort_Modif=="QUE" || Acc_Modif=="GAM"){
 
 
 
@@ -564,6 +566,28 @@ valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 
 }
 
+#' Fonction pour vérifier que le champ origTreeID est de tyoe numérique.
+#' @param data fichier des arbres
+#' @return retourne vrai ou faux s'il détecte des erreurs.
+#' @export
+valide_origTreeID <- function(data){
+  if(!is.numeric(data$origTreeID)){
+    return (FALSE)
+  }
+  if(any(is.na(data$origTreeID)) ){
+    return (FALSE)
+
+  }
+
+  if(any(is.na(data$origTreeID))==FALSE & is.numeric(data$origTreeID)==TRUE ){
+    return (TRUE)
+
+  }
+
+
+
+}
+
 
 #' Fonction pour vérifier que les valeurs saisies dans la colonne 'Exposition' sont correctes.
 #' @param data fichier des arbres
@@ -571,10 +595,10 @@ valide_Age_moy <- function(data, Mort_Modif,Acc_Modif){
 #' @export
 valide_Exposition <- function(data){
   if(!all(c("Exposition","PlacetteID") %in% names(data))|| any(is.na(data$Exposition))){
-    return (TRUE)
+    return (FALSE)
   }
   if(any(is.na(data$Exposition)) ){
-    return (TRUE)
+    return (FALSE)
   }
   resultats <- data %>%
     group_by(PlacetteID) %>%

@@ -49,8 +49,8 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 ## Historique des versions
 
 
-| Date    |  Version  | Features et bugs  | Détails |
-|:-------:|:---------:|:-----------------:|:--------|
+| Date    |  Version  | Features et bugs  | Détails                 |
+|:-------:|:---------:|:-----------------:|:-----------------------:|
 | 2025-04-25 | 4.3.0 |                | Premiere version stable |
 | 2025-09-23 | 4.4.1 |GenereClimat|Correction de la fonction GenereClimat Implementation du module de coupe |
 | 2025-12-01 | 4.4.2 |GenereClimat AccroissementFortin2026|Ajustement des répétition de GenereClimat Ajout des équations d'accroissement sensibles au climat pour la forêt tempérée|
@@ -58,11 +58,8 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 | 2025-12-08 | 4.4.4 |MortaliteQUE| Modifié GenereClimat pour arrèter les simulations après 2100. Augmenté le nombre de répétition des effet aléatoire de 500 à 1000, changer médiane effets aléatoires pour moyenne|
 | 2026-03-09 | 4.4.5 |Billonnage|Modifier les noms de packages et de fonctions pour tenir compte des modifications dans le package de billonnage|
 |2026-04-14| 4.4.6 |Mortalité CANEU| Ajout des équations de mortalité pour les essences de la forêt tempérée|
-|2026-07-14| 4.5.0 |Mortalité CANEU Climat Biosim raster| Intégration des essences boréales au module de mortalité CANEU. Changement 
-de la méthode de gestion des prévisions climatiques pour utiliser les prévisions climatiques du package ExtractMap|
+|2026-07-14| 4.5.0 |Mortalité CANEU Climat Biosim raster| Essences boréales module de mortalité CANEU. Changement de la méthode de gestion des prévisions climatiques pour utiliser ExtractMap|
 |2026-09-08| 4.5.1 |Mortalité CANEU SAB modifie| Modification de la fonction de mortalité du SAB qui avec DD2 avait tendance à prédire de trop fortes mortalité en extrapolation|
-|2026-09-17| 4.5.2 |Ajout fonction statistiques climatiques| Ajout d'une fonction de visualisation des données climatiques en lien avec les données
-de calibration des modèles de mortalité CANEU et d'accroissement QUE. Utilisation du climat de la première période de simulation pour calculer la
-hauteur lorsque le fichier de données climatiques est fourni|
+|2026-09-17| 4.5.2 |Ajout fonction statistiques climatiques| Ajout visualisation des données climatiques. Utilisation du climat de la première période pour calculer la hauteur|
 |2026-09-30| 4.5.3 |Changement CMIP5 pour CMIP6| Les références aux scénarios climatiques ont été changés pour s'adapter au scénarios CMIP6|
 
