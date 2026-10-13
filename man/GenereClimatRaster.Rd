@@ -10,7 +10,7 @@ RCM4_ESM_22km pour 2 scénarios SSP avec 50 répétitions. La fonction retourne 
 deux dataframe, le premier contenant les prévisions à l'échelle annuelle et le deuxième
 à l'échelle mensuelle.}
 \usage{
-GenereClimatRaster(Data, AnneeDep, AnneeFin, SSP = "ssp245")
+GenereClimatRaster(Data, AnneeDep, AnneeFin, SSP = "SSP245")
 }
 \arguments{
 \item{Data}{Un dataframe contenant les coordonnées géographiques des placettes à simuler.
@@ -21,7 +21,7 @@ Le dataframe peut être une liste d'arbres ou une liste de placettes.}
 
 \item{AnneeFin}{Année de fin de la simulation à effectuer dans Artémis}
 
-\item{SSP}{Scenario climatique choisi pour la simulation soit "ssp245"  ou "ssp585"}
+\item{SSP}{Scenario climatique choisi pour la simulation soit "SSP245"  ou "SSP370"}
 }
 \value{
 La fonction retourne un dataframe contenant les prévisions à l'échelle

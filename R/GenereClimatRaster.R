@@ -82,6 +82,10 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, SSP = "SSP245") {
 
   climat_futur_values <- extract_map_plot(file=Data, liste_raster="cartes_climat_futur",variable=nom_climat_futur)
 
+  # Quitter immédiatement s'il y a des NA
+  if (any(is.na(climat_futur_values))) {
+    stop("Une ou plusieurs placettes sont à l'extérieur de l'étendue des rasters climatiques.")
+  }
 
   data_long <- climat_futur_values %>%
     pivot_longer(

@@ -12,7 +12,7 @@ verifier_colonnes_ClimTot <- function(data) {
   data<- renommer_les_colonnes_climat_total(data)
 
   types_attendus <- list(
-    Annee = "integer", rcp = "character", Aridity = "numeric", CMI = "numeric", CMIcm = "numeric",
+    Annee = "integer", ssp = "character", Aridity = "numeric", CMI = "numeric", CMIcm = "numeric",
     DD = "numeric", FFP = "numeric", MSP = "numeric", Max_ST = "numeric",Min_WT = "numeric",
     PAS = "numeric", PTot = "numeric", PUtile = "numeric", TMoy = "numeric",
     TSummer = "numeric", TmaxUtil = "numeric", Tmax_yr = "numeric", TotalVPD = "numeric", UtilVPD = "numeric")
@@ -42,25 +42,24 @@ verifier_colonnes_ClimTot <- function(data) {
 #'
 #' @param data Un dataframe représentant les données
 #' @param data_annuel Un dataframe représentant les données climatiques totales
-#' @param scenario_rcp scenario rcp
+#' @param scenario_cmip6 scenario cmip6
 #'
 #' @return une liste des incohérences entre les données et les données climatiques
 #'
 #' @export
 #'
-validation_total <- function(data, data_total, scenario_rcp) {
+validation_total <- function(data, data_total, scenario_cmip6) {
   data <- renommer_les_colonnes(data)
   data_total <- renommer_les_colonnes_climat_total(data_total)
 
   erreurs <- list()
 
   # Filtrer selon le scénario
-  #data_total  <- data_total  %>% filter(rcp == scenario_rcp)
-  data_total <- dplyr::filter(data_total, rcp == scenario_rcp)
+  data_total <- dplyr::filter(data_total, ssp == scenario_cmip6)
 
   # Validation données présentes
   if (nrow(data_total) == 0){
-    erreurs[["data_total_vide"]] <- paste( "Aucune donnée climatique pour le scénario ", scenario_rcp )
+    erreurs[["data_total_vide"]] <- paste( "Aucune donnée climatique pour le scénario ", scenario_cmip6 )
   }
 
   else{
@@ -81,6 +80,21 @@ validation_total <- function(data, data_total, scenario_rcp) {
   }
 
   return(erreurs)
+}
+
+#' Extraire le nombre d'année maximum pour une simulation
+#'
+#'
+#' @param data_annuel Un dataframe représentant les données climatiques annuelles
+#'
+#' @return le nombre d'année totale
+#'
+#' @export
+#'
+extraire_nb_annee <- function(data,AnneeDep){
+  #data_annuel <- renommer_les_colonnes_climat_annuel(data_annuel)
+  nb_annee <- length(unique(data$Annee[which(data$Annee>=AnneeDep)]))
+  return (nb_annee)
 }
 
 

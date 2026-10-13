@@ -16,7 +16,7 @@ simulateurArtemis(
   EvolClim = 0,
   AccModif = "ORI",
   MortModif = "ORI",
-  SSP = "ssp245",
+  SSP = "SSP245",
   Coupe_ON = NULL,
   Coupe_modif = NULL,
   TBE = NULL,

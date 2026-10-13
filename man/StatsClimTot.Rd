@@ -8,10 +8,8 @@ d'accroissement en diamètre "QUE" et de mortalité "CANEU". Les lignes vertical
 représentent l'interval de confiance 95\%. La fonction retourne une liste de graphique
 soit un graphique par combinaison de modèle et d'essence}
 \usage{
-
 StatsClimTot(Climat, Essence = NULL, Model = NULL, RCP = "RCP45")
 }
-
 \arguments{
 \item{Climat}{un fichier de données climatiques du même format que ceux générés
 par la fonction GenereClimatRaster}
@@ -23,7 +21,6 @@ par les différents modèles seront traitées.}
 \item{Model}{Une liste de modèles pour lesquels on veut repprésenter le climat en fonction
 de ses données de calibration. Les modèles disponibles sont "Mort_CANEU",
 "Acc_QUE", "Acc_GAM" et "Acc_BRT" pour l'instant}
-
 
 \item{RCP}{Le scénario RCP présent dans le fichier Climat}
 }
