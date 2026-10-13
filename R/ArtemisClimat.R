@@ -34,7 +34,7 @@
 #'                 originales d'Artémis-2014,"QUE" pour les équations calibrées
 #'                 par essence sensibles au climat de Power et al. 2025.
 #'
-#'@param SSP Scénario climatique choisi pour la simulation soit ssp245 ou ssp585.
+#'@param SSP Scénario climatique choisi pour la simulation soit ssp245 ou ssp370.
 #'           Ce paramètre est seulement utilisé si le paramètre EvolClim=1.
 #'
 #'@param Models Liste dans laquelle les modèles d'accroissement et de mortalité

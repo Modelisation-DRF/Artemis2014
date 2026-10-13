@@ -57,7 +57,7 @@ Valeure par defaut de 0}
 "QUE" pour les équation calibrées par essence sensibles au climat de Power et al. 2025
 "CANEU"  pour les équation de mortalité basés sur les données du Canada et des États-Unis}
 
-\item{SSP}{Scenario climatique choisi pour la simulation soit ssp245 ou ssp585.
+\item{SSP}{Scenario climatique choisi pour la simulation soit SSP245 ou SSP370.
 Ce paramètre est seulement utilisé si le paramètre EvolClim=1}
 
 \item{Coupe_ON}{Vecteur contenant le numéro du traitement de coupe (0-18) pour chaque
@@ -92,26 +92,26 @@ initiales ainsi qu'un choix de parametres pour la simulation.
 \examples{
 \dontrun{
 result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 3, Tendance = 0, Residuel = 0,
-FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp245' )
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='SSP245' )
 print(result)
 
 # Avec effet TBE
 result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 4,
 TBE = c(1, 1, 1, 1), Tendance = 0, Residuel = 0,
-FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp245' )
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='SSP245' )
 print(result)
 
 # Avec traitement de coupe
 result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 6,
 Coupe_ON = c(3, NA, NA, NA, NA, 8), Tendance = 0, Residuel = 0,
-FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp45' )
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='SSP45' )
 print(result)
 
 # Avec modificateurs de coupe
 result <- simulateurArtemis(Data_ori = Donnees_Exemple, Horizon = 4,
 Coupe_ON = c(3, NA, NA, 8),
 Coupe_modif = list(80, NA, NA, 0), Tendance = 0, Residuel = 0,
-FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='ssp245' )
+FacHa = 25, EvolClim = 0, AccModif='ORI', MortModif='ORI', SSP='SSP245' )
 print(result)
 }
 
