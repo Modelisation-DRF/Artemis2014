@@ -34,7 +34,6 @@ Imports:
     mgcv,
     iterators,
     BillonnagePetro,
-    BioSIM (>= 1.0.5),
     ExtractMap,
     OutilsDRF,
     J4R (>= 1.2.3)
