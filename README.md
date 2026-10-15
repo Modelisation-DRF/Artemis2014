@@ -62,4 +62,4 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 |2026-09-08| 4.5.1 |Mortalité CANEU SAB modifie| Modification de la fonction de mortalité du SAB qui avec DD2 avait tendance à prédire de trop fortes mortalité en extrapolation|
 |2026-09-17| 4.5.2 |Ajout fonction statistiques climatiques| Ajout visualisation des données climatiques. Utilisation du climat de la première période pour calculer la hauteur|
 |2026-09-30| 4.5.3 |Changement CMIP5 pour CMIP6| Les références aux scénarios climatiques ont été changés pour s'adapter au scénarios CMIP6|
-
+|2026-10-15| 4.5.4 |Changement mortalité EPR| Le module de mortalité de l'EPR a été changé pour remplacer TMoy par DD pour représenter le gamm|
