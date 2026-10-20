@@ -25,9 +25,9 @@ valide_data <- function(data, Mort_Modif,Acc_Modif) {
     valide_Type_Eco = "Type \u00E9cologique requis",
     valide_Reg_Eco = "Valeur non permise pour Reg_Eco",
     valide_Cl_Drai = "Valeur non permise pour classe de rainage",
-    valide_Veg_Pot = "Valeur non permise pour Veg_Pot",
-    valide_Exposition= "Valeur non permise pour le champs Exposition",
-    valide_origTreeID = "Type non valide pour origTreeID"
+    valide_Veg_Pot = "Valeur non permise pour Veg_Pot"
+   # valide_Exposition= "Valeur non permise pour le champs Exposition", Ces champs ne sont pas obigatoires et la Shiny plante si ils sont vides
+   # valide_origTreeID = "Type non valide pour origTreeID"
 
   )
 
