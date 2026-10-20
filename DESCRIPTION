@@ -35,16 +35,13 @@ Imports:
     iterators,
     BillonnagePetro,
     ExtractMap,
-    OutilsDRF,
-    J4R (>= 1.2.3)
+    OutilsDRF
 Suggests: 
     testthat (>= 3.0.0)
 Remotes:
-    CWFC-CCFB/J4R,
     Modelisation-DRF/BillonnagePetro,
     Modelisation-DRF/ExtractMap,
-    Modelisation-DRF/OutilsDRF,
-    RNCan/BioSimClient_R
+    Modelisation-DRF/OutilsDRF
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
