@@ -1,7 +1,7 @@
 test_that("Test la mise en forme des données pour la simulation avec EvolClim=0, AccModif=ORI et MortModif=ORI", {
 
   Data_0_ORI_ORI<-PrepareData(Data=Donnees_Exemple, ClimTot=ClimTot_Exemple,
-                              AccModif="ORI", EvolClim=0, MortModif="QUE", RCP="RCP45",
+                              AccModif="ORI", EvolClim=0, MortModif="QUE", SSP="SSP245",
                               SpInd=SpInd, ListeVp=ListeVp, SpGroups=SpGroups, Sp=Sp)
   expect_test_for_Data_0_ORI <- readRDS(test_path("fixtures", "expect_result_for_PrepareData_0_ORI_ORI_Data.rds"))
 
@@ -13,7 +13,7 @@ test_that("Test la mise en forme des données climatiques pour la simulation ave
           AccModif=ORI et MortModif=ORI", {
 
             Data_0_ORI_ORI<-PrepareData(Data=Donnees_Exemple,ClimTot=ClimTot_Exemple,
-                                        AccModif="ORI", EvolClim=0, MortModif="QUE", RCP="RCP45",
+                                        AccModif="ORI", EvolClim=0, MortModif="QUE", SSP="SSP245",
                                         SpInd=SpInd, ListeVp=ListeVp, SpGroups=SpGroups, Sp=Sp)
             expect_test_for_ClimatTot_0_ORI <- readRDS(test_path("fixtures", "expect_result_for_ClimatTot_0_ORI_ORI_Data.rds"))
 

@@ -1,5 +1,3 @@
-
-
 #' Fonction qui permet de renommer les colonnes  du fichier d'intrant qui contient
 #' la liste d'arbres à simuler.
 #'
@@ -108,132 +106,6 @@ trouver_noms_optionels <- function(data) {
 }
 
 
-#' Vérifier la présence des colonnes obligatoires dans le fichier climat mensuel.
-#'
-#' La fonction \code{trouver_noms_absents_Climat_mensuel} vérifie si toutes les colonnes obligatoires
-#' sont présentes dans un dataframe représentant le fichier climat mensuel. Elle retourne une liste
-#' des noms des colonnes manquantes, le cas échéant.
-#'
-#' @param Data Un dataframe représentant le fichier climat mensuel.
-#'
-#' @return Une liste des noms des colonnes manquantes.
-#'
-#'
-#' @export
-#'
-trouver_noms_absents_Climat_mensuel <- function(Data) {
-
-  ColOrdre <- c("PlacetteID","Annee","Mois","rcp","PTot","Tmin","Tmax")
-
-  names(Data) <- tolower(names(Data))
-
-  colone_minuscule <- lapply(ColOrdre, tolower)
-
-  noms_absents <- setdiff(colone_minuscule, names(Data))
-
-  return(noms_absents)
-
-}
-
-
-
-
-
-
-#' Renommer les colonnes  du fichier des climats mensuels
-#'
-#' La fonction \code{renommer_les_colonnes_climat_mensuel} renomme les colonnes d'un dataframe
-#'
-#' @param data Un dataframe, représentant le fichier des climats mensuels, dont les colonnes doivent être renommées et réorganisées.
-#'
-#'
-#' @export
-
-renommer_les_colonnes_climat_mensuel <- function(data){
-
-  ColOrdre <- c("PlacetteID","Annee","Mois","rcp","PTot","Tmin","Tmax")
-
-
-  noms_colonnes_existants <- tolower(names(data))
-  noms_colonnes_desires <- tolower(ColOrdre)
-
-  for (i in seq_along(noms_colonnes_desires)) {
-    index_colonne <- match(noms_colonnes_desires[i], noms_colonnes_existants)
-    if (!is.na(index_colonne)) {
-      names(data)[index_colonne] <- ColOrdre[i]
-    }
-  }
-
-  return(data)
-}
-
-
-
-
-
-
-
-#' Vérifier la présence des colonnes obligatoires dans le fichier climat annuel
-#'
-#' La fonction \code{trouver_noms_absents_Climat_annuel} vérifie si toutes les colonnes obligatoires
-#' sont présentes dans un dataframe représentant le fichier climat annuel. Elle retourne une liste
-#' des noms des colonnes manquantes, le cas échéant.
-#'
-#' @param Data Un dataframe représentant le fichier climat annuel
-#'
-#' @return Une liste des noms des colonnes manquantes.
-#'
-#'
-#' @export
-#'
-trouver_noms_absents_Climat_annuel <- function(Data) {
-
-  ColOrdre <- c("PlacetteID","Annee","rcp","Aridity","CMI","DD","FFP","PTot","Tmax_yr","TMoy")
-
-  names(Data) <- tolower(names(Data))
-
-  colone_minuscule <- lapply(ColOrdre, tolower)
-
-  noms_absents <- setdiff(colone_minuscule, names(Data))
-
-  return(noms_absents)
-
-}
-
-
-
-
-
-
-#' Renommer les colonnes  du fichier des climats annuel
-#'
-#' La fonction \code{renommer_les_colonnes_climat_annuel} renomme les colonnes d'un dataframe
-#'
-#' @param data Un dataframe, représentant le fichier des climats annuel, dont les colonnes doivent être renommées et réorganisées.
-#'
-#' @export
-
-renommer_les_colonnes_climat_annuel <- function(data){
-
-  ColOrdre <- c("PlacetteID","Annee","rcp","Aridity","CMI","DD","FFP","PTot","Tmax_yr","TMoy")
-
-
-  noms_colonnes_existants <- tolower(names(data))
-  noms_colonnes_desires <- tolower(ColOrdre)
-
-  for (i in seq_along(noms_colonnes_desires)) {
-    index_colonne <- match(noms_colonnes_desires[i], noms_colonnes_existants)
-    if (!is.na(index_colonne)) {
-      names(data)[index_colonne] <- ColOrdre[i]
-    }
-  }
-
-  return(data)
-}
-
-
-
-
 
 #' Vérifier la présence des colonnes obligatoires dans le fichier climat Total
 #'
@@ -250,7 +122,7 @@ renommer_les_colonnes_climat_annuel <- function(data){
 #'
 trouver_noms_absents_Climat_total <- function(Data) {
 
-  ColOrdre <- c("PlacetteID","Annee","rcp","Aridity","CMI","CMIcm","DD","FFP","MSP",
+  ColOrdre <- c("PlacetteID","Annee","ssp","Aridity","CMI","CMIcm","DD","FFP","MSP",
                 "Max_ST","Min_WT","PAS","PTot","PUtile","TMoy","TSummer","TmaxUtil",
                 "Tmax_yr","TotalVPD","UtilVPD")
 
@@ -266,9 +138,6 @@ trouver_noms_absents_Climat_total <- function(Data) {
 
 
 
-
-
-
 #' Renommer les colonnes  du fichier des climats total
 #'
 #' La fonction \code{renommer_les_colonnes_climat_total} renomme les colonnes d'un dataframe
@@ -279,7 +148,7 @@ trouver_noms_absents_Climat_total <- function(Data) {
 
 renommer_les_colonnes_climat_total <- function(data){
 
-  ColOrdre <- c("PlacetteID","Annee","rcp","Aridity","CMI","CMIcm","DD","FFP","MSP",
+  ColOrdre <- c("PlacetteID","Annee","ssp","Aridity","CMI","CMIcm","DD","FFP","MSP",
                 "Max_ST","Min_WT","PAS","PTot","PUtile","TMoy","TSummer","TmaxUtil",
                 "Tmax_yr","TotalVPD","UtilVPD")
 

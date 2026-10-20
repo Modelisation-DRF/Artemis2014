@@ -4,12 +4,12 @@
 \alias{validation_total}
 \title{Validation des données climatiques totales}
 \usage{
-validation_total(data, data_total, scenario_rcp)
+validation_total(data, data_total, scenario_cmip6)
 }
 \arguments{
 \item{data}{Un dataframe représentant les données}
 
-\item{scenario_rcp}{scenario rcp}
+\item{scenario_cmip6}{scenario cmip6}
 
 \item{data_annuel}{Un dataframe représentant les données climatiques totales}
 }

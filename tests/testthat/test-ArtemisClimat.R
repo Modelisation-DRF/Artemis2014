@@ -18,12 +18,12 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   EvolClim <- 0
   AccModif <- "ORI"
   MortModif <- "ORI"
-  RCP <- "RCP45"
+  SSP <- "SSP245"
   Models <- NULL
 
   result <- ArtemisClimat(Para=Para,  Data=Data,
                 AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimTot=ClimTot,
-                EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models)
+                EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, SSP=SSP, Models = Models)
 
   set.seed(NULL)
   expect_result_for_ArtemisClimat <- readRDS(test_path("fixtures", "expect_result_for_ArtemisClimat.rds")) %>%
@@ -51,7 +51,7 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   EvolClim <- 0
   AccModif <- "ORI"
   MortModif <- "ORI"
-  RCP <- "RCP45"
+  SSP <- "SSP245"
   Models <- NULL
 
   # set.seed(NULL)
@@ -66,7 +66,7 @@ test_that("La fonction ArtemisClimat fonctionne comme attendu avec les parametre
   set.seed(3)
   result1 <- ArtemisClimat(Para=Para,  Data=Data,
                            AnneeDep=AnneeDep, Horizon=Horizon, FacHa=FacHa, Tendance=Tendance, Residuel=Residuel, ClimTot=ClimTot,
-                           EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, RCP=RCP, Models = Models, MCH=1)
+                           EvolClim =EvolClim, AccModif=AccModif, MortModif= MortModif, SSP=SSP, Models = Models, MCH=1)
   set.seed(NULL)
 
   # le HEG, l'arbre 10, doit avoir Nombre = 1 - 0.104004375 à l'année 2035

@@ -29,7 +29,7 @@ saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Jardinage_AccMod
 
 # Fichier pour les tests du simulateur Artemis avec tbe, Module d’accroissement ORI et Module de mortalité ORI
 
-saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_Tbe_AccModif_ORI_MortModif_ORI.rds")
+saveRDS(Result,"tests/testthat/fixtures/expect_test_for_Artemis_TBE_AccModif_ORI_MortModif_ORI.rds")
 
 
 #  Fichier des arbres sur lequel on applique la fonction de d'Accroissement

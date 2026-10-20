@@ -11,7 +11,7 @@ PrepareData(
   AccModif,
   EvolClim,
   MortModif,
-  RCP,
+  SSP,
   SpInd,
   ListeVp,
   SpGroups,
@@ -36,7 +36,7 @@ data frame Clim_tous et ClimAn_tous.}
 du module de mortalité original d'Artémis-2014 ou 'QUE' pour
 utiliser les équations de mortalité de Power et al. 2025.}
 
-\item{RCP}{Vecteur qui prend la valeur 'RCP45' ou 'RCP85' selon le scénario de
+\item{SSP}{Vecteur qui prend la valeur 'ssp245' ou 'ssp585' selon le scénario de
 changements climatiques que l'on veut utiliser.}
 
 \item{SpInd}{Un data frame qui associe un code numérique à chacune des essences.
