@@ -63,3 +63,5 @@ remotes::install_github("Modelisation-DRF/Artemis2014")
 |2026-09-17| 4.5.2 |Ajout fonction statistiques climatiques| Ajout visualisation des données climatiques. Utilisation du climat de la première période pour calculer la hauteur|
 |2026-09-30| 4.5.3 |Changement CMIP5 pour CMIP6| Les références aux scénarios climatiques ont été changés pour s'adapter au scénarios CMIP6|
 |2026-10-15| 4.5.4 |Changement mortalité EPR| Le module de mortalité de l'EPR a été changé pour remplacer TMoy par DD pour représenter le gamm|
+|2026-10-21| 4.5.5 |Correction erreur module de coupe| Révision de la manière de mettre à jour BAL après une coupe|
+
