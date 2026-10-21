@@ -253,15 +253,18 @@ ArtemisClimat<- function(Para, Data, AnneeDep, Horizon, FacHa=25,Tendance, Resid
         left_join(resultat_coupe %>% select(no_arbre, prob_coupe),
                   by = c("origTreeID" = "no_arbre")) %>%
         mutate(Nombre = Nombre * ifelse(is.na(prob_coupe), 1, (1 - prob_coupe))) %>%
-        select(-prob_coupe)
+        select(-prob_coupe,-st_ha_cumul_gt)
 
-      #On garde le df après coupe puisque fichier retourne "avant_coupe"
+      #Mise à jour des valeurs de BAL
+      Plac<-BAL(Plac,FacHa=FacHa)
+
+       #On garde le df après coupe puisque fichier retourne "avant_coupe"
       Plac_apres_coupe <- Plac %>%
         mutate(Residuel = 1)
 
       #Mise à jour des valeurs placette
 
-      Plac_apres_coupe<-BAL(Plac_apres_coupe,FacHa=FacHa)
+
       # calcul variable echelle placette
       sum_st_ha <- sum(Plac_apres_coupe$ST_m2[which(Plac_apres_coupe$Etat=="vivant")])
       sum_st_ha_Feu <- sum(Plac_apres_coupe$ST_m2[which(Plac_apres_coupe$Etat=="vivant" & Plac_apres_coupe$Clade=="F")])
