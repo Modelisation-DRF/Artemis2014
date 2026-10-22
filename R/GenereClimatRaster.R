@@ -121,7 +121,7 @@ GenereClimatRaster <- function(Data, AnneeDep, AnneeFin, SSP = "SSP245") {
   }
 
   ClimTot$ssp<-SSP
-  ClimTot$CMIcm<-ClimTot$CMIcm/3######Patch temporaire pour ajuster aux données calibration
+  ClimTot$CMIcm<-ClimTot$CMIcm
   ClimTot<-ClimTot[,c(1,2,20,3:19)]
 
   return(ClimTot)

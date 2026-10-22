@@ -76,33 +76,39 @@ ParaMortCANEU<-read_delim("data-raw/MortCANEU/ParaMortCANEU.csv", delim=";")
 finalParms<-read_delim("data-raw/Fortin2026/finalParms.csv", delim=",")
 EssGr_Fortin<-read_delim("data-raw/Fortin2026/EssGr_Fortin.csv", delim=";")
 
+##########Proportion d'épinettes
+PropEPX<-read_delim("data-raw/PropEPX.csv", delim=";")
+
+###########Évolution de la concentration du CO2
+CO2<-read_delim("data-raw/CO2.csv", delim=";")
+
 
 usethis::use_data(CovParms, ListeCor, Para, Effet.acc, Effet.mort, Effet.rec,
                   ListeVp,ListeSpVp, Sp, SpGroups, Clade, SpInd, ListeSpVp, ParaBiomasse,
                   PropEPX, StatsClimatModel, CovParmMortQUE, EssGrMortQUE, ParaMortQUE, CovParmMortCANEU,
-                  EssGrMortCANEU, ParaMortCANEU, finalParms, EssGr_Fortin,
+                  EssGrMortCANEU, ParaMortCANEU, finalParms, EssGr_Fortin, PropEPX, CO2,
                   internal=TRUE, overwrite = TRUE)
 
 
 ######################DonneesAccessibles
 #######BRT
-CO2<-read_delim("data-raw/CO2.csv", delim=";")
-EssGrBRT<-read_delim("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/EssGr_BRT.csv", delim=";")
-mod_bop_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_bop_BRT.rds")
-mod_epb_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_epb_BRT.rds")
-mod_epn_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_epn_BRT.rds")
-mod_peu_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_peu_BRT.rds")
-mod_pig_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_pig_BRT.rds")
-mod_sab_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_sab_BRT.rds")
+
+#EssGrBRT<-read_delim("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/EssGr_BRT.csv", delim=";")
+#mod_bop_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_bop_BRT.rds")
+#mod_epb_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_epb_BRT.rds")
+#mod_epn_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_epn_BRT.rds")
+#mod_peu_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_peu_BRT.rds")
+#mod_pig_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_pig_BRT.rds")
+#mod_sab_BRT<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/BRT/mod_sab_BRT.rds")
 
 #########GAM
-EssGrGAM<-read_delim("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/EssGr_GAM.csv", delim=";")
-mod_bop_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_bop_GAM.rds")
-mod_epb_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_epb_GAM.rds")
-mod_epn_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_epn_GAM.rds")
-mod_peu_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_peu_GAM.rds")
-mod_pig_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_pig_GAM.rds")
-mod_sab_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_sab_GAM.rds")
+#EssGrGAM<-read_delim("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/EssGr_GAM.csv", delim=";")
+#mod_bop_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_bop_GAM.rds")
+#mod_epb_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_epb_GAM.rds")
+#mod_epn_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_epn_GAM.rds")
+#mod_peu_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_peu_GAM.rds")
+#mod_pig_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_pig_GAM.rds")
+#mod_sab_GAM<-readRDS("P:/F1062/Modelisation/Hugues Power/Modeles/Artemis2014/GAM/mod_sab_GAM.rds")
 
 #########Exemples
 
@@ -114,14 +120,14 @@ Intrant_Test<-read_delim("data-raw/Intrant_test.csv", delim=";")
 #ClimMois_Exemple<-read_delim("data-raw/ClimMois_Exemple.csv", delim=",")
 ClimTot_Exemple<-read_delim("data-raw/ClimTot_Exemple.csv", delim=",")
 Donnees_Exemple<-read_delim("data-raw/Donnees_Exemple.csv", delim=";")
-PropEPX<-read_delim("data-raw/PropEPX.csv", delim=";")
+
 
 
 usethis::use_data(ClimTot_Test, Intrant_Test,
                   ClimTot_Exemple,Donnees_Exemple,
-                  CO2, EssGrBRT, mod_epb_BRT, mod_epn_BRT, mod_peu_BRT,
+                  EssGrBRT, mod_epb_BRT, mod_epn_BRT, mod_peu_BRT,
                   mod_pig_BRT, mod_sab_BRT, mod_bop_BRT,
-                  PropEPX, EssGrGAM, mod_bop_GAM, mod_epb_GAM,
+                  EssGrGAM, mod_bop_GAM, mod_epb_GAM,
                   mod_epn_GAM, mod_peu_GAM, mod_pig_GAM, mod_sab_GAM,
                   internal=FALSE, overwrite = TRUE)####On garde les modèles GAM dans data sinon syst data trop gros
 
