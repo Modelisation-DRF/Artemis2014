@@ -24,29 +24,43 @@ ChargeModeles<- function(AccModif, MortModif){
 
   if (AccModif=="BRT") {
     # Modeles BRT
-    mod_peu<-mod_peu_BRT
-    mod_sab<-mod_sab_BRT
-    mod_epn<-mod_epn_BRT
-    mod_pig<-mod_pig_BRT
-    mod_bop<-mod_bop_BRT
-    mod_epb<-mod_epb_BRT
+    mod_peu<-get(load(system.file("extdata","mod_peu_BRT.rda", package="Artemis2014")))
+    rm(mod_peu_BRT)
+    mod_sab<-get(load(system.file("extdata","mod_sab_BRT.rda", package="Artemis2014")))
+    rm(mod_sab_BRT)
+    mod_epn<-get(load(system.file("extdata","mod_epn_BRT.rda", package="Artemis2014")))
+    rm(mod_epn_BRT)
+    mod_pig<-get(load(system.file("extdata","mod_pig_BRT.rda", package="Artemis2014")))
+    rm(mod_pig_BRT)
+    mod_bop<-get(load(system.file("extdata","mod_bop_BRT.rda", package="Artemis2014")))
+    rm(mod_bop_BRT)
+    mod_epb<-get(load(system.file("extdata","mod_epb_BRT.rda", package="Artemis2014")))
+    rm(mod_epb_BRT)
     # Essences BRT
-    suppressMessages(
-      EssGr<- EssGrBRT) #IA: j'ai utilisé un nom générique EssGr au lieu de EssGrBRT
+
+    EssGr<- get(load(system.file("extdata","EssGrBRT.rda", package="Artemis2014")))
+    rm(EssGrBRT)
 
   }
 
   if (AccModif=="GAM") {
     # Modeles GAM
-    mod_bop<-mod_bop_GAM
-    mod_epb<-mod_epb_GAM
-    mod_epn<-mod_epn_GAM
-    mod_pig<-mod_pig_GAM
-    mod_peu<-mod_peu_GAM
-    mod_sab<-mod_sab_GAM
+    mod_bop<-get(load(system.file("extdata","mod_bop_GAM.rda", package="Artemis2014")))
+    rm(mod_bop_GAM)
+    mod_epb<-get(load(system.file("extdata","mod_epb_GAM.rda", package="Artemis2014")))
+    rm(mod_epb_GAM)
+    mod_epn<-get(load(system.file("extdata","mod_epn_GAM.rda", package="Artemis2014")))
+    rm(mod_epn_GAM)
+    mod_pig<-get(load(system.file("extdata","mod_pig_GAM.rda", package="Artemis2014")))
+    rm(mod_pig_GAM)
+    mod_peu<-get(load(system.file("extdata","mod_peu_GAM.rda", package="Artemis2014")))
+    rm(mod_peu_GAM)
+    mod_sab<-get(load(system.file("extdata","mod_sab_GAM.rda", package="Artemis2014")))
+    rm(mod_sab_GAM)
     # Essences GAM
-    suppressMessages(
-      EssGr<-EssGrGAM) #IA: j'ai utilisé un nom générique EssGr au lieu de EssGrGam
+
+    EssGr<-get(load(system.file("extdata","EssGrGAM.rda", package="Artemis2014")))
+    rm(EssGrGAM)
 
   }
 
