@@ -261,9 +261,15 @@ simulateurArtemis<-function(Data_ori,AnneeDep=NULL,Horizon, ClimTot = NULL,Tenda
   options(future.globals.maxSize= 891289600)###Monte la tolérence à 850 megs pour les éléments passés dans do futur
   future::plan(multisession, workers=availableCores()/2)#####Limite le nombre de coeurs utilisé pour éviter de planter l'ordi
 
+<<<<<<< HEAD
   print(paste0("Workers : ", future::nbrOfWorkers(), " \n"))
   print(paste0("Cœurs disponibles : ", parallelly::availableCores(), " \n"))
   print(paste0("PID : ", Sys.getpid(),  "\n"))
+=======
+  cat("Workers :", future::nbrOfWorkers(), "\n")
+  cat("Cœurs disponibles :", parallelly::availableCores(), "\n")
+  cat("PID :", Sys.getpid(), "\n")
+>>>>>>> 2e78be924ea90ad1689b16232a074acdad0c28ef
 
 
   list_plot <- unique(Data$PlacetteID)
